@@ -1,0 +1,49 @@
+.rc-mention-wrapper {
+  line-height: 26px;
+  font-size: 12px;
+  height: 26px;
+  border: 1px solid #D9D9D9;
+  border-radius: 5px;
+}
+.rc-mention-editor {
+  width: 100%;
+  text-align: center;
+  outline: 0;
+  -moz-appearance: textfield;
+  line-height: 26px;
+  height: 26px;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  color: #666666;
+  border: 0;
+  border-radius: 5px;
+  padding: 0;
+}
+.rc-mention-dropdown {
+  position: absolute;
+  background-color: white;
+  padding: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+  line-height: 1;
+}
+.rc-mention-dropdown-item.focus {
+  background-color: #e6f3ff;
+}
+.avatar {
+  float: left;
+  width: 32px;
+  height: 32px;
+  margin-right: 5px;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1;
+  vertical-align: middle;
+  border-radius: 3px;
+}
+.tag-avatar {
+  width: 16px;
+  height: 16px;
+}
+
+/*# sourceMappingURL=common.css.map*/

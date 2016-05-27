@@ -3,35 +3,35 @@ webpackJsonp([1],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(160);
+	module.exports = __webpack_require__(331);
 
 
 /***/ },
 
-/***/ 160:
+/***/ 331:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	__webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"rc-mention/assets/index.less\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	__webpack_require__(2);
 	
-	var _react = __webpack_require__(2);
+	var _react = __webpack_require__(3);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(159);
+	var _reactDom = __webpack_require__(160);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcMention = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"rc-mention\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _rcEditorMention = __webpack_require__(161);
 	
-	var _rcMention2 = _interopRequireDefault(_rcMention);
+	var _rcEditorMention2 = _interopRequireDefault(_rcEditorMention);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	// use jsx to render html, do not modify simple.html
 	
-	var Nav = _rcMention2.default.Nav;
+	var Nav = _rcEditorMention2.default.Nav;
 	
 	var Tag = function Tag(props) {
 	  var data = props.data;
@@ -93,7 +93,7 @@ webpackJsonp([1],{
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      _react2.default.createElement(_rcMention2.default, { style: { width: 300 }, onSearchChange: this.onSearchChange, suggestions: suggestions, tag: Tag })
+	      _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 }, onSearchChange: this.onSearchChange, suggestions: suggestions, tag: Tag })
 	    );
 	  }
 	});

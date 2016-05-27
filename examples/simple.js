@@ -3,29 +3,29 @@ webpackJsonp([2],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(161);
+	module.exports = __webpack_require__(332);
 
 
 /***/ },
 
-/***/ 161:
+/***/ 332:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	__webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"rc-mention/assets/index.less\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	__webpack_require__(2);
 	
-	var _react = __webpack_require__(2);
+	var _react = __webpack_require__(3);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(159);
+	var _reactDom = __webpack_require__(160);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcMention = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"rc-mention\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _rcEditorMention = __webpack_require__(161);
 	
-	var _rcMention2 = _interopRequireDefault(_rcMention);
+	var _rcEditorMention2 = _interopRequireDefault(_rcEditorMention);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -52,7 +52,7 @@ webpackJsonp([2],{
 	  render: function render() {
 	    var suggestions = this.state.suggestions;
 	
-	    return _react2.default.createElement(_rcMention2.default, { style: { width: 300 }, onSearchChange: this.onSearchChange, suggestions: suggestions, prefix: '@' });
+	    return _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 }, onSearchChange: this.onSearchChange, suggestions: suggestions, prefix: '@' });
 	  }
 	});
 	

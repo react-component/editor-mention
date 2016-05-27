@@ -1,9 +1,9 @@
 // use jsx to render html, do not modify simple.html
 
-import 'rc-mention/assets/index.less';
+import 'rc-editor-mention/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Mention from 'rc-mention';
+import Mention from 'rc-editor-mention';
 
 const suggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'simaQ', 'YuhangGe', 'dqaria', 'RaoHai'];
 

@@ -47,7 +47,7 @@ class Mention extends React.Component {
 }
 
 Mention.defaultProps = {
-  prefixCls: 'rc-mention',
+  prefixCls: 'rc-editor-mention',
   prefix: '@'
 };
 

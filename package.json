@@ -1,6 +1,6 @@
 {
-  "name": "rc-mention",
-  "version": "0.0.1",
+  "name": "rc-editor-mention",
+  "version": "0.0.2",
   "description": "mention ui component for react",
   "keywords": [
     "react",

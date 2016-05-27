@@ -1,4 +1,4 @@
-# rc-mention
+# rc-editor-mention
 ---
 
 React Mention Component
@@ -10,12 +10,12 @@ React Mention Component
 [![gemnasium deps][gemnasium-image]][gemnasium-url]
 [![node version][node-image]][node-url]
 [![npm download][download-image]][download-url]
-[![Sauce Test Status](https://saucelabs.com/buildstatus/rc-mention)](https://saucelabs.com/u/rc-mention)
+[![Sauce Test Status](https://saucelabs.com/buildstatus/rc-editor-mention)](https://saucelabs.com/u/rc-editor-mention)
 
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/rc-mention.svg)](https://saucelabs.com/u/rc-mention)
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/rc-editor-mention.svg)](https://saucelabs.com/u/rc-editor-mention)
 
-[npm-image]: http://img.shields.io/npm/v/rc-mention.svg?style=flat-square
-[npm-url]: http://npmjs.org/package/rc-mention
+[npm-image]: http://img.shields.io/npm/v/rc-editor-mention.svg?style=flat-square
+[npm-url]: http://npmjs.org/package/rc-editor-mention
 [travis-image]: https://img.shields.io/travis/react-component/mention.svg?style=flat-square
 [travis-url]: https://travis-ci.org/react-component/mention
 [coveralls-image]: https://img.shields.io/coveralls/react-component/mention.svg?style=flat-square
@@ -24,8 +24,8 @@ React Mention Component
 [gemnasium-url]: https://gemnasium.com/react-component/mention
 [node-image]: https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square
 [node-url]: http://nodejs.org/download/
-[download-image]: https://img.shields.io/npm/dm/rc-mention.svg?style=flat-square
-[download-url]: https://npmjs.org/package/rc-mention
+[download-image]: https://img.shields.io/npm/dm/rc-editor-mention.svg?style=flat-square
+[download-url]: https://npmjs.org/package/rc-editor-mention
 
 
 ## Browser Support
@@ -62,13 +62,13 @@ online example: http://react-component.github.io/mention/
 ## install
 
 
-[![rc-mention](https://nodei.co/npm/rc-mention.png)](https://npmjs.org/package/rc-mention)
+[![rc-editor-mention](https://nodei.co/npm/rc-editor-mention.png)](https://npmjs.org/package/rc-editor-mention)
 
 
 ## Usage
 
 ```js
-var Mention = require('rc-mention');
+var Mention = require('rc-editor-mention');
 var React = require('react');
 React.render(<Mention />, container);
 ```
@@ -114,4 +114,4 @@ open coverage/ dir
 
 ## License
 
-rc-mention is released under the MIT license.
+rc-editor-mention is released under the MIT license.

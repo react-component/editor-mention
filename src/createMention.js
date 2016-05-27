@@ -1,10 +1,9 @@
 import React from 'react';
 import Suggestions from './Suggestions.jsx';
-import SuggestionPortal from './SuggestionPortal.jsx'
+import SuggestionPortal from './SuggestionPortal.jsx';
 import MentionContent from './MentionContent.jsx';
 import mentionStore from './mentionStore';
 import exportContent from './exportContent';
-const MENTION_REGEX = /(\s|^)@[\w]*/g;
 import { Entity } from 'draft-js';
 
 function findWithRegex(regex, contentBlock, callback) {
@@ -19,10 +18,6 @@ function findWithRegex(regex, contentBlock, callback) {
   }
 }
 
-function mentionStrategy (contentBlock, callback) {
-  findWithRegex(MENTION_REGEX, contentBlock, callback);
-}
-
 function mentionContentStrategy(contentBlock, callback) {
   contentBlock.findEntityRanges(character => {
     const entityKey = character.getEntity();
@@ -30,7 +25,7 @@ function mentionContentStrategy(contentBlock, callback) {
   }, callback);
 }
 
-function noop() {};
+function noop() {}
 
 export default function createMention(config = {}) {
   const callbacks = {
@@ -43,13 +38,15 @@ export default function createMention(config = {}) {
   };
   const componentProps = {
     callbacks,
-    mentionStore
+    mentionStore,
   };
   const suggestionRegex = new RegExp(`(\\s|^)${config.prefix}[\\w]*`, 'g');
-  
+
   const tag = config.tag || MentionContent;
   return {
-    Suggestions: (props) => <Suggestions {...props} {...componentProps} store={mentionStore.getState()}/>,
+    Suggestions: (props) => <Suggestions {...props} {...componentProps}
+      store={mentionStore.getState()}
+    />,
     decorators: [
       {
         strategy: (contentBlock, callback) => {
@@ -61,14 +58,14 @@ export default function createMention(config = {}) {
         strategy: mentionContentStrategy,
         component: (props) => {
           const data = Entity.get(props.entityKey).getData();
-          return React.createElement(tag, {...props, data});
-        }
-      }
+          return React.createElement(tag, { ...props, data });
+        },
+      },
     ],
     onChange: (editorState) => {
       return callbacks.onChange ? callbacks.onChange(editorState) : editorState;
     },
     callbacks,
-    export: exportContent
-  }
+    export: exportContent,
+  };
 }

@@ -30,7 +30,7 @@
 /******/ 	// "0" means "already loaded"
 /******/ 	// Array means "loading", array contains callbacks
 /******/ 	var installedChunks = {
-/******/ 		3:0
+/******/ 		4:0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -76,7 +76,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"customizeSuggesion","1":"customizeSuggesionAndTag","2":"simple"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"customizeSuggesion","1":"customizeSuggesionAndTag","2":"mentionMode","3":"simple"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -19790,15 +19790,16 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 	
-	console.error = function () {
+	/* eslint:ignore
+	console.error = (function() {
 	  var error = console.error;
-	
-	  return function (exception) {
+	  return function(exception) {
 	    if ((exception + '').indexOf('Warning: A component is `contentEditable`') != 0) {
-	      error.apply(console, arguments);
+	      error.apply(console, arguments)
 	    }
-	  };
-	}();
+	  }
+	})();
+	*/
 	
 	var Mention = function (_React$Component) {
 	  _inherits(Mention, _React$Component);
@@ -19837,6 +19838,7 @@
 	    var prefixCls = _props.prefixCls;
 	    var style = _props.style;
 	    var prefix = _props.prefix;
+	    var mode = _props.mode;
 	    var suggestions = this.state.suggestions;
 	    var Suggestions = this.Suggestions;
 	
@@ -19844,16 +19846,34 @@
 	      'div',
 	      { className: prefixCls + '-wrapper', style: style },
 	      _react2.default.createElement(_rcEditorCore2.default, { plugins: this.plugins, onChange: this.onEditorChange }),
-	      _react2.default.createElement(Suggestions, { prefix: prefix, prefixCls: prefixCls, suggestions: suggestions, onSearchChange: this.props.onSearchChange })
+	      _react2.default.createElement(Suggestions, {
+	        mode: mode,
+	        prefix: prefix,
+	        prefixCls: prefixCls,
+	        suggestions: suggestions,
+	        onSearchChange: this.props.onSearchChange
+	      })
 	    );
 	  };
 	
 	  return Mention;
 	}(_react2.default.Component);
 	
+	Mention.propTypes = {
+	  suggestions: _react2.default.PropTypes.array,
+	  prefix: _react2.default.PropTypes.string,
+	  prefixCls: _react2.default.PropTypes.string,
+	  tag: _react2.default.PropTypes.element,
+	  style: _react2.default.PropTypes.object,
+	  onSearchChange: _react2.default.PropTypes.func,
+	  mode: _react2.default.PropTypes.string
+	};
+	
+	
 	Mention.defaultProps = {
 	  prefixCls: 'rc-editor-mention',
-	  prefix: '@'
+	  prefix: '@',
+	  mode: 'immutable'
 	};
 	
 	exports.default = Mention;
@@ -38002,6 +38022,14 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+	
 	function findWithRegex(regex, contentBlock, callback) {
 	  // Get the text from the contentBlock
 	  var text = contentBlock.getText();
@@ -38024,6 +38052,31 @@
 	
 	function noop() {}
 	
+	var MentionContentComponent = function (_React$Component) {
+	  _inherits(MentionContentComponent, _React$Component);
+	
+	  function MentionContentComponent() {
+	    _classCallCheck(this, MentionContentComponent);
+	
+	    return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
+	  }
+	
+	  MentionContentComponent.prototype.render = function render() {
+	    var _props = this.props;
+	    var entityKey = _props.entityKey;
+	    var tag = _props.tag;
+	
+	    var data = _draftJs.Entity.get(entityKey).getData();
+	    return _react2.default.createElement(tag, _extends({}, this.props, { data: data }));
+	  };
+	
+	  return MentionContentComponent;
+	}(_react2.default.Component);
+	
+	MentionContentComponent.propTypes = {
+	  entityKey: _react2.default.PropTypes.element,
+	  tag: _react2.default.PropTypes.element
+	};
 	function createMention() {
 	  var config = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
@@ -38058,8 +38111,7 @@
 	    }, {
 	      strategy: mentionContentStrategy,
 	      component: function component(props) {
-	        var data = _draftJs.Entity.get(props.entityKey).getData();
-	        return _react2.default.createElement(tag, _extends({}, props, { data: data }));
+	        return _react2.default.createElement(MentionContentComponent, _extends({ tag: tag }, props));
 	      }
 	    }],
 	    onChange: function onChange(editorState) {
@@ -38133,43 +38185,12 @@
 	
 	    var _this = _possibleConstructorReturn(this, _React$Component.call(this));
 	
-	    _this.onUpArrow = function (ev) {
-	      ev.preventDefault();
-	      if (_this.props.suggestions.length > 0) {
-	        var newIndex = _this.state.focusedIndex - 1;
-	        _this.setState({
-	          focusedIndex: Math.max(newIndex, 0)
-	        });
-	      }
-	    };
-	
-	    _this.onDownArrow = function (ev) {
-	      ev.preventDefault();
-	      var newIndex = _this.state.focusedIndex + 1;
-	      _this.setState({
-	        focusedIndex: newIndex >= _this.props.suggestions.length ? 0 : newIndex
-	      });
-	    };
-	
-	    _this.handleReturn = function (ev) {
-	      ev.preventDefault();
-	      var selectedSuggestion = _this.props.suggestions[_this.state.focusedIndex];
-	      if (selectedSuggestion) {
-	        if (_react2.default.isValidElement(selectedSuggestion)) {
-	          _this.onMentionSelect(selectedSuggestion.props.value, selectedSuggestion.props.data);
-	        } else {
-	          _this.onMentionSelect(selectedSuggestion);
-	        }
-	      }
-	    };
-	
 	    _this.onEditorStateChange = function (editorState) {
 	      var offset = _this.props.store.offset;
 	
 	      if (offset.size === 0) {
 	        return editorState;
 	      }
-	
 	      var selection = editorState.getSelection();
 	
 	      var _getSearchWord = (0, _getSearchWord3.default)(editorState, selection);
@@ -38209,6 +38230,36 @@
 	      }
 	    };
 	
+	    _this.onUpArrow = function (ev) {
+	      ev.preventDefault();
+	      if (_this.props.suggestions.length > 0) {
+	        var newIndex = _this.state.focusedIndex - 1;
+	        _this.setState({
+	          focusedIndex: Math.max(newIndex, 0)
+	        });
+	      }
+	    };
+	
+	    _this.onDownArrow = function (ev) {
+	      ev.preventDefault();
+	      var newIndex = _this.state.focusedIndex + 1;
+	      _this.setState({
+	        focusedIndex: newIndex >= _this.props.suggestions.length ? 0 : newIndex
+	      });
+	    };
+	
+	    _this.handleReturn = function (ev) {
+	      ev.preventDefault();
+	      var selectedSuggestion = _this.props.suggestions[_this.state.focusedIndex];
+	      if (selectedSuggestion) {
+	        if (_react2.default.isValidElement(selectedSuggestion)) {
+	          _this.onMentionSelect(selectedSuggestion.props.value, selectedSuggestion.props.data);
+	        } else {
+	          _this.onMentionSelect(selectedSuggestion);
+	        }
+	      }
+	    };
+	
 	    _this.state = {
 	      isActive: false,
 	      focusedIndex: 0
@@ -38220,24 +38271,12 @@
 	    this.props.callbacks.onChange = this.onEditorStateChange;
 	  };
 	
-	  Suggestions.prototype.onMentionSelect = function onMentionSelect(mention, data) {
-	    var editorState = this.props.callbacks.getEditorState();
-	    this.props.callbacks.setEditorState((0, _insertMention2.default)(editorState, '' + this.props.prefix + mention, data));
-	    this.closeDropDown();
-	  };
-	
-	  Suggestions.prototype.openDropDown = function openDropDown() {
-	    this.props.callbacks.onUpArrow = this.onUpArrow;
-	    this.props.callbacks.onDownArrow = this.onDownArrow;
-	    this.props.callbacks.handleReturn = this.handleReturn;
-	    this.setState({ active: true });
-	  };
-	
-	  Suggestions.prototype.closeDropDown = function closeDropDown() {
-	    this.props.callbacks.onUpArrow = null;
-	    this.props.callbacks.onDownArrow = null;
-	    this.props.callbacks.handleReturn = null;
-	    this.setState({ active: false });
+	  Suggestions.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	    if (nextProps.suggestions.length !== this.props.suggestions.length) {
+	      this.setState({
+	        focusedIndex: 0
+	      });
+	    }
 	  };
 	
 	  Suggestions.prototype.componentDidUpdate = function componentDidUpdate() {
@@ -38251,12 +38290,24 @@
 	    });
 	  };
 	
-	  Suggestions.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-	    if (nextProps.suggestions.length !== this.props.suggestions.length) {
-	      this.setState({
-	        focusedIndex: 0
-	      });
-	    }
+	  Suggestions.prototype.onMentionSelect = function onMentionSelect(mention, data) {
+	    var editorState = this.props.callbacks.getEditorState();
+	    this.props.callbacks.setEditorState((0, _insertMention2.default)(editorState, '' + this.props.prefix + mention, data, this.props.mode));
+	    this.closeDropDown();
+	  };
+	
+	  Suggestions.prototype.openDropDown = function openDropDown() {
+	    this.props.callbacks.onUpArrow = this.onUpArrow;
+	    this.props.callbacks.handleReturn = this.handleReturn;
+	    this.props.callbacks.onDownArrow = this.onDownArrow;
+	    this.setState({ active: true });
+	  };
+	
+	  Suggestions.prototype.closeDropDown = function closeDropDown() {
+	    this.props.callbacks.onUpArrow = null;
+	    this.props.callbacks.handleReturn = null;
+	    this.props.callbacks.onDownArrow = null;
+	    this.setState({ active: false });
 	  };
 	
 	  Suggestions.prototype.render = function render() {
@@ -38285,7 +38336,9 @@
 	      }
 	      return _react2.default.createElement(
 	        _Nav2.default,
-	        { ref: ref, className: mentionClass, onClick: _this2.onMentionSelect.bind(_this2, element) },
+	        { ref: ref, className: mentionClass,
+	          onClick: _this2.onMentionSelect.bind(_this2, element)
+	        },
 	        element
 	      );
 	    }, this);
@@ -38299,6 +38352,15 @@
 	  return Suggestions;
 	}(_react2.default.Component);
 	
+	Suggestions.propTypes = {
+	  callbacks: _react2.default.PropTypes.object,
+	  suggestions: _react2.default.PropTypes.array,
+	  store: _react2.default.PropTypes.object,
+	  onSearchChange: _react2.default.PropTypes.func,
+	  prefix: _react2.default.PropTypes.string,
+	  prefixCls: _react2.default.PropTypes.string,
+	  mode: _react2.default.PropTypes.string
+	};
 	exports.default = Suggestions;
 	module.exports = exports['default'];
 
@@ -38312,15 +38374,6 @@
 	  value: true
 	});
 	exports.default = getSearchWord;
-	function getSearchWord(editorState, selection) {
-	  var anchorKey = selection.getAnchorKey();
-	  var anchorOffset = selection.getAnchorOffset() - 1;
-	  var currentContent = editorState.getCurrentContent();
-	  var currentBlock = currentContent.getBlockForKey(anchorKey);
-	  var blockText = currentBlock.getText();
-	  return getWord(blockText, anchorOffset);
-	}
-	
 	function getWord(text, position) {
 	  var str = String(text);
 	  var pos = Number(position) >>> 0;
@@ -38344,6 +38397,15 @@
 	    end: right + pos
 	  };
 	}
+	
+	function getSearchWord(editorState, selection) {
+	  var anchorKey = selection.getAnchorKey();
+	  var anchorOffset = selection.getAnchorOffset() - 1;
+	  var currentContent = editorState.getCurrentContent();
+	  var currentBlock = currentContent.getBlockForKey(anchorKey);
+	  var blockText = currentBlock.getText();
+	  return getWord(blockText, anchorOffset);
+	}
 	module.exports = exports['default'];
 
 /***/ },
@@ -38356,8 +38418,9 @@
 	  value: true
 	});
 	
-	exports.default = function (editorState, mention, data) {
-	  var entityKey = _draftJs.Entity.create('mention', 'IMMUTABLE', data || mention);
+	exports.default = function (editorState, mention, data, mode) {
+	  var entityMode = mode === 'immutable' ? 'IMMUTABLE' : 'MUTABLE';
+	  var entityKey = _draftJs.Entity.create('mention', entityMode, data || mention);
 	  var selection = editorState.getSelection();
 	  var searchWord = (0, _getSearchWord2.default)(editorState, selection);
 	  var begin = searchWord.begin;
@@ -38428,6 +38491,9 @@
 	  return Nav;
 	}(_react2.default.Component);
 	
+	Nav.propTypes = {
+	  children: _react2.default.PropTypes.any
+	};
 	exports.default = Nav;
 	module.exports = exports['default'];
 
@@ -39110,7 +39176,6 @@
 	    var _props = this.props;
 	    var offsetKey = _props.offsetKey;
 	    var mentionStore = _props.mentionStore;
-	    var decoratedText = _props.decoratedText;
 	
 	    mentionStore.dispatch({ type: _actions.ACTIVE_SUGGESTION, offsetKey: offsetKey });
 	  };
@@ -39119,7 +39184,6 @@
 	    var _props2 = this.props;
 	    var offsetKey = _props2.offsetKey;
 	    var mentionStore = _props2.mentionStore;
-	    var decoratedText = _props2.decoratedText;
 	
 	    mentionStore.dispatch({ type: _actions.INACTIVE_SUGGESTION, offsetKey: offsetKey });
 	  };
@@ -39135,6 +39199,12 @@
 	  return SuggestionPortal;
 	}(_react2.default.Component);
 	
+	SuggestionPortal.propTypes = {
+	  offsetKey: _react2.default.PropTypes.any,
+	  mentionStore: _react2.default.PropTypes.object,
+	  decoratedText: _react2.default.PropTypes.string,
+	  children: _react2.default.PropTypes.any
+	};
 	exports.default = SuggestionPortal;
 	module.exports = exports['default'];
 
@@ -39195,6 +39265,9 @@
 	  return MentionContent;
 	}(_react2.default.Component);
 	
+	MentionContent.propTypes = {
+	  children: _react2.default.PropTypes.any
+	};
 	exports.default = MentionContent;
 	module.exports = exports['default'];
 
@@ -39216,7 +39289,8 @@
 	
 	var defaultState = {
 	  offset: (0, _immutable.Map)()
-	};
+	}; /* eslint new-cap: [2, {capIsNewExceptions: ["Map"]}] */
+	
 	
 	function storeAction() {
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? defaultState : arguments[0];
@@ -39228,6 +39302,8 @@
 	      break;
 	    case _actions.INACTIVE_SUGGESTION:
 	      state.offset = state.offset.delete(action.offsetKey);
+	      break;
+	    default:
 	      break;
 	  }
 	  return state;
@@ -40105,7 +40181,6 @@
 	
 	  MentionGenerator.prototype.processContent = function processContent(contentRaw) {
 	    var blocks = contentRaw.blocks;
-	    var entityMap = contentRaw.entityMap;
 	
 	    return blocks.map(function (block) {
 	      return block.text;

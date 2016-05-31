@@ -1,14 +1,14 @@
-webpackJsonp([3],{
+webpackJsonp([2],{
 
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(333);
+	module.exports = __webpack_require__(332);
 
 
 /***/ },
 
-/***/ 333:
+/***/ 332:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37,7 +37,8 @@ webpackJsonp([3],{
 	  displayName: 'MentionEditor',
 	  getInitialState: function getInitialState() {
 	    return {
-	      suggestions: originSuggestions
+	      suggestions: originSuggestions,
+	      editorMode: 'immutable'
 	    };
 	  },
 	  onSearchChange: function onSearchChange(value) {
@@ -49,13 +50,51 @@ webpackJsonp([3],{
 	      suggestions: filtered
 	    });
 	  },
-	  render: function render() {
-	    var suggestions = this.state.suggestions;
-	
-	    return _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },
-	      onSearchChange: this.onSearchChange,
-	      suggestions: suggestions, prefix: '@'
+	  selectChange: function selectChange(ev) {
+	    var value = ev.target.value;
+	    this.setState({
+	      editorMode: value
 	    });
+	  },
+	  render: function render() {
+	    var _state = this.state;
+	    var suggestions = _state.suggestions;
+	    var editorMode = _state.editorMode;
+	
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'h4',
+	        null,
+	        '完整标签模式时, 在 tag 后边按退格键,将会删除整个标签。而在自由模式时,按退格键,则会重新编辑标签。'
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        '切换标签模式只对之后添加的 tag 有效。'
+	      ),
+	      _react2.default.createElement(
+	        'select',
+	        { onChange: this.selectChange, value: editorMode },
+	        _react2.default.createElement(
+	          'option',
+	          { value: 'immutable' },
+	          '完整标签模式'
+	        ),
+	        _react2.default.createElement(
+	          'option',
+	          { value: 'mutable' },
+	          '自由模式'
+	        )
+	      ),
+	      _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },
+	        onSearchChange: this.onSearchChange,
+	        suggestions: suggestions,
+	        mode: editorMode,
+	        prefix: '@'
+	      })
+	    );
 	  }
 	});
 	
@@ -73,4 +112,4 @@ webpackJsonp([3],{
 /***/ }
 
 });
-//# sourceMappingURL=simple.js.map
+//# sourceMappingURL=mentionMode.js.map

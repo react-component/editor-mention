@@ -44,6 +44,11 @@ webpackJsonp([1],{
 	  );
 	};
 	
+	Tag.propTypes = {
+	  data: _react2.default.PropTypes.object,
+	  children: _react2.default.PropTypes.any
+	};
+	
 	var MentionEditor = _react2.default.createClass({
 	  displayName: 'MentionEditor',
 	  getInitialState: function getInitialState() {
@@ -93,7 +98,10 @@ webpackJsonp([1],{
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 }, onSearchChange: this.onSearchChange, suggestions: suggestions, tag: Tag })
+	      _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },
+	        onSearchChange: this.onSearchChange,
+	        suggestions: suggestions, tag: Tag
+	      })
 	    );
 	  }
 	});

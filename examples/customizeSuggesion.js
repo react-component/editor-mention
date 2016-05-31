@@ -80,7 +80,11 @@ webpackJsonp([0],[
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 }, onSearchChange: this.onSearchChange, suggestions: suggestions })
+	      _react2.default.createElement(_rcEditorMention2.default, {
+	        style: { width: 300 },
+	        onSearchChange: this.onSearchChange,
+	        suggestions: suggestions
+	      })
 	    );
 	  }
 	});

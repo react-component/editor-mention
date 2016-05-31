@@ -5,25 +5,30 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Mention from 'rc-editor-mention';
 
-const suggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'simaQ', 'YuhangGe', 'dqaria', 'RaoHai'];
+const originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
 
 const MentionEditor = React.createClass({
   getInitialState() {
     return {
-      suggestions,
+      suggestions: originSuggestions,
     };
   },
   onSearchChange(value) {
     const searchValue = value.toLowerCase();
-    const filtered = suggestions.filter(suggestion => suggestion.toLowerCase().indexOf(searchValue) !== -1);
+    const filtered = originSuggestions.filter(suggestion =>
+      suggestion.toLowerCase().indexOf(searchValue) !== -1
+    );
     this.setState({
       suggestions: filtered,
     });
   },
   render() {
     const { suggestions } = this.state;
-    return <Mention style={{width: 300}} onSearchChange={this.onSearchChange} suggestions={suggestions} prefix="@" />;
-  }
+    return (<Mention style={{ width: 300 }}
+      onSearchChange={this.onSearchChange}
+      suggestions={suggestions} prefix="@"
+    />);
+  },
 });
 
 ReactDOM.render(<div>

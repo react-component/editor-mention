@@ -9,8 +9,8 @@ class MentionGenerator {
     return this.processContent(contentRaw);
   }
   processContent(contentRaw) {
-    const {blocks, entityMap} = contentRaw;
-    return blocks.map( block => {
+    const { blocks } = contentRaw;
+    return blocks.map(block => {
       return block.text;
     }).join('');
   }

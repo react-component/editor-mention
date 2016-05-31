@@ -27,6 +27,18 @@ function mentionContentStrategy(contentBlock, callback) {
 
 function noop() {}
 
+class MentionContentComponent extends React.Component {
+  static propTypes = {
+    entityKey: React.PropTypes.element,
+    tag: React.PropTypes.element,
+  }
+  render() {
+    const { entityKey, tag } = this.props;
+    const data = Entity.get(entityKey).getData();
+    return React.createElement(tag, { ...this.props, data });
+  }
+}
+
 export default function createMention(config = {}) {
   const callbacks = {
     onChange: noop,
@@ -56,10 +68,7 @@ export default function createMention(config = {}) {
       },
       {
         strategy: mentionContentStrategy,
-        component: (props) => {
-          const data = Entity.get(props.entityKey).getData();
-          return React.createElement(tag, { ...props, data });
-        },
+        component: (props) => <MentionContentComponent tag={tag} {...props} />,
       },
     ],
     onChange: (editorState) => {

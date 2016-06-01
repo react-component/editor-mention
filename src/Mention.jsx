@@ -2,8 +2,9 @@ import React from 'react';
 import EditorCore from 'rc-editor-core';
 import createMention from './createMention';
 import exportContent from './exportContent';
+import classnames from 'classnames';
 
-/* eslint:ignore
+/* eslint:ignore */
 console.error = (function() {
   var error = console.error;
   return function(exception) {
@@ -12,8 +13,6 @@ console.error = (function() {
     }
   }
 })();
-*/
-
 class Mention extends React.Component {
   static propTypes = {
     suggestions: React.PropTypes.array,
@@ -23,6 +22,8 @@ class Mention extends React.Component {
     style: React.PropTypes.object,
     onSearchChange: React.PropTypes.func,
     mode: React.PropTypes.string,
+    multiLines: React.PropTypes.bool,
+    suggestionStyle: React.PropTypes.object,
   }
   constructor(props) {
     super(props);
@@ -46,15 +47,25 @@ class Mention extends React.Component {
     console.log('>> exportContent', exportContent(editorState));
   }
   render() {
-    const { prefixCls, style, prefix, mode } = this.props;
+    const { prefixCls, style, prefix, mode, multiLines, suggestionStyle } = this.props;
     const { suggestions } = this.state;
     const { Suggestions } = this;
-    return (<div className={`${prefixCls}-wrapper`} style={style} >
-      <EditorCore plugins={this.plugins} onChange={this.onEditorChange} />
+    const editorClass = classnames({
+      [`${prefixCls}-wrapper`]: true,
+      multilines: multiLines,
+    });
+    return (<div className={editorClass} style={style} >
+      <EditorCore
+        prefixCls={prefixCls}
+        multiLines={multiLines}
+        plugins={this.plugins}
+        onChange={this.onEditorChange}
+      />
       <Suggestions
         mode={mode}
         prefix={prefix}
         prefixCls={prefixCls}
+        style={suggestionStyle}
         suggestions={suggestions}
         onSearchChange={this.props.onSearchChange}
       />
@@ -66,6 +77,8 @@ Mention.defaultProps = {
   prefixCls: 'rc-editor-mention',
   prefix: '@',
   mode: 'immutable',
+  multiLines: false,
+  suggestionStyle: {},
 };
 
 export default Mention;

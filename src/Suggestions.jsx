@@ -7,7 +7,7 @@ import Nav from './Nav';
 import cx from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
 
-const isTrue = (i) => i === true;
+const isNotFalse = (i) => i !== false;
 export default class Suggestions extends React.Component {
   static propTypes = {
     callbacks: React.PropTypes.object,
@@ -52,7 +52,7 @@ export default class Suggestions extends React.Component {
     }
     const selection = editorState.getSelection();
     const { word } = getSearchWord(editorState, selection);
-    const selectionInsideMention = offset.map(offsetKey => {
+    const selectionInsideMention = offset.map(({ offsetKey, position })=> {
       const { blockKey, decoratorKey, leafKey } = decode(offsetKey);
       if (blockKey !== selection.anchorKey) {
         return false;
@@ -63,12 +63,13 @@ export default class Suggestions extends React.Component {
       }
       const startKey = leaf.get('start');
       const endKey = leaf.get('end');
-      return selection.anchorOffset > startKey + 1 && selection.anchorOffset <= endKey;
+      return selection.anchorOffset > startKey + 1 && selection.anchorOffset <= endKey ? position : false;
     });
-    const selectionInText = selectionInsideMention.some(isTrue);
+    const selectionInText = selectionInsideMention.some(isNotFalse);
+    const dropDownPosition = selectionInsideMention.find(isNotFalse);
 
     if (!selectionInText) {
-      return this.closeDropDown();
+      return this.closeDropDown(dropDownPosition);
     }
     const searchValue = word.substring(1, word.length);
     if (this.lastSearchValue !== searchValue) {
@@ -76,7 +77,7 @@ export default class Suggestions extends React.Component {
       this.props.onSearchChange(searchValue);
     }
     if (!this.state.active) {
-      this.openDropDown();
+      this.openDropDown(dropDownPosition);
     }
   }
   onMentionSelect(mention, data) {
@@ -102,35 +103,55 @@ export default class Suggestions extends React.Component {
       focusedIndex: newIndex >= this.props.suggestions.length ? 0 : newIndex,
     });
   }
+  handleKeyBinding = (command) => {
+    console.log('>> handleKeyBinding', command);
+    return command === 'split-block';
+  }
   handleReturn = (ev) => {
     ev.preventDefault();
     const selectedSuggestion = this.props.suggestions[this.state.focusedIndex];
     if (selectedSuggestion) {
       if (React.isValidElement(selectedSuggestion)) {
         this.onMentionSelect(selectedSuggestion.props.value, selectedSuggestion.props.data);
+        return true;
       } else {
         this.onMentionSelect(selectedSuggestion);
+        return true;
       }
     }
+    return false;
   }
-  openDropDown() {
+  openDropDown(dropDownPosition) {
     this.props.callbacks.onUpArrow = this.onUpArrow;
     this.props.callbacks.handleReturn = this.handleReturn;
+    this.props.callbacks.handleKeyBinding = this.handleKeyBinding;
     this.props.callbacks.onDownArrow = this.onDownArrow;
-    this.setState({ active: true });
+    this.setState({ active: true, suggestionStyle: this.getPositionStyle(true, dropDownPosition) });
   }
-  closeDropDown() {
+  closeDropDown(dropDownPosition) {
     this.props.callbacks.onUpArrow = null;
     this.props.callbacks.handleReturn = null;
+    this.props.callbacks.handleKeyBinding = null;
     this.props.callbacks.onDownArrow = null;
-    this.setState({ active: false });
+    this.setState({ active: false, suggestionStyle: this.getPositionStyle(false, dropDownPosition) });
+  }
+  getPositionStyle(isActive, position) {
+    if (this.props.getPositionStyle) {
+      return this.props.getPositionStyle(isActive, position);
+    }
+
+    return position ? {
+      position: 'absolute',
+      left: position.left,
+      top: position.top,
+    } : {};
   }
   render() {
     if (!this.state.active) {
       return null;
     }
     const { prefixCls, suggestions } = this.props;
-    const { focusedIndex } = this.state;
+    const { focusedIndex, suggestionStyle } = this.state;
     const navigations = React.Children.map(suggestions, (element, index) => {
       const focusItem = index === focusedIndex;
       const ref = focusItem ? 'focusItem' : null;
@@ -149,6 +170,11 @@ export default class Suggestions extends React.Component {
       >{element}
       </Nav>);
     }, this);
-    return <div className={`${prefixCls}-dropdown`} ref="dropdownContainer">{navigations}</div>;
+
+    return (<div
+      style={suggestionStyle}
+      className={`${prefixCls}-dropdown`}
+      ref="dropdownContainer"
+    >{navigations}</div>);
   }
 }

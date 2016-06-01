@@ -1,14 +1,14 @@
-webpackJsonp([2],{
+webpackJsonp([3],{
 
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(333);
+	module.exports = __webpack_require__(334);
 
 
 /***/ },
 
-/***/ 333:
+/***/ 334:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33,12 +33,22 @@ webpackJsonp([2],{
 	
 	var originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
 	
+	var activeStyle = {
+	  transform: 'scaleY(1)',
+	  transition: 'all 0.25s cubic-bezier(.3,1.2,.2,1)'
+	};
+	
+	var disableStyle = {
+	  transform: 'scaleY(0)',
+	  transition: 'all 0.25s cubic-bezier(.3,1,.2,1)'
+	};
+	
 	var MentionEditor = _react2.default.createClass({
 	  displayName: 'MentionEditor',
 	  getInitialState: function getInitialState() {
 	    return {
 	      suggestions: originSuggestions,
-	      editorMode: 'immutable'
+	      suggestionStyle: activeStyle
 	    };
 	  },
 	  onSearchChange: function onSearchChange(value) {
@@ -47,54 +57,25 @@ webpackJsonp([2],{
 	      return suggestion.toLowerCase().indexOf(searchValue) !== -1;
 	    });
 	    this.setState({
-	      suggestions: filtered
-	    });
-	  },
-	  selectChange: function selectChange(ev) {
-	    var value = ev.target.value;
-	    this.setState({
-	      editorMode: value
+	      suggestions: filtered,
+	      suggestionStyle: filtered.length ? activeStyle : disableStyle
 	    });
 	  },
 	  render: function render() {
 	    var _state = this.state;
 	    var suggestions = _state.suggestions;
-	    var editorMode = _state.editorMode;
+	    var suggestionStyle = _state.suggestionStyle;
 	
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      _react2.default.createElement(
-	        'h4',
-	        null,
-	        '完整标签模式时, 在 tag 后边按退格键,将会删除整个标签。而在自由模式时,按退格键,则会重新编辑标签。'
-	      ),
-	      _react2.default.createElement(
-	        'p',
-	        null,
-	        '切换标签模式只对之后添加的 tag 有效。'
-	      ),
-	      _react2.default.createElement(
-	        'select',
-	        { onChange: this.selectChange, value: editorMode },
-	        _react2.default.createElement(
-	          'option',
-	          { value: 'immutable' },
-	          '完整标签模式'
-	        ),
-	        _react2.default.createElement(
-	          'option',
-	          { value: 'mutable' },
-	          '自由模式'
-	        )
-	      ),
-	      _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },
-	        onSearchChange: this.onSearchChange,
-	        suggestions: suggestions,
-	        mode: editorMode,
-	        prefix: '@'
-	      })
-	    );
+	    var multiLines = true;
+	    return _react2.default.createElement(_rcEditorMention2.default, {
+	      style: { width: 300 },
+	      multiLines: multiLines,
+	      onSearchChange: this.onSearchChange,
+	      suggestions: suggestions,
+	      suggestionStyle: suggestionStyle,
+	      prefixCls: 'rc-editor-mention',
+	      prefix: '@'
+	    });
 	  }
 	});
 	
@@ -106,10 +87,15 @@ webpackJsonp([2],{
 	    null,
 	    ' you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai'
 	  ),
+	  _react2.default.createElement(
+	    'p',
+	    null,
+	    ' multilines mode '
+	  ),
 	  _react2.default.createElement(MentionEditor, null)
 	), document.getElementById('__react-content'));
 
 /***/ }
 
 });
-//# sourceMappingURL=mentionMode.js.map
+//# sourceMappingURL=multilines.js.map

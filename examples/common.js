@@ -19770,8 +19770,6 @@
 	
 	var _rcEditorCore = __webpack_require__(164);
 	
-	var _rcEditorCore2 = _interopRequireDefault(_rcEditorCore);
-	
 	var _createMention = __webpack_require__(305);
 	
 	var _createMention2 = _interopRequireDefault(_createMention);
@@ -19856,7 +19854,7 @@
 	    return _react2.default.createElement(
 	      'div',
 	      { className: editorClass, style: style },
-	      _react2.default.createElement(_rcEditorCore2.default, {
+	      _react2.default.createElement(_rcEditorCore.EditorCore, {
 	        prefixCls: prefixCls,
 	        multiLines: multiLines,
 	        plugins: this.plugins,
@@ -19907,7 +19905,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 	
 	var _EditorCore = __webpack_require__(165);
@@ -19916,8 +19914,10 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
-	exports["default"] = _EditorCore2["default"]; // export this package's api
-	
+	var EditorCorePublic = {
+	    EditorCore: _EditorCore2["default"]
+	};
+	exports["default"] = EditorCorePublic;
 	module.exports = exports['default'];
 
 /***/ },

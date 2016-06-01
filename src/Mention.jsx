@@ -1,5 +1,5 @@
 import React from 'react';
-import EditorCore from 'rc-editor-core';
+import { EditorCore } from 'rc-editor-core';
 import createMention from './createMention';
 import exportContent from './exportContent';
 import classnames from 'classnames';

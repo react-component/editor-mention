@@ -54,7 +54,7 @@
     "dom-scroll-into-view": "^1.2.0",
     "draft-js": "^0.7.0",
     "immutable": "^3.8.1",
-    "rc-editor-core": "^0.1.9",
+    "rc-editor-core": "^0.2.0",
     "redux": "^3.5.2"
   }
 }

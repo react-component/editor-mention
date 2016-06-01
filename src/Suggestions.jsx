@@ -17,6 +17,7 @@ export default class Suggestions extends React.Component {
     prefix: React.PropTypes.string,
     prefixCls: React.PropTypes.string,
     mode: React.PropTypes.string,
+    getSuggestionStyle: React.PropTypes.func,
   }
   constructor() {
     super();
@@ -52,7 +53,7 @@ export default class Suggestions extends React.Component {
     }
     const selection = editorState.getSelection();
     const { word } = getSearchWord(editorState, selection);
-    const selectionInsideMention = offset.map(({ offsetKey, position })=> {
+    const selectionInsideMention = offset.map(({ offsetKey, position }) => {
       const { blockKey, decoratorKey, leafKey } = decode(offsetKey);
       if (blockKey !== selection.anchorKey) {
         return false;
@@ -63,7 +64,9 @@ export default class Suggestions extends React.Component {
       }
       const startKey = leaf.get('start');
       const endKey = leaf.get('end');
-      return selection.anchorOffset > startKey + 1 && selection.anchorOffset <= endKey ? position : false;
+      return selection.anchorOffset > startKey + 1 && selection.anchorOffset <= endKey
+        ? position
+        : false;
     });
     const selectionInText = selectionInsideMention.some(isNotFalse);
     const dropDownPosition = selectionInsideMention.find(isNotFalse);
@@ -103,41 +106,9 @@ export default class Suggestions extends React.Component {
       focusedIndex: newIndex >= this.props.suggestions.length ? 0 : newIndex,
     });
   }
-  handleKeyBinding = (command) => {
-    console.log('>> handleKeyBinding', command);
-    return command === 'split-block';
-  }
-  handleReturn = (ev) => {
-    ev.preventDefault();
-    const selectedSuggestion = this.props.suggestions[this.state.focusedIndex];
-    if (selectedSuggestion) {
-      if (React.isValidElement(selectedSuggestion)) {
-        this.onMentionSelect(selectedSuggestion.props.value, selectedSuggestion.props.data);
-        return true;
-      } else {
-        this.onMentionSelect(selectedSuggestion);
-        return true;
-      }
-    }
-    return false;
-  }
-  openDropDown(dropDownPosition) {
-    this.props.callbacks.onUpArrow = this.onUpArrow;
-    this.props.callbacks.handleReturn = this.handleReturn;
-    this.props.callbacks.handleKeyBinding = this.handleKeyBinding;
-    this.props.callbacks.onDownArrow = this.onDownArrow;
-    this.setState({ active: true, suggestionStyle: this.getPositionStyle(true, dropDownPosition) });
-  }
-  closeDropDown(dropDownPosition) {
-    this.props.callbacks.onUpArrow = null;
-    this.props.callbacks.handleReturn = null;
-    this.props.callbacks.handleKeyBinding = null;
-    this.props.callbacks.onDownArrow = null;
-    this.setState({ active: false, suggestionStyle: this.getPositionStyle(false, dropDownPosition) });
-  }
   getPositionStyle(isActive, position) {
-    if (this.props.getPositionStyle) {
-      return this.props.getPositionStyle(isActive, position);
+    if (this.props.getSuggestionStyle) {
+      return this.props.getSuggestionStyle(isActive, position);
     }
 
     return position ? {
@@ -145,6 +116,43 @@ export default class Suggestions extends React.Component {
       left: position.left,
       top: position.top,
     } : {};
+  }
+  handleReturn = (ev) => {
+    ev.preventDefault();
+    const selectedSuggestion = this.props.suggestions[this.state.focusedIndex];
+    if (selectedSuggestion) {
+      if (React.isValidElement(selectedSuggestion)) {
+        this.onMentionSelect(selectedSuggestion.props.value, selectedSuggestion.props.data);
+      } else {
+        this.onMentionSelect(selectedSuggestion);
+      }
+      return true;
+    }
+    return false;
+  }
+  handleKeyBinding = (command) => {
+    console.log('>> handleKeyBinding', command);
+    return command === 'split-block';
+  }
+  openDropDown(dropDownPosition) {
+    this.props.callbacks.onUpArrow = this.onUpArrow;
+    this.props.callbacks.handleReturn = this.handleReturn;
+    this.props.callbacks.handleKeyBinding = this.handleKeyBinding;
+    this.props.callbacks.onDownArrow = this.onDownArrow;
+    this.setState({
+      active: true,
+      suggestionStyle: this.getPositionStyle(true, dropDownPosition),
+    });
+  }
+  closeDropDown(dropDownPosition) {
+    this.props.callbacks.onUpArrow = null;
+    this.props.callbacks.handleReturn = null;
+    this.props.callbacks.handleKeyBinding = null;
+    this.props.callbacks.onDownArrow = null;
+    this.setState({
+      active: false,
+      suggestionStyle: this.getPositionStyle(false, dropDownPosition),
+    });
   }
   render() {
     if (!this.state.active) {

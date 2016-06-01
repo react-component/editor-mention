@@ -37,9 +37,10 @@ const MentionEditor = React.createClass({
 
   render() {
     const { suggestions, suggestionStyle } = this.state;
+    const multiLines = true;
     return (<Mention
       style={{ width: 300 }}
-      multiLines={true}
+      multiLines={multiLines}
       onSearchChange={this.onSearchChange}
       suggestions={suggestions}
       suggestionStyle={suggestionStyle}

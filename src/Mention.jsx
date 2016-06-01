@@ -4,7 +4,7 @@ import createMention from './createMention';
 import exportContent from './exportContent';
 import classnames from 'classnames';
 
-/* eslint:ignore */
+/*eslint-disable*/
 console.error = (function() {
   var error = console.error;
   return function(exception) {
@@ -13,6 +13,8 @@ console.error = (function() {
     }
   }
 })();
+/*eslint-enable*/
+
 class Mention extends React.Component {
   static propTypes = {
     suggestions: React.PropTypes.array,

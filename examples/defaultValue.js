@@ -25,9 +25,9 @@ const MentionEditor = React.createClass({
   render() {
     const { suggestions } = this.state;
     return (<Mention style={{ width: 300 }}
-      onSearchChange={this.onSearchChange}
-      placeholder=" @ 某人 "
-      suggestions={suggestions} prefix="@"
+             onSearchChange={this.onSearchChange}
+             defaultValue="hello @afc163 "
+             suggestions={suggestions} prefix="@"
     />);
   },
 });
@@ -35,4 +35,4 @@ const MentionEditor = React.createClass({
 ReactDOM.render(<div>
   <p> you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai</p>
   <MentionEditor />
-  </div>, document.getElementById('__react-content'));
+</div>, document.getElementById('__react-content'));

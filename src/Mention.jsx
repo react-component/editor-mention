@@ -26,6 +26,8 @@ class Mention extends React.Component {
     mode: React.PropTypes.string,
     multiLines: React.PropTypes.bool,
     suggestionStyle: React.PropTypes.object,
+    placeholder: React.PropTypes.string,
+    defaultValue: React.PropTypes.string,
   }
   constructor(props) {
     super(props);
@@ -49,18 +51,21 @@ class Mention extends React.Component {
     console.log('>> exportContent', exportContent(editorState));
   }
   render() {
-    const { prefixCls, style, prefix, mode, multiLines, suggestionStyle } = this.props;
+    const { prefixCls, style, prefix, mode, multiLines, suggestionStyle, placeholder, defaultValue} = this.props;
     const { suggestions } = this.state;
     const { Suggestions } = this;
     const editorClass = classnames({
       [`${prefixCls}-wrapper`]: true,
       multilines: multiLines,
     });
+    console.log('.. plugins', placeholder);
     return (<div className={editorClass} style={style} >
       <EditorCore
         prefixCls={prefixCls}
         multiLines={multiLines}
         plugins={this.plugins}
+        defaultValue={defaultValue}
+        placeholder={placeholder}
         onChange={this.onEditorChange}
       />
       <Suggestions

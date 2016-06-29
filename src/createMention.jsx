@@ -1,7 +1,7 @@
 import React from 'react';
-import Suggestions from './Suggestions.jsx';
-import SuggestionPortal from './SuggestionPortal.jsx';
-import MentionContent from './MentionContent.jsx';
+import Suggestions from './Suggestions';
+import SuggestionPortal from './SuggestionPortal';
+import MentionContent from './MentionContent';
 import mentionStore from './mentionStore';
 import exportContent from './exportContent';
 import { Entity } from 'draft-js';

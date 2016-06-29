@@ -1,14 +1,14 @@
-webpackJsonp([5],{
+webpackJsonp([2],{
 
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(339);
+	module.exports = __webpack_require__(336);
 
 
 /***/ },
 
-/***/ 339:
+/***/ 336:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54,7 +54,7 @@ webpackJsonp([5],{
 	
 	    return _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },
 	      onSearchChange: this.onSearchChange,
-	      placeholder: ' @ 某人 ',
+	      defaultValue: 'hello @afc163 ',
 	      suggestions: suggestions, prefix: '@'
 	    });
 	  }
@@ -74,4 +74,4 @@ webpackJsonp([5],{
 /***/ }
 
 });
-//# sourceMappingURL=simple.js.map
+//# sourceMappingURL=defaultValue.js.map

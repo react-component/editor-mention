@@ -30,7 +30,7 @@
 /******/ 	// "0" means "already loaded"
 /******/ 	// Array means "loading", array contains callbacks
 /******/ 	var installedChunks = {
-/******/ 		5:0
+/******/ 		6:0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -76,7 +76,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"customizeSuggesion","1":"customizeSuggesionAndTag","2":"mentionMode","3":"multilines","4":"simple"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"customizeSuggesion","1":"customizeSuggesionAndTag","2":"defaultValue","3":"mentionMode","4":"multilines","5":"simple"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -19872,10 +19872,13 @@
 	    var mode = _props.mode;
 	    var multiLines = _props.multiLines;
 	    var suggestionStyle = _props.suggestionStyle;
+	    var placeholder = _props.placeholder;
+	    var defaultValue = _props.defaultValue;
 	    var suggestions = this.state.suggestions;
 	    var Suggestions = this.Suggestions;
 	
 	    var editorClass = (0, _classnames3.default)((_classnames = {}, _defineProperty(_classnames, prefixCls + '-wrapper', true), _defineProperty(_classnames, 'multilines', multiLines), _classnames));
+	    console.log('.. plugins', placeholder);
 	    return _react2.default.createElement(
 	      'div',
 	      { className: editorClass, style: style },
@@ -19883,6 +19886,8 @@
 	        prefixCls: prefixCls,
 	        multiLines: multiLines,
 	        plugins: this.plugins,
+	        defaultValue: defaultValue,
+	        placeholder: placeholder,
 	        onChange: this.onEditorChange
 	      }),
 	      _react2.default.createElement(Suggestions, {
@@ -19908,7 +19913,9 @@
 	  onSearchChange: _react2.default.PropTypes.func,
 	  mode: _react2.default.PropTypes.string,
 	  multiLines: _react2.default.PropTypes.bool,
-	  suggestionStyle: _react2.default.PropTypes.object
+	  suggestionStyle: _react2.default.PropTypes.object,
+	  placeholder: _react2.default.PropTypes.string,
+	  defaultValue: _react2.default.PropTypes.string
 	};
 	
 	
@@ -19939,8 +19946,20 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
+	// export this package's api
+	/*eslint-disable*/
+	console.error = function () {
+	    var error = console.error;
+	    return function (exception) {
+	        if ((exception + '').indexOf('Warning: A component is `contentEditable`') != 0) {
+	            error.apply(console, arguments);
+	        }
+	    };
+	}();
+	
 	var EditorCorePublic = {
-	    EditorCore: _EditorCore2["default"]
+	    EditorCore: _EditorCore2["default"],
+	    GetText: _EditorCore2["default"].ExportFunction
 	};
 	exports["default"] = EditorCorePublic;
 	module.exports = exports['default'];
@@ -19963,6 +19982,8 @@
 	
 	var _draftJs = __webpack_require__(166);
 	
+	var _immutable = __webpack_require__(169);
+	
 	var _Toolbar = __webpack_require__(304);
 	
 	__webpack_require__(307);
@@ -19977,6 +19998,8 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 	
+	var hasCommandModifier = _draftJs.KeyBindingUtil.hasCommandModifier;
+	
 	var toolbar = (0, _Toolbar.createToolbar)();
 	
 	var EditorCore = function (_React$Component) {
@@ -19987,14 +20010,63 @@
 	
 	        var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
 	
+	        _this.plugins = (0, _immutable.List)((0, _immutable.List)(props.plugins).flatten(true));
 	        _this.state = {
-	            editorState: _draftJs.EditorState.createEmpty()
+	            plugins: _this.reloadPlugins(),
+	            editorState: _draftJs.EditorState.createEmpty(),
+	            customStyleMap: {}
 	        };
 	        return _this;
 	    }
 	
+	    EditorCore.ExportFunction = function ExportFunction(editorState) {
+	        var content = editorState.getCurrentContent();
+	        console.log('>> ExportFunction', content);
+	        var blockMap = content.getBlockMap();
+	        return blockMap.map(function (block) {
+	            var resultText = '';
+	            var lastPosition = 0;
+	            var text = block.getText();
+	            block.findEntityRanges(function (character) {
+	                return !!character.getEntity();
+	            }, function (start, end) {
+	                var key = block.getEntityAt(start);
+	                var entityData = _draftJs.Entity.get(key).getData();
+	                resultText += text.slice(lastPosition, start);
+	                resultText += entityData && entityData["export"] ? entityData["export"](entityData) : text.slice(start, end);
+	                lastPosition = end;
+	            });
+	            resultText += text.slice(lastPosition);
+	            return resultText;
+	        }).join('\n');
+	    };
+	
+	    EditorCore.prototype.Reset = function Reset() {
+	        var editorState = _draftJs.EditorState.push(this.state.editorState, _draftJs.ContentState.createFromText(''), 'reset-editor');
+	        this.setEditorState(editorState);
+	    };
+	
+	    EditorCore.prototype.reloadPlugins = function reloadPlugins() {
+	        return this.plugins && this.plugins.size ? this.plugins.map(function (plugin) {
+	            //　如果插件有 callbacks 方法,则认为插件已经加载。
+	            if (plugin.callbacks) {
+	                return plugin;
+	            }
+	            // 如果插件有 constructor 方法,则构造插件
+	            if (plugin.hasOwnProperty('constructor')) {
+	                return plugin.constructor(plugin.config);
+	            }
+	            // else 无效插件
+	            console.log('>> 插件: [', plugin.name, '] 无效。插件或许已经过期。');
+	            return false;
+	        }).filter(function (plugin) {
+	            return plugin;
+	        }).toArray() : [];
+	    };
+	
 	    EditorCore.prototype.componentWillMount = function componentWillMount() {
 	        var plugins = this.initPlugins().concat([toolbar]);
+	        var customStyleMap = {};
 	        // initialize compositeDecorator
 	        var compositeDecorator = new _draftJs.CompositeDecorator(plugins.filter(function (plugin) {
 	            return plugin.decorators !== undefined;
@@ -20004,13 +20076,41 @@
 	            return prev.concat(curr);
 	        }, []));
 	        // initialize Toolbar
-	        var toolbarPlugins = plugins.filter(function (plugin) {
+	        var toolbarPlugins = (0, _immutable.List)(plugins.filter(function (plugin) {
 	            return !!plugin.component && plugin.name !== 'toolbar';
+	        }));
+	        // load inline styles...
+	        plugins.forEach(function (plugin) {
+	            var styleMap = plugin.styleMap;
+	
+	            if (styleMap) {
+	                for (var key in styleMap) {
+	                    if (styleMap.hasOwnProperty(key)) {
+	                        customStyleMap[key] = styleMap[key];
+	                    }
+	                }
+	            }
 	        });
 	        this.setState({
-	            toolbarPlugins: toolbarPlugins
+	            toolbarPlugins: toolbarPlugins,
+	            customStyleMap: customStyleMap
 	        });
 	        this.onChange(_draftJs.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
+	    };
+	    //  处理　value　
+	
+	
+	    EditorCore.prototype.componentDidMount = function componentDidMount() {
+	        var editorState = this.state.editorState;
+	        var defaultValue = this.props.defaultValue;
+	
+	        if (defaultValue) {
+	            var selection = editorState.getSelection();
+	            var content = editorState.getCurrentContent();
+	            var insertContent = _draftJs.Modifier.insertText(content, selection, defaultValue, {});
+	            var newEditorState = _draftJs.EditorState.push(editorState, insertContent, 'init-editor');
+	            return this.setEditorState(_draftJs.EditorState.forceSelection(newEditorState, insertContent.getSelectionAfter()));
+	        }
 	    };
 	
 	    EditorCore.prototype.initPlugins = function initPlugins() {
@@ -20029,7 +20129,7 @@
 	    };
 	
 	    EditorCore.prototype.getPlugins = function getPlugins() {
-	        return this.props.plugins.slice();
+	        return this.state.plugins.slice();
 	    };
 	
 	    EditorCore.prototype.getEventHandler = function getEventHandler() {
@@ -20064,7 +20164,18 @@
 	        this.setState({ editorState: editorState });
 	    };
 	
-	    EditorCore.prototype.handleKeyBinding = function handleKeyBinding(command) {
+	    EditorCore.prototype.handleKeyBinding = function handleKeyBinding(ev) {
+	        if (this.props.onKeyDown) {
+	            ev.ctrlKey = hasCommandModifier(ev);
+	            var customKeyBinding = this.props.onKeyDown(ev);
+	            if (customKeyBinding) {
+	                return customKeyBinding;
+	            }
+	        }
+	        return (0, _draftJs.getDefaultKeyBinding)(ev);
+	    };
+	
+	    EditorCore.prototype.handleKeyCommand = function handleKeyCommand(command) {
 	        if (this.props.multiLines) {
 	            return this.eventHandle('handleKeyBinding', command);
 	        }
@@ -20073,6 +20184,7 @@
 	
 	    EditorCore.prototype.eventHandle = function eventHandle(eventName) {
 	        var plugins = this.getPlugins();
+	        console.log('>> eventHandle plugins', eventName, plugins);
 	
 	        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
 	            args[_key - 1] = arguments[_key];
@@ -20080,6 +20192,7 @@
 	
 	        for (var i = 0; i < plugins.length; i++) {
 	            var plugin = plugins[i];
+	            console.log('>> plugin', plugin);
 	            if (plugin.callbacks[eventName] && typeof plugin.callbacks[eventName] === 'function') {
 	                var _plugin$callbacks;
 	
@@ -20108,17 +20221,19 @@
 	        var _props = this.props;
 	        var prefixCls = _props.prefixCls;
 	        var toolbars = _props.toolbars;
+	        var placeholder = _props.placeholder;
 	        var _state = this.state;
 	        var editorState = _state.editorState;
 	        var toolbarPlugins = _state.toolbarPlugins;
+	        var customStyleMap = _state.customStyleMap;
 	
 	        var eventHandler = this.getEventHandler();
 	        var Toolbar = toolbar.component;
 	        return React.createElement(
 	            'div',
 	            { className: prefixCls + '-editor', onClick: this.focus.bind(this) },
-	            React.createElement(Toolbar, { prefixCls: prefixCls, editorState: editorState, className: prefixCls + '-toolbar', plugins: toolbarPlugins, toolbars: toolbars }),
-	            React.createElement(_draftJs.Editor, _extends({}, eventHandler, { ref: 'editor', editorState: editorState, handleKeyCommand: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) }))
+	            React.createElement(Toolbar, { editorState: editorState, prefixCls: prefixCls, className: prefixCls + '-toolbar', plugins: toolbarPlugins, toolbars: toolbars }),
+	            React.createElement(_draftJs.Editor, _extends({}, eventHandler, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, placeholder: placeholder, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) }))
 	        );
 	    };
 	
@@ -20129,7 +20244,8 @@
 	    multiLines: true,
 	    plugins: [],
 	    prefixCls: 'rc-editor-core',
-	    toolbars: []
+	    toolbars: [],
+	    spilitLine: 'enter'
 	};
 	exports["default"] = EditorCore;
 	module.exports = exports['default'];
@@ -38136,6 +38252,7 @@
 	        });
 	        _this.pluginsMap = (0, _immutable.Map)(map);
 	        _this.state = {
+	            editorState: props.editorState,
 	            toolbars: []
 	        };
 	        return _this;

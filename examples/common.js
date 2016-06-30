@@ -20021,7 +20021,6 @@
 	
 	    EditorCore.ExportFunction = function ExportFunction(editorState) {
 	        var content = editorState.getCurrentContent();
-	        console.log('>> ExportFunction', content);
 	        var blockMap = content.getBlockMap();
 	        return blockMap.map(function (block) {
 	            var resultText = '';
@@ -20042,8 +20041,15 @@
 	    };
 	
 	    EditorCore.prototype.Reset = function Reset() {
-	        var editorState = _draftJs.EditorState.push(this.state.editorState, _draftJs.ContentState.createFromText(''), 'reset-editor');
-	        this.setEditorState(editorState);
+	        var createEmptyContentState = _draftJs.ContentState.createFromText(this.props.defaultValue || '');
+	        var editorState = _draftJs.EditorState.push(this.state.editorState, createEmptyContentState, 'reset-editor');
+	        this.setEditorState(_draftJs.EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter()));
+	    };
+	
+	    EditorCore.prototype.SetText = function SetText(text) {
+	        var createTextContentState = _draftJs.ContentState.createFromText(text || '');
+	        var editorState = _draftJs.EditorState.push(this.state.editorState, createTextContentState, 'editor-setText');
+	        this.setEditorState(_draftJs.EditorState.forceSelection(editorState, createTextContentState.getSelectionAfter()));
 	    };
 	
 	    EditorCore.prototype.reloadPlugins = function reloadPlugins() {
@@ -20057,7 +20063,7 @@
 	                return plugin.constructor(plugin.config);
 	            }
 	            // else 无效插件
-	            console.log('>> 插件: [', plugin.name, '] 无效。插件或许已经过期。');
+	            console.warn('>> 插件: [', plugin.name, '] 无效。插件或许已经过期。');
 	            return false;
 	        }).filter(function (plugin) {
 	            return plugin;
@@ -20117,7 +20123,7 @@
 	        var _this2 = this;
 	
 	        return this.getPlugins().map(function (plugin) {
-	            console.log('>> plugin', plugin);
+	            // console.log('>> plugin', plugin);
 	            plugin.callbacks.getEditorState = _this2.getEditorState.bind(_this2);
 	            plugin.callbacks.setEditorState = _this2.setEditorState.bind(_this2);
 	            return plugin;
@@ -20167,10 +20173,11 @@
 	    EditorCore.prototype.handleKeyBinding = function handleKeyBinding(ev) {
 	        if (this.props.onKeyDown) {
 	            ev.ctrlKey = hasCommandModifier(ev);
-	            var customKeyBinding = this.props.onKeyDown(ev);
-	            if (customKeyBinding) {
-	                return customKeyBinding;
+	            var keyDownResult = this.props.onKeyDown(ev);
+	            if (keyDownResult) {
+	                return keyDownResult;
 	            }
+	            return (0, _draftJs.getDefaultKeyBinding)(ev);
 	        }
 	        return (0, _draftJs.getDefaultKeyBinding)(ev);
 	    };
@@ -20184,7 +20191,7 @@
 	
 	    EditorCore.prototype.eventHandle = function eventHandle(eventName) {
 	        var plugins = this.getPlugins();
-	        console.log('>> eventHandle plugins', eventName, plugins);
+	        // console.log('>> eventHandle plugins', eventName, plugins);
 	
 	        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
 	            args[_key - 1] = arguments[_key];
@@ -20192,7 +20199,7 @@
 	
 	        for (var i = 0; i < plugins.length; i++) {
 	            var plugin = plugins[i];
-	            console.log('>> plugin', plugin);
+	            // console.log('>> plugin', plugin);
 	            if (plugin.callbacks[eventName] && typeof plugin.callbacks[eventName] === 'function') {
 	                var _plugin$callbacks;
 	

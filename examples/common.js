@@ -38625,6 +38625,8 @@
 	  value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _react = __webpack_require__(3);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -38803,12 +38805,11 @@
 	    if (this.props.getSuggestionStyle) {
 	      return this.props.getSuggestionStyle(isActive, position);
 	    }
-	
-	    return position ? {
+	    return position ? _extends({
 	      position: 'absolute',
 	      left: position.left,
 	      top: position.top
-	    } : {};
+	    }, this.props.style) : {};
 	  };
 	
 	  Suggestions.prototype.openDropDown = function openDropDown(dropDownPosition) {
@@ -38890,6 +38891,7 @@
 	  prefix: _react2.default.PropTypes.string,
 	  prefixCls: _react2.default.PropTypes.string,
 	  mode: _react2.default.PropTypes.string,
+	  style: _react2.default.PropTypes.object,
 	  getSuggestionStyle: _react2.default.PropTypes.func
 	};
 	exports.default = Suggestions;

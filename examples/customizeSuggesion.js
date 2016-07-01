@@ -17,11 +17,11 @@ webpackJsonp([0],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(160);
+	var _reactDom = __webpack_require__(40);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcEditorMention = __webpack_require__(161);
+	var _rcEditorMention = __webpack_require__(170);
 	
 	var _rcEditorMention2 = _interopRequireDefault(_rcEditorMention);
 	

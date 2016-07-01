@@ -3,12 +3,12 @@ webpackJsonp([5],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(339);
+	module.exports = __webpack_require__(336);
 
 
 /***/ },
 
-/***/ 339:
+/***/ 336:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19,11 +19,11 @@ webpackJsonp([5],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(160);
+	var _reactDom = __webpack_require__(40);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcEditorMention = __webpack_require__(161);
+	var _rcEditorMention = __webpack_require__(170);
 	
 	var _rcEditorMention2 = _interopRequireDefault(_rcEditorMention);
 	
@@ -32,6 +32,13 @@ webpackJsonp([5],{
 	// use jsx to render html, do not modify simple.html
 	
 	var originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
+	
+	var Wrapper = _react2.default.createClass({
+	  displayName: 'Wrapper',
+	  render: function render() {
+	    return _react2.default.createElement(MentionEditor, null);
+	  }
+	});
 	
 	var MentionEditor = _react2.default.createClass({
 	  displayName: 'MentionEditor',
@@ -68,7 +75,7 @@ webpackJsonp([5],{
 	    null,
 	    ' you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai'
 	  ),
-	  _react2.default.createElement(MentionEditor, null)
+	  _react2.default.createElement(Wrapper, null)
 	), document.getElementById('__react-content'));
 
 /***/ }

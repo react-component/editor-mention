@@ -28,10 +28,14 @@ const MentionEditor = React.createClass({
       suggestions: filtered,
     });
   },
+  onChange(editorState, value) {
+    console.log('>> mentionChange', value);
+  },
   render() {
     const { suggestions } = this.state;
     return (<Mention style={{ width: 300 }}
       onSearchChange={this.onSearchChange}
+      onChange={this.onChange}
       placeholder=" @ 某人 "
       suggestions={suggestions} prefix="@"
     />);

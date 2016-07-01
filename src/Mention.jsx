@@ -23,6 +23,7 @@ class Mention extends React.Component {
     tag: React.PropTypes.element,
     style: React.PropTypes.object,
     onSearchChange: React.PropTypes.func,
+    onChange: React.PropTypes.func,
     mode: React.PropTypes.string,
     multiLines: React.PropTypes.bool,
     suggestionStyle: React.PropTypes.object,
@@ -48,7 +49,9 @@ class Mention extends React.Component {
     });
   }
   onEditorChange = (editorState) => {
-    console.log('>> exportContent', exportContent(editorState));
+    if (this.props.onChange) {
+      this.props.onChange(editorState, exportContent(editorState));
+    }
   }
   render() {
     const { prefixCls, style, prefix, mode, multiLines, suggestionStyle, placeholder, defaultValue} = this.props;
@@ -58,7 +61,6 @@ class Mention extends React.Component {
       [`${prefixCls}-wrapper`]: true,
       multilines: multiLines,
     });
-    console.log('.. plugins', placeholder);
     return (<div className={editorClass} style={style} >
       <EditorCore
         prefixCls={prefixCls}

@@ -20536,10 +20536,11 @@
 	    var suggestionStyle = _props.suggestionStyle;
 	    var placeholder = _props.placeholder;
 	    var defaultValue = _props.defaultValue;
+	    var className = _props.className;
 	    var suggestions = this.state.suggestions;
 	    var Suggestions = this.Suggestions;
 	
-	    var editorClass = (0, _classnames3.default)((_classnames = {}, _defineProperty(_classnames, prefixCls + '-wrapper', true), _defineProperty(_classnames, 'multilines', multiLines), _classnames));
+	    var editorClass = (0, _classnames3.default)(className, (_classnames = {}, _defineProperty(_classnames, prefixCls + '-wrapper', true), _defineProperty(_classnames, 'multilines', multiLines), _classnames));
 	    return _react2.default.createElement(
 	      'div',
 	      { className: editorClass, style: style },
@@ -20571,6 +20572,7 @@
 	  prefixCls: _react2.default.PropTypes.string,
 	  tag: _react2.default.PropTypes.element,
 	  style: _react2.default.PropTypes.object,
+	  className: _react2.default.PropTypes.string,
 	  onSearchChange: _react2.default.PropTypes.func,
 	  onChange: _react2.default.PropTypes.func,
 	  mode: _react2.default.PropTypes.string,
@@ -20586,6 +20588,7 @@
 	  prefix: '@',
 	  mode: 'immutable',
 	  multiLines: false,
+	  className: '',
 	  suggestionStyle: {}
 	};
 	

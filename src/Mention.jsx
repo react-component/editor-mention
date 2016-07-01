@@ -22,6 +22,7 @@ class Mention extends React.Component {
     prefixCls: React.PropTypes.string,
     tag: React.PropTypes.element,
     style: React.PropTypes.object,
+    className: React.PropTypes.string,
     onSearchChange: React.PropTypes.func,
     onChange: React.PropTypes.func,
     mode: React.PropTypes.string,
@@ -54,10 +55,10 @@ class Mention extends React.Component {
     }
   }
   render() {
-    const { prefixCls, style, prefix, mode, multiLines, suggestionStyle, placeholder, defaultValue} = this.props;
+    const { prefixCls, style, prefix, mode, multiLines, suggestionStyle, placeholder, defaultValue, className} = this.props;
     const { suggestions } = this.state;
     const { Suggestions } = this;
-    const editorClass = classnames({
+    const editorClass = classnames(className, {
       [`${prefixCls}-wrapper`]: true,
       multilines: multiLines,
     });
@@ -87,6 +88,7 @@ Mention.defaultProps = {
   prefix: '@',
   mode: 'immutable',
   multiLines: false,
+  className: '',
   suggestionStyle: {},
 };
 

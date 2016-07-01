@@ -20499,7 +20499,9 @@
 	    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
 	
 	    _this.onEditorChange = function (editorState) {
-	      console.log('>> exportContent', (0, _exportContent2.default)(editorState));
+	      if (_this.props.onChange) {
+	        _this.props.onChange(editorState, (0, _exportContent2.default)(editorState));
+	      }
 	    };
 	
 	    _this.state = {
@@ -20538,7 +20540,6 @@
 	    var Suggestions = this.Suggestions;
 	
 	    var editorClass = (0, _classnames3.default)((_classnames = {}, _defineProperty(_classnames, prefixCls + '-wrapper', true), _defineProperty(_classnames, 'multilines', multiLines), _classnames));
-	    console.log('.. plugins', placeholder);
 	    return _react2.default.createElement(
 	      'div',
 	      { className: editorClass, style: style },
@@ -20571,6 +20572,7 @@
 	  tag: _react2.default.PropTypes.element,
 	  style: _react2.default.PropTypes.object,
 	  onSearchChange: _react2.default.PropTypes.func,
+	  onChange: _react2.default.PropTypes.func,
 	  mode: _react2.default.PropTypes.string,
 	  multiLines: _react2.default.PropTypes.bool,
 	  suggestionStyle: _react2.default.PropTypes.object,

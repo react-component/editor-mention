@@ -56,11 +56,15 @@ webpackJsonp([5],{
 	      suggestions: filtered
 	    });
 	  },
+	  onChange: function onChange(editorState, value) {
+	    console.log('>> mentionChange', value);
+	  },
 	  render: function render() {
 	    var suggestions = this.state.suggestions;
 	
 	    return _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },
 	      onSearchChange: this.onSearchChange,
+	      onChange: this.onChange,
 	      placeholder: ' @ 某人 ',
 	      suggestions: suggestions, prefix: '@'
 	    });

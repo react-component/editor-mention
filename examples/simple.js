@@ -7,6 +7,12 @@ import Mention from 'rc-editor-mention';
 
 const originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
 
+const Wrapper = React.createClass({
+  render() {
+    return <MentionEditor />;
+  }
+});
+
 const MentionEditor = React.createClass({
   getInitialState() {
     return {
@@ -34,5 +40,5 @@ const MentionEditor = React.createClass({
 
 ReactDOM.render(<div>
   <p> you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai</p>
-  <MentionEditor />
+  <Wrapper />
   </div>, document.getElementById('__react-content'));

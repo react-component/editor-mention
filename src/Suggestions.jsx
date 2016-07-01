@@ -17,6 +17,7 @@ export default class Suggestions extends React.Component {
     prefix: React.PropTypes.string,
     prefixCls: React.PropTypes.string,
     mode: React.PropTypes.string,
+    style: React.PropTypes.object,
     getSuggestionStyle: React.PropTypes.func,
   }
   constructor() {
@@ -110,11 +111,11 @@ export default class Suggestions extends React.Component {
     if (this.props.getSuggestionStyle) {
       return this.props.getSuggestionStyle(isActive, position);
     }
-
     return position ? {
       position: 'absolute',
       left: position.left,
       top: position.top,
+      ...this.props.style,
     } : {};
   }
   handleReturn = (ev) => {

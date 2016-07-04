@@ -20509,7 +20509,8 @@
 	    };
 	    _this.mention = (0, _createMention2.default)({
 	      prefix: props.prefix,
-	      tag: props.tag
+	      tag: props.tag,
+	      mode: props.mode
 	    });
 	    _this.Suggestions = _this.mention.Suggestions;
 	    _this.plugins = [_this.mention];
@@ -20531,6 +20532,7 @@
 	    var prefixCls = _props.prefixCls;
 	    var style = _props.style;
 	    var prefix = _props.prefix;
+	    var tag = _props.tag;
 	    var mode = _props.mode;
 	    var multiLines = _props.multiLines;
 	    var suggestionStyle = _props.suggestionStyle;
@@ -20554,7 +20556,7 @@
 	        onChange: this.onEditorChange
 	      }),
 	      _react2.default.createElement(Suggestions, {
-	        mode: mode,
+	        mode: tag ? 'immutable' : 'mutable',
 	        prefix: prefix,
 	        prefixCls: prefixCls,
 	        style: suggestionStyle,
@@ -38593,25 +38595,30 @@
 	  var suggestionRegex = new RegExp('(\\s|^)' + config.prefix + '[\\w]*', 'g');
 	
 	  var tag = config.tag || _MentionContent2.default;
+	  var decorators = [{
+	    strategy: function strategy(contentBlock, callback) {
+	      findWithRegex(suggestionRegex, contentBlock, callback);
+	    },
+	    component: function component(props) {
+	      return _react2.default.createElement(_SuggestionPortal2.default, _extends({}, props, componentProps));
+	    }
+	  }];
+	  if (config.mode !== 'immutable') {
+	    decorators.unshift({
+	      strategy: mentionContentStrategy,
+	      component: function component(props) {
+	        return _react2.default.createElement(MentionContentComponent, _extends({ tag: tag }, props));
+	      }
+	    });
+	  }
+	
 	  return {
 	    Suggestions: function Suggestions(props) {
 	      return _react2.default.createElement(_Suggestions3.default, _extends({}, props, componentProps, {
 	        store: _mentionStore2.default.getState()
 	      }));
 	    },
-	    decorators: [{
-	      strategy: mentionContentStrategy,
-	      component: function component(props) {
-	        return _react2.default.createElement(MentionContentComponent, _extends({ tag: tag }, props));
-	      }
-	    }, {
-	      strategy: function strategy(contentBlock, callback) {
-	        findWithRegex(suggestionRegex, contentBlock, callback);
-	      },
-	      component: function component(props) {
-	        return _react2.default.createElement(_SuggestionPortal2.default, _extends({}, props, componentProps));
-	      }
-	    }],
+	    decorators: decorators,
 	    onChange: function onChange(editorState) {
 	      return callbacks.onChange ? callbacks.onChange(editorState) : editorState;
 	    },

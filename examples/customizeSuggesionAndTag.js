@@ -101,6 +101,7 @@ webpackJsonp([1],{
 	      _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },
 	        onSearchChange: this.onSearchChange,
 	        notFoundContent: '',
+	        mode: 'mutable',
 	        suggestions: suggestions, tag: Tag
 	      })
 	    );

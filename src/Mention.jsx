@@ -30,6 +30,7 @@ class Mention extends React.Component {
     suggestionStyle: React.PropTypes.object,
     placeholder: React.PropTypes.string,
     defaultValue: React.PropTypes.string,
+    notFoundContent: React.PropTypes.any,
   }
   constructor(props) {
     super(props);
@@ -55,7 +56,7 @@ class Mention extends React.Component {
     }
   }
   render() {
-    const { prefixCls, style, prefix, mode, multiLines, suggestionStyle, placeholder, defaultValue, className} = this.props;
+    const { prefixCls, style, prefix, mode, multiLines, suggestionStyle, placeholder, defaultValue, className, notFoundContent} = this.props;
     const { suggestions } = this.state;
     const { Suggestions } = this;
     const editorClass = classnames(className, {
@@ -76,6 +77,7 @@ class Mention extends React.Component {
         prefix={prefix}
         prefixCls={prefixCls}
         style={suggestionStyle}
+        notFoundContent={notFoundContent}
         suggestions={suggestions}
         onSearchChange={this.props.onSearchChange}
       />
@@ -90,6 +92,7 @@ Mention.defaultProps = {
   multiLines: false,
   className: '',
   suggestionStyle: {},
+  notFoundContent: '无法找到'
 };
 
 export default Mention;

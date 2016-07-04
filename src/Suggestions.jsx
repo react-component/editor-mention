@@ -18,6 +18,7 @@ export default class Suggestions extends React.Component {
     prefixCls: React.PropTypes.string,
     mode: React.PropTypes.string,
     style: React.PropTypes.object,
+    notFoundContent: React.PropTypes.any,
     getSuggestionStyle: React.PropTypes.func,
   }
   constructor() {
@@ -161,7 +162,7 @@ export default class Suggestions extends React.Component {
     }
     const { prefixCls, suggestions } = this.props;
     const { focusedIndex, suggestionStyle } = this.state;
-    const navigations = React.Children.map(suggestions, (element, index) => {
+    const navigations = suggestions.length ? React.Children.map(suggestions, (element, index) => {
       const focusItem = index === focusedIndex;
       const ref = focusItem ? 'focusItem' : null;
       const mentionClass = cx(`${prefixCls}-dropdown-item`, {
@@ -178,7 +179,7 @@ export default class Suggestions extends React.Component {
         onClick={this.onMentionSelect.bind(this, element)}
       >{element}
       </Nav>);
-    }, this);
+    }, this) : <div className={`${prefixCls}-dropdown-notfound ${prefixCls}-dropdown-item`}>{this.props.notFoundContent}</div>
 
     return (<div
       style={suggestionStyle}

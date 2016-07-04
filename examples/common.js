@@ -20582,7 +20582,8 @@
 	  suggestionStyle: _react2.default.PropTypes.object,
 	  placeholder: _react2.default.PropTypes.string,
 	  defaultValue: _react2.default.PropTypes.string,
-	  notFoundContent: _react2.default.PropTypes.any
+	  notFoundContent: _react2.default.PropTypes.any,
+	  position: _react2.default.PropTypes.string
 	};
 	
 	
@@ -20593,7 +20594,8 @@
 	  multiLines: false,
 	  className: '',
 	  suggestionStyle: {},
-	  notFoundContent: '无法找到'
+	  notFoundContent: '无法找到',
+	  position: 'absolute'
 	};
 	
 	exports.default = Mention;
@@ -39742,13 +39744,19 @@
 	    var _props3 = this.props;
 	    var offsetKey = _props3.offsetKey;
 	    var mentionStore = _props3.mentionStore;
+	    var position = _props3.position;
 	
 	    var element = this.refs.searchPortal;
 	
 	    mentionStore.dispatch({
 	      type: _actions.UPDATE_SUGGESTION,
 	      offsetKey: offsetKey,
-	      position: element.getBoundingClientRect()
+	      position: {
+	        left: element.offsetLeft,
+	        top: element.offsetTop,
+	        width: element.offsetWidth,
+	        height: element.offsetHeight
+	      }
 	    });
 	  };
 	

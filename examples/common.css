@@ -1,4 +1,5 @@
 .rc-editor-mention-wrapper {
+  position: relative;
   cursor: text;
   line-height: 26px;
   font-size: 12px;

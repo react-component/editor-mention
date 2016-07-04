@@ -23,13 +23,19 @@ export default class SuggestionPortal extends React.Component {
     mentionStore.dispatch({ type: INACTIVE_SUGGESTION, offsetKey });
   }
   updatePortalPosition() {
-    const { offsetKey, mentionStore } = this.props;
+    const { offsetKey, mentionStore, position } = this.props;
     const element = this.refs.searchPortal;
+
 
     mentionStore.dispatch({
       type: UPDATE_SUGGESTION,
       offsetKey,
-      position: element.getBoundingClientRect(),
+      position: {
+        left: element.offsetLeft,
+        top: element.offsetTop,
+        width: element.offsetWidth,
+        height: element.offsetHeight
+      },
     });
   }
   render() {

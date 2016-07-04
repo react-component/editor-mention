@@ -31,6 +31,7 @@ class Mention extends React.Component {
     placeholder: React.PropTypes.string,
     defaultValue: React.PropTypes.string,
     notFoundContent: React.PropTypes.any,
+    position: React.PropTypes.string,
   }
   constructor(props) {
     super(props);
@@ -92,7 +93,8 @@ Mention.defaultProps = {
   multiLines: false,
   className: '',
   suggestionStyle: {},
-  notFoundContent: '无法找到'
+  notFoundContent: '无法找到',
+  position: 'absolute',
 };
 
 export default Mention;

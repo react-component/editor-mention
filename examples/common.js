@@ -20546,7 +20546,7 @@
 	    var editorClass = (0, _classnames3.default)(className, (_classnames = {}, _defineProperty(_classnames, prefixCls + '-wrapper', true), _defineProperty(_classnames, 'multilines', multiLines), _classnames));
 	    return _react2.default.createElement(
 	      'div',
-	      { className: editorClass, style: style },
+	      { className: editorClass, style: style, ref: 'wrapper' },
 	      _react2.default.createElement(
 	        _rcEditorCore.EditorCore,
 	        {
@@ -20929,7 +20929,7 @@
 	            React.createElement(Toolbar, { editorState: editorState, prefixCls: prefixCls, className: prefixCls + '-toolbar', plugins: toolbarPlugins, toolbars: toolbars }),
 	            React.createElement(
 	                'div',
-	                { className: prefixCls + '-editor-wrapper' },
+	                { className: prefixCls + '-editor-wrapper', style: style },
 	                React.createElement(_draftJs.Editor, _extends({}, eventHandler, this.props, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) })),
 	                this.props.children
 	            )
@@ -38824,7 +38824,7 @@
 	    if (this.props.getSuggestionStyle) {
 	      return this.props.getSuggestionStyle(isActive, position);
 	    }
-	    console.log('>> getPositionStyle', _reactDom2.default.findDOMNode(this) && _reactDom2.default.findDOMNode(this).parentNode.scrollTop);
+	    console.log('>> getPositionStyle', _reactDom2.default.findDOMNode(this) && _reactDom2.default.findDOMNode(this).parentNode);
 	    return position ? _extends({
 	      position: 'absolute',
 	      left: position.left,

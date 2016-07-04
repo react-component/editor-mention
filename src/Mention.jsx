@@ -65,24 +65,26 @@ class Mention extends React.Component {
       [`${prefixCls}-wrapper`]: true,
       multilines: multiLines,
     });
-    return (<div className={editorClass} style={style} >
+    return (<div className={editorClass} style={style}>
       <EditorCore
         prefixCls={prefixCls}
+        style={style}
         multiLines={multiLines}
         plugins={this.plugins}
         defaultValue={defaultValue}
         placeholder={placeholder}
         onChange={this.onEditorChange}
-      />
-      <Suggestions
-        mode={tag ? 'immutable': 'mutable'}
-        prefix={prefix}
-        prefixCls={prefixCls}
-        style={suggestionStyle}
-        notFoundContent={notFoundContent}
-        suggestions={suggestions}
-        onSearchChange={this.props.onSearchChange}
-      />
+      >
+        <Suggestions
+          mode={tag ? 'immutable': 'mutable'}
+          prefix={prefix}
+          prefixCls={prefixCls}
+          style={suggestionStyle}
+          notFoundContent={notFoundContent}
+          suggestions={suggestions}
+          onSearchChange={this.props.onSearchChange}
+        />
+      </EditorCore>
     </div>);
   }
 }

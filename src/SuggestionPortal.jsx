@@ -25,8 +25,6 @@ export default class SuggestionPortal extends React.Component {
   updatePortalPosition() {
     const { offsetKey, mentionStore, position } = this.props;
     const element = this.refs.searchPortal;
-
-
     mentionStore.dispatch({
       type: UPDATE_SUGGESTION,
       offsetKey,

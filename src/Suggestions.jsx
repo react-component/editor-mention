@@ -41,6 +41,7 @@ export default class Suggestions extends React.Component {
   componentDidUpdate() {
     const focusItem = ReactDOM.findDOMNode(this.refs.focusItem);
     const container = this.refs.dropdownContainer;
+    console.log('>> componentDidUpdate', container && container.scrollTop);
     if (!focusItem) {
       return;
     }
@@ -112,10 +113,11 @@ export default class Suggestions extends React.Component {
     if (this.props.getSuggestionStyle) {
       return this.props.getSuggestionStyle(isActive, position);
     }
+    console.log('>> getPositionStyle', ReactDOM.findDOMNode(this) && ReactDOM.findDOMNode(this).parentNode.scrollTop);
     return position ? {
       position: 'absolute',
       left: position.left,
-      top: position.top,
+      top: position.top - (ReactDOM.findDOMNode(this) ? ReactDOM.findDOMNode(this).parentNode.scrollTop : 0),
       ...this.props.style,
     } : {};
   }
@@ -158,7 +160,7 @@ export default class Suggestions extends React.Component {
   }
   render() {
     if (!this.state.active) {
-      return null;
+      return <span />;
     }
     const { prefixCls, suggestions } = this.props;
     const { focusedIndex, suggestionStyle } = this.state;

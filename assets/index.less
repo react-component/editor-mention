@@ -2,7 +2,6 @@
 
 .@{mentionPrefixCls} {
   &-wrapper {
-    position: relative;
     cursor: text;
     line-height: 26px;
     font-size: 12px;
@@ -12,11 +11,13 @@
     &.multilines {
       height: auto;
 
-      .@{mentionPrefixCls}-editor {
-        min-height: 110px;
-      }
+    }
+
+    .DraftEditor-root {
+      position: relative;
     }
   }
+
   &-editor {
     width: 100%;
     outline: 0;
@@ -28,6 +29,9 @@
     border: 0;
     border-radius: 5px;
     padding: 0;
+    &-wrapper {
+      overflow-y: auto;
+    }
   }
   &-dropdown {
     position: absolute;

@@ -170,12 +170,12 @@ export default class Suggestions extends React.Component {
       if (React.isValidElement(element)) {
         return React.cloneElement(element, {
           className: mentionClass,
-          onClick: this.onMentionSelect.bind(this, element.props.value),
+          onMouseDown: this.onMentionSelect.bind(this, element.props.value),
           ref,
         });
       }
       return (<Nav ref={ref} className={mentionClass}
-        onClick={this.onMentionSelect.bind(this, element)}
+        onMouseDown={this.onMentionSelect.bind(this, element)}
       >{element}
       </Nav>);
     }, this) : <div className={`${prefixCls}-dropdown-notfound ${prefixCls}-dropdown-item`}>{this.props.notFoundContent}</div>

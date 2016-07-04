@@ -12,7 +12,7 @@ class MentionGenerator {
     const { blocks } = contentRaw;
     return blocks.map(block => {
       return block.text;
-    }).join('');
+    }).join('\n');
   }
 }
 

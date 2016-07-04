@@ -38,7 +38,7 @@ webpackJsonp([1],{
 	
 	  return _react2.default.createElement(
 	    'span',
-	    null,
+	    { contentEditable: false },
 	    _react2.default.createElement('img', { src: data.avatar_url, className: 'tag-avatar' }),
 	    props.children
 	  );

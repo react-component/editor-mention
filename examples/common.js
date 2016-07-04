@@ -38600,16 +38600,16 @@
 	      }));
 	    },
 	    decorators: [{
+	      strategy: mentionContentStrategy,
+	      component: function component(props) {
+	        return _react2.default.createElement(MentionContentComponent, _extends({ tag: tag }, props));
+	      }
+	    }, {
 	      strategy: function strategy(contentBlock, callback) {
 	        findWithRegex(suggestionRegex, contentBlock, callback);
 	      },
 	      component: function component(props) {
 	        return _react2.default.createElement(_SuggestionPortal2.default, _extends({}, props, componentProps));
-	      }
-	    }, {
-	      strategy: mentionContentStrategy,
-	      component: function component(props) {
-	        return _react2.default.createElement(MentionContentComponent, _extends({ tag: tag }, props));
 	      }
 	    }],
 	    onChange: function onChange(editorState) {

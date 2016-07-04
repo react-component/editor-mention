@@ -20504,6 +20504,18 @@
 	      }
 	    };
 	
+	    _this.onFocus = function () {
+	      if (_this.props.onFocus) {
+	        _this.props.onFocus();
+	      }
+	    };
+	
+	    _this.onBlur = function () {
+	      if (_this.props.onBlur) {
+	        _this.props.onBlur();
+	      }
+	    };
+	
 	    _this.state = {
 	      suggestions: props.suggestions
 	    };
@@ -20556,6 +20568,8 @@
 	          plugins: this.plugins,
 	          defaultValue: defaultValue,
 	          placeholder: placeholder,
+	          onFocus: this.onFocus,
+	          onBlur: this.onBlur,
 	          onChange: this.onEditorChange
 	        },
 	        _react2.default.createElement(Suggestions, {
@@ -20589,7 +20603,9 @@
 	  placeholder: _react2.default.PropTypes.string,
 	  defaultValue: _react2.default.PropTypes.string,
 	  notFoundContent: _react2.default.PropTypes.any,
-	  position: _react2.default.PropTypes.string
+	  position: _react2.default.PropTypes.string,
+	  onFocus: _react2.default.PropTypes.func,
+	  onBlur: _react2.default.PropTypes.func
 	};
 	
 	
@@ -20916,6 +20932,8 @@
 	        var prefixCls = _props.prefixCls;
 	        var toolbars = _props.toolbars;
 	        var style = _props.style;
+	        var onFocus = _props.onFocus;
+	        var onBlur = _props.onBlur;
 	        var _state = this.state;
 	        var editorState = _state.editorState;
 	        var toolbarPlugins = _state.toolbarPlugins;
@@ -20930,7 +20948,7 @@
 	            React.createElement(
 	                'div',
 	                { className: prefixCls + '-editor-wrapper', style: style },
-	                React.createElement(_draftJs.Editor, _extends({}, eventHandler, this.props, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) })),
+	                React.createElement(_draftJs.Editor, _extends({}, eventHandler, this.props, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this), onFocus: onFocus, onBlur: onBlur })),
 	                this.props.children
 	            )
 	        );
@@ -38779,7 +38797,6 @@
 	    };
 	
 	    _this.handleKeyBinding = function (command) {
-	      console.log('>> handleKeyBinding', command);
 	      return command === 'split-block';
 	    };
 	
@@ -38805,7 +38822,6 @@
 	  Suggestions.prototype.componentDidUpdate = function componentDidUpdate() {
 	    var focusItem = _reactDom2.default.findDOMNode(this.refs.focusItem);
 	    var container = this.refs.dropdownContainer;
-	    console.log('>> componentDidUpdate', container && container.scrollTop);
 	    if (!focusItem) {
 	      return;
 	    }
@@ -38824,7 +38840,6 @@
 	    if (this.props.getSuggestionStyle) {
 	      return this.props.getSuggestionStyle(isActive, position);
 	    }
-	    console.log('>> getPositionStyle', _reactDom2.default.findDOMNode(this) && _reactDom2.default.findDOMNode(this).parentNode);
 	    return position ? _extends({
 	      position: 'absolute',
 	      left: position.left,

@@ -20547,23 +20547,27 @@
 	    return _react2.default.createElement(
 	      'div',
 	      { className: editorClass, style: style },
-	      _react2.default.createElement(_rcEditorCore.EditorCore, {
-	        prefixCls: prefixCls,
-	        multiLines: multiLines,
-	        plugins: this.plugins,
-	        defaultValue: defaultValue,
-	        placeholder: placeholder,
-	        onChange: this.onEditorChange
-	      }),
-	      _react2.default.createElement(Suggestions, {
-	        mode: tag ? 'immutable' : 'mutable',
-	        prefix: prefix,
-	        prefixCls: prefixCls,
-	        style: suggestionStyle,
-	        notFoundContent: notFoundContent,
-	        suggestions: suggestions,
-	        onSearchChange: this.props.onSearchChange
-	      })
+	      _react2.default.createElement(
+	        _rcEditorCore.EditorCore,
+	        {
+	          prefixCls: prefixCls,
+	          style: style,
+	          multiLines: multiLines,
+	          plugins: this.plugins,
+	          defaultValue: defaultValue,
+	          placeholder: placeholder,
+	          onChange: this.onEditorChange
+	        },
+	        _react2.default.createElement(Suggestions, {
+	          mode: tag ? 'immutable' : 'mutable',
+	          prefix: prefix,
+	          prefixCls: prefixCls,
+	          style: suggestionStyle,
+	          notFoundContent: notFoundContent,
+	          suggestions: suggestions,
+	          onSearchChange: this.props.onSearchChange
+	        })
+	      )
 	    );
 	  };
 	
@@ -20724,7 +20728,7 @@
 	    EditorCore.prototype.SetText = function SetText(text) {
 	        var createTextContentState = _draftJs.ContentState.createFromText(text || '');
 	        var editorState = _draftJs.EditorState.push(this.state.editorState, createTextContentState, 'editor-setText');
-	        this.setEditorState(_draftJs.EditorState.forceSelection(editorState, createTextContentState.getSelectionAfter()), true);
+	        this.setEditorState(_draftJs.EditorState.moveFocusToEnd(editorState), true);
 	    };
 	
 	    EditorCore.prototype.reloadPlugins = function reloadPlugins() {
@@ -20921,12 +20925,13 @@
 	        var Toolbar = toolbar.component;
 	        return React.createElement(
 	            'div',
-	            { className: prefixCls + '-editor', onClick: this.focus.bind(this) },
+	            { style: style, className: prefixCls + '-editor', onClick: this.focus.bind(this) },
 	            React.createElement(Toolbar, { editorState: editorState, prefixCls: prefixCls, className: prefixCls + '-toolbar', plugins: toolbarPlugins, toolbars: toolbars }),
 	            React.createElement(
 	                'div',
-	                { className: prefixCls + '-editor-wrapper', style: style },
-	                React.createElement(_draftJs.Editor, _extends({}, eventHandler, this.props, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) }))
+	                { className: prefixCls + '-editor-wrapper' },
+	                React.createElement(_draftJs.Editor, _extends({}, eventHandler, this.props, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) })),
+	                this.props.children
 	            )
 	        );
 	    };
@@ -38800,6 +38805,7 @@
 	  Suggestions.prototype.componentDidUpdate = function componentDidUpdate() {
 	    var focusItem = _reactDom2.default.findDOMNode(this.refs.focusItem);
 	    var container = this.refs.dropdownContainer;
+	    console.log('>> componentDidUpdate', container && container.scrollTop);
 	    if (!focusItem) {
 	      return;
 	    }
@@ -38818,10 +38824,11 @@
 	    if (this.props.getSuggestionStyle) {
 	      return this.props.getSuggestionStyle(isActive, position);
 	    }
+	    console.log('>> getPositionStyle', _reactDom2.default.findDOMNode(this) && _reactDom2.default.findDOMNode(this).parentNode.scrollTop);
 	    return position ? _extends({
 	      position: 'absolute',
 	      left: position.left,
-	      top: position.top
+	      top: position.top - (_reactDom2.default.findDOMNode(this) ? _reactDom2.default.findDOMNode(this).parentNode.scrollTop : 0)
 	    }, this.props.style) : {};
 	  };
 	
@@ -38851,7 +38858,7 @@
 	    var _this2 = this;
 	
 	    if (!this.state.active) {
-	      return null;
+	      return _react2.default.createElement('span', null);
 	    }
 	    var _props = this.props;
 	    var prefixCls = _props.prefixCls;
@@ -39754,7 +39761,6 @@
 	    var position = _props3.position;
 	
 	    var element = this.refs.searchPortal;
-	
 	    mentionStore.dispatch({
 	      type: _actions.UPDATE_SUGGESTION,
 	      offsetKey: offsetKey,

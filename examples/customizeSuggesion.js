@@ -79,11 +79,12 @@ webpackJsonp([0],[
 	
 	    return _react2.default.createElement(
 	      'div',
-	      null,
+	      { style: { position: 'relative', left: 150 } },
 	      _react2.default.createElement(_rcEditorMention2.default, {
-	        style: { width: 300 },
+	        style: { width: 300, height: 200 },
 	        onSearchChange: this.onSearchChange,
-	        suggestions: suggestions
+	        suggestions: suggestions,
+	        multiLines: true
 	      })
 	    );
 	  }

@@ -55,22 +55,24 @@ export default function createMention(config = {}) {
   const suggestionRegex = new RegExp(`(\\s|^)${config.prefix}[\\w]*`, 'g');
 
   const tag = config.tag || MentionContent;
+  const decorators = [{
+    strategy: (contentBlock, callback) => {
+      findWithRegex(suggestionRegex, contentBlock, callback);
+    },
+    component: (props) => <SuggestionPortal {...props} {...componentProps} />
+  }];
+  if (config.mode !== 'immutable') {
+    decorators.unshift({
+      strategy: mentionContentStrategy,
+      component: (props) => <MentionContentComponent tag={tag} {...props} />,
+    });
+  }
+
   return {
     Suggestions: (props) => <Suggestions {...props} {...componentProps}
       store={mentionStore.getState()}
     />,
-    decorators: [
-      {
-        strategy: mentionContentStrategy,
-        component: (props) => <MentionContentComponent tag={tag} {...props} />,
-      },
-      {
-        strategy: (contentBlock, callback) => {
-          findWithRegex(suggestionRegex, contentBlock, callback);
-        },
-        component: (props) => <SuggestionPortal {...props} {...componentProps} />,
-      },
-    ],
+    decorators,
     onChange: (editorState) => {
       return callbacks.onChange ? callbacks.onChange(editorState) : editorState;
     },

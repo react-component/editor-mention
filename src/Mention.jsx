@@ -41,6 +41,7 @@ class Mention extends React.Component {
     this.mention = createMention({
       prefix: props.prefix,
       tag: props.tag,
+      mode: props.mode,
     });
     this.Suggestions = this.mention.Suggestions;
     this.plugins = [this.mention];
@@ -57,7 +58,7 @@ class Mention extends React.Component {
     }
   }
   render() {
-    const { prefixCls, style, prefix, mode, multiLines, suggestionStyle, placeholder, defaultValue, className, notFoundContent} = this.props;
+    const { prefixCls, style, prefix, tag, mode, multiLines, suggestionStyle, placeholder, defaultValue, className, notFoundContent} = this.props;
     const { suggestions } = this.state;
     const { Suggestions } = this;
     const editorClass = classnames(className, {
@@ -74,7 +75,7 @@ class Mention extends React.Component {
         onChange={this.onEditorChange}
       />
       <Suggestions
-        mode={mode}
+        mode={tag ? 'immutable': 'mutable'}
         prefix={prefix}
         prefixCls={prefixCls}
         style={suggestionStyle}

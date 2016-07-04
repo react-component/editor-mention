@@ -49,6 +49,7 @@ const MentionEditor = React.createClass({
       <Mention style={{ width: 300 }}
         onSearchChange={this.onSearchChange}
         notFoundContent=""
+        mode="mutable"
         suggestions={suggestions} tag={Tag}
       />
     </div>);

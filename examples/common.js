@@ -20537,6 +20537,7 @@
 	    var placeholder = _props.placeholder;
 	    var defaultValue = _props.defaultValue;
 	    var className = _props.className;
+	    var notFoundContent = _props.notFoundContent;
 	    var suggestions = this.state.suggestions;
 	    var Suggestions = this.Suggestions;
 	
@@ -20557,6 +20558,7 @@
 	        prefix: prefix,
 	        prefixCls: prefixCls,
 	        style: suggestionStyle,
+	        notFoundContent: notFoundContent,
 	        suggestions: suggestions,
 	        onSearchChange: this.props.onSearchChange
 	      })
@@ -20579,7 +20581,8 @@
 	  multiLines: _react2.default.PropTypes.bool,
 	  suggestionStyle: _react2.default.PropTypes.object,
 	  placeholder: _react2.default.PropTypes.string,
-	  defaultValue: _react2.default.PropTypes.string
+	  defaultValue: _react2.default.PropTypes.string,
+	  notFoundContent: _react2.default.PropTypes.any
 	};
 	
 	
@@ -20589,7 +20592,8 @@
 	  mode: 'immutable',
 	  multiLines: false,
 	  className: '',
-	  suggestionStyle: {}
+	  suggestionStyle: {},
+	  notFoundContent: '无法找到'
 	};
 	
 	exports.default = Mention;
@@ -38847,7 +38851,7 @@
 	    var focusedIndex = _state.focusedIndex;
 	    var suggestionStyle = _state.suggestionStyle;
 	
-	    var navigations = _react2.default.Children.map(suggestions, function (element, index) {
+	    var navigations = suggestions.length ? _react2.default.Children.map(suggestions, function (element, index) {
 	      var focusItem = index === focusedIndex;
 	      var ref = focusItem ? 'focusItem' : null;
 	      var mentionClass = (0, _classnames2.default)(prefixCls + '-dropdown-item', {
@@ -38867,7 +38871,11 @@
 	        },
 	        element
 	      );
-	    }, this);
+	    }, this) : _react2.default.createElement(
+	      'div',
+	      { className: prefixCls + '-dropdown-notfound ' + prefixCls + '-dropdown-item' },
+	      this.props.notFoundContent
+	    );
 	
 	    return _react2.default.createElement(
 	      'div',
@@ -38892,6 +38900,7 @@
 	  prefixCls: _react2.default.PropTypes.string,
 	  mode: _react2.default.PropTypes.string,
 	  style: _react2.default.PropTypes.object,
+	  notFoundContent: _react2.default.PropTypes.any,
 	  getSuggestionStyle: _react2.default.PropTypes.func
 	};
 	exports.default = Suggestions;

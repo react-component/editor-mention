@@ -100,6 +100,7 @@ webpackJsonp([1],{
 	      null,
 	      _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },
 	        onSearchChange: this.onSearchChange,
+	        notFoundContent: '木有找到!',
 	        suggestions: suggestions, tag: Tag
 	      })
 	    );

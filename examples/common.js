@@ -38891,14 +38891,14 @@
 	      if (_react2.default.isValidElement(element)) {
 	        return _react2.default.cloneElement(element, {
 	          className: mentionClass,
-	          onClick: _this2.onMentionSelect.bind(_this2, element.props.value),
+	          onMouseDown: _this2.onMentionSelect.bind(_this2, element.props.value),
 	          ref: ref
 	        });
 	      }
 	      return _react2.default.createElement(
 	        _Nav2.default,
 	        { ref: ref, className: mentionClass,
-	          onClick: _this2.onMentionSelect.bind(_this2, element)
+	          onMouseDown: _this2.onMentionSelect.bind(_this2, element)
 	        },
 	        element
 	      );

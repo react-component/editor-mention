@@ -40793,7 +40793,7 @@
 	
 	    return blocks.map(function (block) {
 	      return block.text;
-	    }).join('');
+	    }).join('\n');
 	  };
 	
 	  return MentionGenerator;

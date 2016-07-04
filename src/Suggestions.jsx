@@ -41,7 +41,6 @@ export default class Suggestions extends React.Component {
   componentDidUpdate() {
     const focusItem = ReactDOM.findDOMNode(this.refs.focusItem);
     const container = this.refs.dropdownContainer;
-    console.log('>> componentDidUpdate', container && container.scrollTop);
     if (!focusItem) {
       return;
     }
@@ -113,7 +112,6 @@ export default class Suggestions extends React.Component {
     if (this.props.getSuggestionStyle) {
       return this.props.getSuggestionStyle(isActive, position);
     }
-    console.log('>> getPositionStyle', ReactDOM.findDOMNode(this) && ReactDOM.findDOMNode(this).parentNode.scrollTop);
     return position ? {
       position: 'absolute',
       left: position.left,
@@ -135,7 +133,6 @@ export default class Suggestions extends React.Component {
     return false;
   }
   handleKeyBinding = (command) => {
-    console.log('>> handleKeyBinding', command);
     return command === 'split-block';
   }
   openDropDown(dropDownPosition) {

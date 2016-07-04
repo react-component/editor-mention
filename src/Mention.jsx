@@ -32,6 +32,8 @@ class Mention extends React.Component {
     defaultValue: React.PropTypes.string,
     notFoundContent: React.PropTypes.any,
     position: React.PropTypes.string,
+    onFocus: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
   }
   constructor(props) {
     super(props);
@@ -57,6 +59,16 @@ class Mention extends React.Component {
       this.props.onChange(editorState, exportContent(editorState));
     }
   }
+  onFocus = () => {
+    if (this.props.onFocus) {
+      this.props.onFocus();
+    }
+  }
+  onBlur = () => {
+    if (this.props.onBlur) {
+      this.props.onBlur();
+    }
+  }
   render() {
     const { prefixCls, style, prefix, tag, mode, multiLines, suggestionStyle, placeholder, defaultValue, className, notFoundContent} = this.props;
     const { suggestions } = this.state;
@@ -65,7 +77,7 @@ class Mention extends React.Component {
       [`${prefixCls}-wrapper`]: true,
       multilines: multiLines,
     });
-    return (<div className={editorClass} style={style}>
+    return (<div className={editorClass} style={style} ref="wrapper">
       <EditorCore
         prefixCls={prefixCls}
         style={style}
@@ -73,6 +85,8 @@ class Mention extends React.Component {
         plugins={this.plugins}
         defaultValue={defaultValue}
         placeholder={placeholder}
+        onFocus={this.onFocus}
+        onBlur={this.onBlur}
         onChange={this.onEditorChange}
       >
         <Suggestions

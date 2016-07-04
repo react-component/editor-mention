@@ -61,14 +61,14 @@ export default function createMention(config = {}) {
     />,
     decorators: [
       {
+        strategy: mentionContentStrategy,
+        component: (props) => <MentionContentComponent tag={tag} {...props} />,
+      },
+      {
         strategy: (contentBlock, callback) => {
           findWithRegex(suggestionRegex, contentBlock, callback);
         },
         component: (props) => <SuggestionPortal {...props} {...componentProps} />,
-      },
-      {
-        strategy: mentionContentStrategy,
-        component: (props) => <MentionContentComponent tag={tag} {...props} />,
       },
     ],
     onChange: (editorState) => {

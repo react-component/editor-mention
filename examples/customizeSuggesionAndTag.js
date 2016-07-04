@@ -8,7 +8,7 @@ const Nav = Mention.Nav;
 
 const Tag = (props) => {
   const { data } = props;
-  return <span><img src={data.avatar_url} className="tag-avatar"/>{props.children}</span>;
+  return <span contentEditable={false}><img src={data.avatar_url} className="tag-avatar"/>{props.children}</span>;
 };
 
 Tag.propTypes = {

@@ -22,13 +22,19 @@ const MentionEditor = React.createClass({
       suggestions: filtered,
     });
   },
+  reset() {
+    this.refs.mention.reset();
+  },
   render() {
     const { suggestions } = this.state;
-    return (<Mention style={{ width: 300 }}
+    return (<div>
+      <button onClick={this.reset}> reset </button>
+      <Mention style={{ width: 300 }}
+             ref="mention"
              onSearchChange={this.onSearchChange}
              defaultValue="hello @afc163 "
              suggestions={suggestions} prefix="@"
-    />);
+    /></div>);
   },
 });
 

@@ -69,6 +69,9 @@ class Mention extends React.Component {
       this.props.onBlur();
     }
   }
+  reset = () => {
+    this.refs.editor.Reset();
+  }
   render() {
     const { prefixCls, style, prefix, tag, mode, multiLines, suggestionStyle, placeholder, defaultValue, className, notFoundContent} = this.props;
     const { suggestions } = this.state;
@@ -79,6 +82,7 @@ class Mention extends React.Component {
     });
     return (<div className={editorClass} style={style} ref="wrapper">
       <EditorCore
+        ref="editor"
         prefixCls={prefixCls}
         style={style}
         multiLines={multiLines}

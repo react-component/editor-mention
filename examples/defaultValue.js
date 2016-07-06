@@ -49,14 +49,27 @@ webpackJsonp([2],{
 	      suggestions: filtered
 	    });
 	  },
+	  reset: function reset() {
+	    this.refs.mention.reset();
+	  },
 	  render: function render() {
 	    var suggestions = this.state.suggestions;
 	
-	    return _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },
-	      onSearchChange: this.onSearchChange,
-	      defaultValue: 'hello @afc163 ',
-	      suggestions: suggestions, prefix: '@'
-	    });
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'button',
+	        { onClick: this.reset },
+	        ' reset '
+	      ),
+	      _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },
+	        ref: 'mention',
+	        onSearchChange: this.onSearchChange,
+	        defaultValue: 'hello @afc163 ',
+	        suggestions: suggestions, prefix: '@'
+	      })
+	    );
 	  }
 	});
 	

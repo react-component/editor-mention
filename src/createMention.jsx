@@ -69,6 +69,7 @@ export default function createMention(config = {}) {
   }
 
   return {
+    name: 'mention',
     Suggestions: (props) => <Suggestions {...props} {...componentProps}
       store={mentionStore.getState()}
     />,

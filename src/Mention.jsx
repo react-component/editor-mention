@@ -17,6 +17,7 @@ console.error = (function() {
 
 class Mention extends React.Component {
   static propTypes = {
+    value: React.PropTypes.object,
     suggestions: React.PropTypes.array,
     prefix: React.PropTypes.string,
     prefixCls: React.PropTypes.string,
@@ -35,10 +36,12 @@ class Mention extends React.Component {
     onFocus: React.PropTypes.func,
     onBlur: React.PropTypes.func,
   }
+  static controlledMode = false;
   constructor(props) {
     super(props);
     this.state = {
       suggestions: props.suggestions,
+      value: props.value,
     };
     this.mention = createMention({
       prefix: props.prefix,
@@ -47,11 +50,15 @@ class Mention extends React.Component {
     });
     this.Suggestions = this.mention.Suggestions;
     this.plugins = [this.mention];
+    if (props.value !== undefined) {
+      this.controlledMode = true;
+    }
   }
   componentWillReceiveProps(nextProps) {
-    const { suggestions } = nextProps;
+    const { suggestions, value } = nextProps;
     this.setState({
       suggestions,
+      value,
     });
   }
   onEditorChange = (editorState) => {
@@ -80,6 +87,8 @@ class Mention extends React.Component {
       [`${prefixCls}-wrapper`]: true,
       multilines: multiLines,
     });
+    const editorCoreProps = this.controlledMode ? { value : this.state.value }: {};
+    
     return (<div className={editorClass} style={style} ref="wrapper">
       <EditorCore
         ref="editor"
@@ -92,6 +101,7 @@ class Mention extends React.Component {
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         onChange={this.onEditorChange}
+        {...editorCoreProps}
       >
         <Suggestions
           mode={tag ? 'immutable': 'mutable'}

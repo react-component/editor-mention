@@ -34,7 +34,7 @@
     "lint": "rc-tools run lint",
     "karma": "rc-tools run karma",
     "saucelabs": "rc-tools run saucelabs",
-    "test": "rc-tools run test",
+    "test": "rc-tools run chrome-test",
     "chrome-test": "rc-tools run chrome-test",
     "coverage": "rc-tools run coverage"
   },

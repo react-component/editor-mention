@@ -3,7 +3,7 @@
 import 'rc-editor-mention/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Mention from 'rc-editor-mention';
+import Mention, { toEditorState } from 'rc-editor-mention';
 
 const originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
 
@@ -32,7 +32,7 @@ const MentionEditor = React.createClass({
       <Mention style={{ width: 300 }}
              ref="mention"
              onSearchChange={this.onSearchChange}
-             defaultValue="hello @afc163 "
+             defaultValue={toEditorState('hello @afc163 ')}
              suggestions={suggestions} prefix="@"
     /></div>);
   },

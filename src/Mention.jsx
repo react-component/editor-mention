@@ -1,5 +1,5 @@
 import React from 'react';
-import { EditorCore } from 'rc-editor-core';
+import { EditorCore, toEditorState } from 'rc-editor-core';
 import createMention from './createMention';
 import exportContent from './exportContent';
 import classnames from 'classnames';
@@ -30,7 +30,7 @@ class Mention extends React.Component {
     multiLines: React.PropTypes.bool,
     suggestionStyle: React.PropTypes.object,
     placeholder: React.PropTypes.string,
-    defaultValue: React.PropTypes.string,
+    defaultValue: React.PropTypes.object,
     notFoundContent: React.PropTypes.any,
     position: React.PropTypes.string,
     onFocus: React.PropTypes.func,
@@ -50,6 +50,10 @@ class Mention extends React.Component {
     });
     this.Suggestions = this.mention.Suggestions;
     this.plugins = [this.mention];
+    
+    if (typeof props.defaultValue === 'string') {
+      console.warn('The property `defaultValue` now allow `EditorState` only, see http://react-component.github.io/editor-mention/examples/defaultValue.html ');
+    }
     if (props.value !== undefined) {
       this.controlledMode = true;
     }
@@ -88,7 +92,7 @@ class Mention extends React.Component {
       multilines: multiLines,
     });
     const editorCoreProps = this.controlledMode ? { value : this.state.value }: {};
-    
+    const defaultValueState = typeof defaultValue === 'string' ? toEditorState(defaultValue) : defaultValue;
     return (<div className={editorClass} style={style} ref="wrapper">
       <EditorCore
         ref="editor"
@@ -96,7 +100,7 @@ class Mention extends React.Component {
         style={style}
         multiLines={multiLines}
         plugins={this.plugins}
-        defaultValue={defaultValue}
+        defaultValue={defaultValueState}
         placeholder={placeholder}
         onFocus={this.onFocus}
         onBlur={this.onBlur}

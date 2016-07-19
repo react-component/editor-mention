@@ -21160,11 +21160,15 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.Nav = undefined;
+	exports.toString = exports.Nav = undefined;
 	
 	var _Mention = __webpack_require__(176);
 	
 	var _Mention2 = _interopRequireDefault(_Mention);
+	
+	var _exportContent = __webpack_require__(335);
+	
+	var _exportContent2 = _interopRequireDefault(_exportContent);
 	
 	var _Nav = __webpack_require__(313);
 	
@@ -21172,10 +21176,11 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// export this package's api
+	_Mention2.default.Nav = _Nav2.default; // export this package's api
 	
-	_Mention2.default.Nav = _Nav2.default;
+	_Mention2.default.toString = _exportContent2.default;
 	exports.Nav = _Nav2.default;
+	exports.toString = _exportContent2.default;
 	exports.default = _Mention2.default;
 
 /***/ },

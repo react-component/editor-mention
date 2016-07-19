@@ -56,8 +56,8 @@ webpackJsonp([6],{
 	      suggestions: filtered
 	    });
 	  },
-	  onChange: function onChange(editorState, value) {
-	    console.log('>> mentionChange', value);
+	  onChange: function onChange(editorState) {
+	    console.log('>> mentionChange', (0, _rcEditorMention.toString)(editorState));
 	  },
 	  render: function render() {
 	    var suggestions = this.state.suggestions;

@@ -3,7 +3,7 @@
 import 'rc-editor-mention/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Mention from 'rc-editor-mention';
+import Mention, { toString } from 'rc-editor-mention';
 
 const originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
 
@@ -28,8 +28,8 @@ const MentionEditor = React.createClass({
       suggestions: filtered,
     });
   },
-  onChange(editorState, value) {
-    console.log('>> mentionChange', value);
+  onChange(editorState) {
+    console.log('>> mentionChange', toString(editorState));
   },
   render() {
     const { suggestions } = this.state;

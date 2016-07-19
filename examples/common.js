@@ -21160,7 +21160,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.toString = exports.Nav = undefined;
+	exports.toEditorState = exports.toString = exports.Nav = undefined;
 	
 	var _Mention = __webpack_require__(176);
 	
@@ -21174,13 +21174,18 @@
 	
 	var _Nav2 = _interopRequireDefault(_Nav);
 	
+	var _rcEditorCore = __webpack_require__(177);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	_Mention2.default.Nav = _Nav2.default; // export this package's api
+	// export this package's api
 	
+	_Mention2.default.Nav = _Nav2.default;
 	_Mention2.default.toString = _exportContent2.default;
+	_Mention2.default.toEditorState = _rcEditorCore.toEditorState;
 	exports.Nav = _Nav2.default;
 	exports.toString = _exportContent2.default;
+	exports.toEditorState = _rcEditorCore.toEditorState;
 	exports.default = _Mention2.default;
 
 /***/ },
@@ -21277,6 +21282,10 @@
 	    });
 	    _this.Suggestions = _this.mention.Suggestions;
 	    _this.plugins = [_this.mention];
+	
+	    if (typeof props.defaultValue === 'string') {
+	      console.warn('The property `defaultValue` now allow `EditorState` only, see http://react-component.github.io/editor-mention/examples/defaultValue.html ');
+	    }
 	    if (props.value !== undefined) {
 	      _this.controlledMode = true;
 	    }
@@ -21313,7 +21322,7 @@
 	
 	    var editorClass = (0, _classnames3.default)(className, (_classnames = {}, _defineProperty(_classnames, prefixCls + '-wrapper', true), _defineProperty(_classnames, 'multilines', multiLines), _classnames));
 	    var editorCoreProps = this.controlledMode ? { value: this.state.value } : {};
-	
+	    var defaultValueState = typeof defaultValue === 'string' ? (0, _rcEditorCore.toEditorState)(defaultValue) : defaultValue;
 	    return _react2.default.createElement(
 	      'div',
 	      { className: editorClass, style: style, ref: 'wrapper' },
@@ -21325,7 +21334,7 @@
 	          style: style,
 	          multiLines: multiLines,
 	          plugins: this.plugins,
-	          defaultValue: defaultValue,
+	          defaultValue: defaultValueState,
 	          placeholder: placeholder,
 	          onFocus: this.onFocus,
 	          onBlur: this.onBlur,
@@ -21361,7 +21370,7 @@
 	  multiLines: _react2.default.PropTypes.bool,
 	  suggestionStyle: _react2.default.PropTypes.object,
 	  placeholder: _react2.default.PropTypes.string,
-	  defaultValue: _react2.default.PropTypes.string,
+	  defaultValue: _react2.default.PropTypes.object,
 	  notFoundContent: _react2.default.PropTypes.any,
 	  position: _react2.default.PropTypes.string,
 	  onFocus: _react2.default.PropTypes.func,
@@ -21413,7 +21422,8 @@
 	
 	var EditorCorePublic = {
 	    EditorCore: _EditorCore2["default"],
-	    GetText: _EditorCore2["default"].ExportFunction
+	    GetText: _EditorCore2["default"].ExportFunction,
+	    toEditorState: _EditorCore2["default"].ToEditorState
 	};
 	exports["default"] = EditorCorePublic;
 	module.exports = exports['default'];
@@ -21481,7 +21491,8 @@
 	        _this.state = {
 	            plugins: _this.reloadPlugins(),
 	            editorState: editorState,
-	            customStyleMap: {}
+	            customStyleMap: {},
+	            compositeDecorator: null
 	        };
 	        if (props.value !== undefined) {
 	            _this.controlledMode = true;
@@ -21489,6 +21500,12 @@
 	        }
 	        return _this;
 	    }
+	
+	    EditorCore.ToEditorState = function ToEditorState(text) {
+	        var createEmptyContentState = _draftJs.ContentState.createFromText(text || '');
+	        var editorState = _draftJs.EditorState.createWithContent(createEmptyContentState);
+	        return _draftJs.EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter());
+	    };
 	
 	    EditorCore.ExportFunction = function ExportFunction(editorState) {
 	        var content = editorState.getCurrentContent();
@@ -21512,9 +21529,7 @@
 	    };
 	
 	    EditorCore.prototype.Reset = function Reset() {
-	        var createEmptyContentState = _draftJs.ContentState.createFromText(this.props.defaultValue || '');
-	        var editorState = _draftJs.EditorState.push(this.state.editorState, createEmptyContentState, 'reset-editor');
-	        this.setEditorState(_draftJs.EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter()));
+	        this.setEditorState(_draftJs.EditorState.push(this.state.editorState, this.props.defaultValue.getCurrentContent(), 'reset-editor'));
 	    };
 	
 	    EditorCore.prototype.SetText = function SetText(text) {
@@ -21570,7 +21585,8 @@
 	        });
 	        this.setState({
 	            toolbarPlugins: toolbarPlugins,
-	            customStyleMap: customStyleMap
+	            customStyleMap: customStyleMap,
+	            compositeDecorator: compositeDecorator
 	        });
 	        this.onChange(_draftJs.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
 	    };
@@ -21589,11 +21605,7 @@
 	        var defaultValue = this.props.defaultValue;
 	
 	        if (defaultValue) {
-	            var selection = editorState.getSelection();
-	            var content = editorState.getCurrentContent();
-	            var insertContent = _draftJs.Modifier.insertText(content, selection, defaultValue, {});
-	            var newEditorState = _draftJs.EditorState.push(editorState, insertContent, 'init-editor');
-	            return _draftJs.EditorState.forceSelection(newEditorState, insertContent.getSelectionAfter());
+	            return defaultValue;
 	        }
 	        return editorState;
 	    };

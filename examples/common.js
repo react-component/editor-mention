@@ -21632,7 +21632,7 @@
 	    EditorCore.prototype.getEventHandler = function getEventHandler() {
 	        var _this3 = this;
 	
-	        var enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn'];
+	        var enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn', 'onFocus', 'onBlur'];
 	        var eventHandler = {};
 	        enabledEvents.forEach(function (event) {
 	            eventHandler[event] = _this3.generatorEventHandler(event);
@@ -21691,8 +21691,9 @@
 	    };
 	
 	    EditorCore.prototype.eventHandle = function eventHandle(eventName) {
+	        var _props;
+	
 	        var plugins = this.getPlugins();
-	        // console.log('>> eventHandle plugins', eventName, plugins);
 	
 	        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
 	            args[_key - 1] = arguments[_key];
@@ -21710,7 +21711,7 @@
 	                }
 	            }
 	        }
-	        return false;
+	        return this.props.hasOwnProperty(eventName) && (_props = this.props)[eventName].apply(_props, args) === true;
 	    };
 	
 	    EditorCore.prototype.generatorEventHandler = function generatorEventHandler(eventName) {
@@ -21726,12 +21727,10 @@
 	    };
 	
 	    EditorCore.prototype.render = function render() {
-	        var _props = this.props;
-	        var prefixCls = _props.prefixCls;
-	        var toolbars = _props.toolbars;
-	        var style = _props.style;
-	        var onFocus = _props.onFocus;
-	        var onBlur = _props.onBlur;
+	        var _props2 = this.props;
+	        var prefixCls = _props2.prefixCls;
+	        var toolbars = _props2.toolbars;
+	        var style = _props2.style;
 	        var _state = this.state;
 	        var editorState = _state.editorState;
 	        var toolbarPlugins = _state.toolbarPlugins;
@@ -21746,7 +21745,7 @@
 	            React.createElement(
 	                'div',
 	                { className: prefixCls + '-editor-wrapper', style: style },
-	                React.createElement(_draftJs.Editor, _extends({}, eventHandler, this.props, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this), onFocus: onFocus, onBlur: onBlur })),
+	                React.createElement(_draftJs.Editor, _extends({}, this.props, eventHandler, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) })),
 	                this.props.children
 	            )
 	        );
@@ -39407,7 +39406,8 @@
 	    onDownArrow: noop,
 	    getEditorState: noop,
 	    setEditorState: noop,
-	    handleReturn: noop
+	    handleReturn: noop,
+	    onBlur: noop
 	  };
 	  var componentProps = {
 	    callbacks: callbacks,
@@ -39437,7 +39437,7 @@
 	    name: 'mention',
 	    Suggestions: function Suggestions(props) {
 	      return _react2.default.createElement(_Suggestions3.default, _extends({}, props, componentProps, {
-	        store: _mentionStore2.default.getState()
+	        store: _mentionStore2.default
 	      }));
 	    },
 	    decorators: decorators,
@@ -39514,55 +39514,6 @@
 	
 	    var _this = _possibleConstructorReturn(this, _React$Component.call(this));
 	
-	    _this.onEditorStateChange = function (editorState) {
-	      var offset = _this.props.store.offset;
-	
-	      if (offset.size === 0) {
-	        return editorState;
-	      }
-	      var selection = editorState.getSelection();
-	
-	      var _getSearchWord = (0, _getSearchWord3.default)(editorState, selection);
-	
-	      var word = _getSearchWord.word;
-	
-	      var selectionInsideMention = offset.map(function (_ref) {
-	        var offsetKey = _ref.offsetKey;
-	        var position = _ref.position;
-	
-	        var _decode = (0, _DraftOffsetKey.decode)(offsetKey);
-	
-	        var blockKey = _decode.blockKey;
-	        var decoratorKey = _decode.decoratorKey;
-	        var leafKey = _decode.leafKey;
-	
-	        if (blockKey !== selection.anchorKey) {
-	          return false;
-	        }
-	        var leaf = editorState.getBlockTree(blockKey).getIn([decoratorKey, 'leaves', leafKey]);
-	        if (!leaf) {
-	          return false;
-	        }
-	        var startKey = leaf.get('start');
-	        var endKey = leaf.get('end');
-	        return selection.anchorOffset > startKey + 1 && selection.anchorOffset <= endKey ? position : false;
-	      });
-	      var selectionInText = selectionInsideMention.some(isNotFalse);
-	      var dropDownPosition = selectionInsideMention.find(isNotFalse);
-	
-	      if (!selectionInText) {
-	        return _this.closeDropDown(dropDownPosition);
-	      }
-	      var searchValue = word.substring(1, word.length);
-	      if (_this.lastSearchValue !== searchValue) {
-	        _this.lastSearchValue = searchValue;
-	        _this.props.onSearchChange(searchValue);
-	      }
-	      if (!_this.state.active) {
-	        _this.openDropDown(dropDownPosition);
-	      }
-	    };
-	
 	    _this.onUpArrow = function (ev) {
 	      ev.preventDefault();
 	      if (_this.props.suggestions.length > 0) {
@@ -39579,6 +39530,11 @@
 	      _this.setState({
 	        focusedIndex: newIndex >= _this.props.suggestions.length ? 0 : newIndex
 	      });
+	    };
+	
+	    _this.onBlur = function (ev) {
+	      ev.preventDefault();
+	      _this.closeDropDown();
 	    };
 	
 	    _this.handleReturn = function (ev) {
@@ -39607,7 +39563,11 @@
 	  }
 	
 	  Suggestions.prototype.componentWillMount = function componentWillMount() {
-	    this.props.callbacks.onChange = this.onEditorStateChange;
+	    var _this2 = this;
+	
+	    this.props.callbacks.onChange = function (editorState) {
+	      _this2.refreshSuggestions(_this2.props.store.getState().offset, editorState);
+	    };
 	  };
 	
 	  Suggestions.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
@@ -39616,6 +39576,16 @@
 	        focusedIndex: 0
 	      });
 	    }
+	  };
+	
+	  Suggestions.prototype.componentDidMount = function componentDidMount() {
+	    var _this3 = this;
+	
+	    var store = this.props.store;
+	
+	    store.subscribe(function () {
+	      _this3.refreshSuggestions(store.getState().offset, _this3.props.callbacks.getEditorState());
+	    });
 	  };
 	
 	  Suggestions.prototype.componentDidUpdate = function componentDidUpdate() {
@@ -39627,6 +39597,53 @@
 	    (0, _domScrollIntoView2.default)(focusItem, container, {
 	      onlyScrollIfNeeded: true
 	    });
+	  };
+	
+	  Suggestions.prototype.refreshSuggestions = function refreshSuggestions(offset, editorState) {
+	    if (offset.size === 0) {
+	      return;
+	    }
+	    var selection = editorState.getSelection();
+	
+	    var _getSearchWord = (0, _getSearchWord3.default)(editorState, selection);
+	
+	    var word = _getSearchWord.word;
+	
+	    var selectionInsideMention = offset.map(function (_ref) {
+	      var offsetKey = _ref.offsetKey;
+	      var position = _ref.position;
+	
+	      var _decode = (0, _DraftOffsetKey.decode)(offsetKey);
+	
+	      var blockKey = _decode.blockKey;
+	      var decoratorKey = _decode.decoratorKey;
+	      var leafKey = _decode.leafKey;
+	
+	      if (blockKey !== selection.anchorKey) {
+	        return false;
+	      }
+	      var leaf = editorState.getBlockTree(blockKey).getIn([decoratorKey, 'leaves', leafKey]);
+	      if (!leaf) {
+	        return false;
+	      }
+	      var startKey = leaf.get('start');
+	      var endKey = leaf.get('end');
+	      return selection.anchorOffset > startKey + 1 && selection.anchorOffset <= endKey ? position : false;
+	    });
+	    var selectionInText = selectionInsideMention.some(isNotFalse);
+	    var dropDownPosition = selectionInsideMention.find(isNotFalse);
+	
+	    if (!selectionInText) {
+	      return this.closeDropDown(dropDownPosition);
+	    }
+	    var searchValue = word.substring(1, word.length);
+	    if (this.lastSearchValue !== searchValue) {
+	      this.lastSearchValue = searchValue;
+	      this.props.onSearchChange(searchValue);
+	    }
+	    if (!this.state.active) {
+	      this.openDropDown(dropDownPosition);
+	    }
 	  };
 	
 	  Suggestions.prototype.onMentionSelect = function onMentionSelect(mention, data) {
@@ -39651,6 +39668,7 @@
 	    this.props.callbacks.handleReturn = this.handleReturn;
 	    this.props.callbacks.handleKeyBinding = this.handleKeyBinding;
 	    this.props.callbacks.onDownArrow = this.onDownArrow;
+	    this.props.callbacks.onBlur = this.onBlur;
 	    this.setState({
 	      active: true,
 	      suggestionStyle: this.getPositionStyle(true, dropDownPosition)
@@ -39662,6 +39680,7 @@
 	    this.props.callbacks.handleReturn = null;
 	    this.props.callbacks.handleKeyBinding = null;
 	    this.props.callbacks.onDownArrow = null;
+	    this.props.callbacks.onBlur = null;
 	    this.setState({
 	      active: false,
 	      suggestionStyle: this.getPositionStyle(false, dropDownPosition)
@@ -39669,7 +39688,7 @@
 	  };
 	
 	  Suggestions.prototype.render = function render() {
-	    var _this2 = this;
+	    var _this4 = this;
 	
 	    if (!this.state.active) {
 	      return _react2.default.createElement('span', null);
@@ -39690,14 +39709,14 @@
 	      if (_react2.default.isValidElement(element)) {
 	        return _react2.default.cloneElement(element, {
 	          className: mentionClass,
-	          onMouseDown: _this2.onMentionSelect.bind(_this2, element.props.value),
+	          onMouseDown: _this4.onMentionSelect.bind(_this4, element.props.value),
 	          ref: ref
 	        });
 	      }
 	      return _react2.default.createElement(
 	        _Nav2.default,
 	        { ref: ref, className: mentionClass,
-	          onMouseDown: _this2.onMentionSelect.bind(_this2, element)
+	          onMouseDown: _this4.onMentionSelect.bind(_this4, element)
 	        },
 	        element
 	      );

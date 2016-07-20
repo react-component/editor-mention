@@ -48,6 +48,7 @@ webpackJsonp([6],{
 	    };
 	  },
 	  onSearchChange: function onSearchChange(value) {
+	    console.log('>> value', value);
 	    var searchValue = value.toLowerCase();
 	    var filtered = originSuggestions.filter(function (suggestion) {
 	      return suggestion.toLowerCase().indexOf(searchValue) !== -1;

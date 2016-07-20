@@ -28,7 +28,8 @@ export default class Suggestions extends React.Component {
       focusedIndex: 0,
     };
   }
-  componentWillMount() {
+  
+  componentDidMount() {
     this.props.callbacks.onChange = this.onEditorStateChange;
     this.props.store.subscribe(this.updateSuggestion);
   }

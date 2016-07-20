@@ -3,7 +3,7 @@
 import 'rc-editor-mention/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Mention, { toString } from 'rc-editor-mention';
+import Mention, { toString, getMentions } from 'rc-editor-mention';
 
 const originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
 
@@ -20,7 +20,6 @@ const MentionEditor = React.createClass({
     };
   },
   onSearchChange(value) {
-    console.log('>> value', value);
     const searchValue = value.toLowerCase();
     const filtered = originSuggestions.filter(suggestion =>
       suggestion.toLowerCase().indexOf(searchValue) !== -1
@@ -30,7 +29,7 @@ const MentionEditor = React.createClass({
     });
   },
   onChange(editorState) {
-    console.log('>> mentionChange', toString(editorState));
+    console.log('>> mentionChange', toString(editorState), getMentions(editorState));
   },
   render() {
     const { suggestions } = this.state;

@@ -21160,7 +21160,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.toEditorState = exports.toString = exports.Nav = undefined;
+	exports.getMentions = exports.toEditorState = exports.toString = exports.Nav = undefined;
 	
 	var _Mention = __webpack_require__(176);
 	
@@ -21190,6 +21190,7 @@
 	exports.Nav = _Nav2.default;
 	exports.toString = _exportContent2.default;
 	exports.toEditorState = _rcEditorCore.toEditorState;
+	exports.getMentions = _getMentions2.default;
 	exports.default = _Mention2.default;
 
 /***/ },

@@ -3,12 +3,12 @@ webpackJsonp([7],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(342);
+	module.exports = __webpack_require__(343);
 
 
 /***/ },
 
-/***/ 342:
+/***/ 343:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48,7 +48,6 @@ webpackJsonp([7],{
 	    };
 	  },
 	  onSearchChange: function onSearchChange(value) {
-	    console.log('>> value', value);
 	    var searchValue = value.toLowerCase();
 	    var filtered = originSuggestions.filter(function (suggestion) {
 	      return suggestion.toLowerCase().indexOf(searchValue) !== -1;
@@ -58,7 +57,7 @@ webpackJsonp([7],{
 	    });
 	  },
 	  onChange: function onChange(editorState) {
-	    console.log('>> mentionChange', (0, _rcEditorMention.toString)(editorState));
+	    console.log('>> mentionChange', (0, _rcEditorMention.toString)(editorState), (0, _rcEditorMention.getMentions)(editorState));
 	  },
 	  render: function render() {
 	    var suggestions = this.state.suggestions;

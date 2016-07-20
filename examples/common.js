@@ -21170,6 +21170,10 @@
 	
 	var _exportContent2 = _interopRequireDefault(_exportContent);
 	
+	var _getMentions = __webpack_require__(336);
+	
+	var _getMentions2 = _interopRequireDefault(_getMentions);
+	
 	var _Nav = __webpack_require__(313);
 	
 	var _Nav2 = _interopRequireDefault(_Nav);
@@ -21178,11 +21182,11 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// export this package's api
+	_Mention2.default.Nav = _Nav2.default; // export this package's api
 	
-	_Mention2.default.Nav = _Nav2.default;
 	_Mention2.default.toString = _exportContent2.default;
 	_Mention2.default.toEditorState = _rcEditorCore.toEditorState;
+	_Mention2.default.getMentions = _getMentions2.default;
 	exports.Nav = _Nav2.default;
 	exports.toString = _exportContent2.default;
 	exports.toEditorState = _rcEditorCore.toEditorState;
@@ -39618,7 +39622,7 @@
 	    return _this;
 	  }
 	
-	  Suggestions.prototype.componentWillMount = function componentWillMount() {
+	  Suggestions.prototype.componentDidMount = function componentDidMount() {
 	    this.props.callbacks.onChange = this.onEditorStateChange;
 	    this.props.store.subscribe(this.updateSuggestion);
 	  };
@@ -41630,6 +41634,40 @@
 	function exportContent(editorState) {
 	  var content = editorState.getCurrentContent();
 	  return new MentionGenerator(content).generate();
+	}
+	module.exports = exports['default'];
+
+/***/ },
+/* 336 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = getMentions;
+	
+	var _draftJs = __webpack_require__(179);
+	
+	function getMentions(editorState) {
+	  var contentState = editorState.getCurrentContent();
+	  var entities = [];
+	
+	  contentState.getBlockMap().forEach(function (block, blockKey) {
+	    var blockText = block.getText();
+	    block.findEntityRanges(function (character) {
+	      return character.getEntity() !== null;
+	    }, function (start, end) {
+	      // Stringify to maintain order of otherwise numeric keys.
+	      var entityKey = block.getEntityAt(start);
+	      var entity = _draftJs.Entity.get(entityKey);
+	      if (entity.getType() === 'mention') {
+	        entities.push(blockText.substring(start, end));
+	      }
+	    });
+	  });
+	  return entities;
 	}
 	module.exports = exports['default'];
 

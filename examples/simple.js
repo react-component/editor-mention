@@ -65,6 +65,7 @@ webpackJsonp([7],{
 	    return _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },
 	      onSearchChange: this.onSearchChange,
 	      onChange: this.onChange,
+	      defaultValue: (0, _rcEditorMention.toEditorState)(' @afc163 '),
 	      placeholder: ' @ 某人 ',
 	      suggestions: suggestions, prefix: '@'
 	    });

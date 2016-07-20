@@ -39823,8 +39823,17 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.default = insertMention;
 	
-	exports.default = function (editorState, mention, data, mode) {
+	var _draftJs = __webpack_require__(179);
+	
+	var _getSearchWord = __webpack_require__(311);
+	
+	var _getSearchWord2 = _interopRequireDefault(_getSearchWord);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function insertMention(editorState, mention, data, mode) {
 	  var entityMode = mode === 'immutable' ? 'IMMUTABLE' : 'MUTABLE';
 	  var entityKey = _draftJs.Entity.create('mention', entityMode, data || mention);
 	  var selection = editorState.getSelection();
@@ -39841,16 +39850,7 @@
 	
 	  var newEditorState = _draftJs.EditorState.push(editorState, InsertSpaceContent, 'insert-mention');
 	  return _draftJs.EditorState.forceSelection(newEditorState, InsertSpaceContent.getSelectionAfter());
-	};
-	
-	var _draftJs = __webpack_require__(179);
-	
-	var _getSearchWord = __webpack_require__(311);
-	
-	var _getSearchWord2 = _interopRequireDefault(_getSearchWord);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	}
 	module.exports = exports['default'];
 
 /***/ },
@@ -41640,7 +41640,7 @@
 
 /***/ },
 /* 336 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
 	
@@ -41648,25 +41648,18 @@
 	  value: true
 	});
 	exports.default = getMentions;
-	
-	var _draftJs = __webpack_require__(179);
+	var regex = new RegExp('(\\s|^)@[^\\s]*', 'g');
 	
 	function getMentions(editorState) {
 	  var contentState = editorState.getCurrentContent();
 	  var entities = [];
-	
-	  contentState.getBlockMap().forEach(function (block, blockKey) {
+	  contentState.getBlockMap().forEach(function (block) {
 	    var blockText = block.getText();
-	    block.findEntityRanges(function (character) {
-	      return character.getEntity() !== null;
-	    }, function (start, end) {
-	      // Stringify to maintain order of otherwise numeric keys.
-	      var entityKey = block.getEntityAt(start);
-	      var entity = _draftJs.Entity.get(entityKey);
-	      if (entity.getType() === 'mention') {
-	        entities.push(blockText.substring(start, end));
-	      }
-	    });
+	    var matchArr = void 0;
+	    while ((matchArr = regex.exec(blockText)) !== null) {
+	      // eslint-disable-line
+	      entities.push(matchArr[0].trim());
+	    }
 	  });
 	  return entities;
 	}

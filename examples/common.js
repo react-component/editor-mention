@@ -21598,8 +21598,10 @@
 	
 	    EditorCore.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
 	        if (this.controlledMode) {
+	            var decorators = nextProps.value.getDecorator();
+	            var editorState = decorators ? nextProps.value : _draftJs.EditorState.set(nextProps.value, { decorator: this.state.compositeDecorator });
 	            this.setState({
-	                editorState: nextProps.value
+	                editorState: editorState
 	            });
 	        }
 	    };

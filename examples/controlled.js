@@ -38,6 +38,7 @@ webpackJsonp([1],{
 	  getInitialState: function getInitialState() {
 	    return {
 	      suggestions: originSuggestions,
+	      defaultValue: (0, _rcEditorMention.toEditorState)('hello @afc163'),
 	      editorState: _draftJs.EditorState.createEmpty()
 	    };
 	  },
@@ -56,7 +57,9 @@ webpackJsonp([1],{
 	    });
 	  },
 	  reset: function reset() {
-	    this.refs.mention.reset();
+	    this.setState({
+	      editorState: this.state.defaultValue
+	    });
 	  },
 	  render: function render() {
 	    var _state = this.state;
@@ -75,7 +78,7 @@ webpackJsonp([1],{
 	        style: { width: 300 },
 	        ref: 'mention',
 	        onSearchChange: this.onSearchChange,
-	        defaultValue: 'hello @afc163 ',
+	        defaultValue: this.state.defaultValue,
 	        onChange: this.onChange,
 	        value: editorState,
 	        suggestions: suggestions, prefix: '@'

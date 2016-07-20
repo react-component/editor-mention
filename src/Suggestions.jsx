@@ -118,6 +118,10 @@ export default class Suggestions extends React.Component {
       });
     }
   }
+  onBlur = (ev) => {
+    ev.preventDefault();
+    this.closeDropDown();
+  }
   onDownArrow = (ev) => {
     ev.preventDefault();
     const newIndex = this.state.focusedIndex + 1;
@@ -157,6 +161,7 @@ export default class Suggestions extends React.Component {
     this.props.callbacks.handleReturn = this.handleReturn;
     this.props.callbacks.handleKeyBinding = this.handleKeyBinding;
     this.props.callbacks.onDownArrow = this.onDownArrow;
+    this.props.callbacks.onBlur = this.onBlur;
     this.setState({
       active: true,
     });
@@ -166,6 +171,7 @@ export default class Suggestions extends React.Component {
     this.props.callbacks.handleReturn = null;
     this.props.callbacks.handleKeyBinding = null;
     this.props.callbacks.onDownArrow = null;
+    this.props.callbacks.onBlur = null;
     this.setState({
       active: false,
     });

@@ -47,6 +47,7 @@ export default function createMention(config = {}) {
     getEditorState: noop,
     setEditorState: noop,
     handleReturn: noop,
+    onBlur: noop,
   };
   const componentProps = {
     callbacks,
@@ -71,7 +72,7 @@ export default function createMention(config = {}) {
   return {
     name: 'mention',
     Suggestions: (props) => <Suggestions {...props} {...componentProps}
-      store={mentionStore.getState()}
+      store={mentionStore}
     />,
     decorators,
     onChange: (editorState) => {

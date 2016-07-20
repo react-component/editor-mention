@@ -29,7 +29,9 @@ export default class Suggestions extends React.Component {
     };
   }
   componentWillMount() {
-    this.props.callbacks.onChange = this.onEditorStateChange;
+    this.props.callbacks.onChange = (editorState) => {
+      this.refreshSuggestions(this.props.store.getState().offset, editorState);
+    };
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.suggestions.length !== this.props.suggestions.length) {
@@ -37,6 +39,12 @@ export default class Suggestions extends React.Component {
         focusedIndex: 0,
       });
     }
+  }
+  componentDidMount() {
+    const { store } = this.props;
+    store.subscribe(() => {
+      this.refreshSuggestions(store.getState().offset, this.props.callbacks.getEditorState());
+    });
   }
   componentDidUpdate() {
     const focusItem = ReactDOM.findDOMNode(this.refs.focusItem);
@@ -48,10 +56,9 @@ export default class Suggestions extends React.Component {
       onlyScrollIfNeeded: true,
     });
   }
-  onEditorStateChange = (editorState) => {
-    const { offset } = this.props.store;
+  refreshSuggestions(offset, editorState) {
     if (offset.size === 0) {
-      return editorState;
+      return;
     }
     const selection = editorState.getSelection();
     const { word } = getSearchWord(editorState, selection);
@@ -72,7 +79,7 @@ export default class Suggestions extends React.Component {
     });
     const selectionInText = selectionInsideMention.some(isNotFalse);
     const dropDownPosition = selectionInsideMention.find(isNotFalse);
-
+  
     if (!selectionInText) {
       return this.closeDropDown(dropDownPosition);
     }
@@ -108,6 +115,10 @@ export default class Suggestions extends React.Component {
       focusedIndex: newIndex >= this.props.suggestions.length ? 0 : newIndex,
     });
   }
+  onBlur = (ev) => {
+    ev.preventDefault();
+    this.closeDropDown();
+  }
   getPositionStyle(isActive, position) {
     if (this.props.getSuggestionStyle) {
       return this.props.getSuggestionStyle(isActive, position);
@@ -140,6 +151,7 @@ export default class Suggestions extends React.Component {
     this.props.callbacks.handleReturn = this.handleReturn;
     this.props.callbacks.handleKeyBinding = this.handleKeyBinding;
     this.props.callbacks.onDownArrow = this.onDownArrow;
+    this.props.callbacks.onBlur = this.onBlur;
     this.setState({
       active: true,
       suggestionStyle: this.getPositionStyle(true, dropDownPosition),
@@ -150,6 +162,7 @@ export default class Suggestions extends React.Component {
     this.props.callbacks.handleReturn = null;
     this.props.callbacks.handleKeyBinding = null;
     this.props.callbacks.onDownArrow = null;
+    this.props.callbacks.onBlur = null;
     this.setState({
       active: false,
       suggestionStyle: this.getPositionStyle(false, dropDownPosition),

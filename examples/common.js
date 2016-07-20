@@ -39580,6 +39580,11 @@
 	      }
 	    };
 	
+	    _this.onBlur = function (ev) {
+	      ev.preventDefault();
+	      _this.closeDropDown();
+	    };
+	
 	    _this.onDownArrow = function (ev) {
 	      ev.preventDefault();
 	      var newIndex = _this.state.focusedIndex + 1;
@@ -39678,6 +39683,7 @@
 	    this.props.callbacks.handleReturn = this.handleReturn;
 	    this.props.callbacks.handleKeyBinding = this.handleKeyBinding;
 	    this.props.callbacks.onDownArrow = this.onDownArrow;
+	    this.props.callbacks.onBlur = this.onBlur;
 	    this.setState({
 	      active: true
 	    });
@@ -39688,6 +39694,7 @@
 	    this.props.callbacks.handleReturn = null;
 	    this.props.callbacks.handleKeyBinding = null;
 	    this.props.callbacks.onDownArrow = null;
+	    this.props.callbacks.onBlur = null;
 	    this.setState({
 	      active: false
 	    });

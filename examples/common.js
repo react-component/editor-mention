@@ -30,7 +30,7 @@
 /******/ 	// "0" means "already loaded"
 /******/ 	// Array means "loading", array contains callbacks
 /******/ 	var installedChunks = {
-/******/ 		7:0
+/******/ 		8:0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -76,7 +76,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"controlled","1":"customizeSuggesion","2":"customizeSuggesionAndTag","3":"defaultValue","4":"mentionMode","5":"multilines","6":"simple"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"antd","1":"controlled","2":"customizeSuggesion","3":"customizeSuggesionAndTag","4":"defaultValue","5":"mentionMode","6":"multilines","7":"simple"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -39515,6 +39515,61 @@
 	
 	    var _this = _possibleConstructorReturn(this, _React$Component.call(this));
 	
+	    _this.updateSuggestion = function () {
+	      _this.onEditorStateChange(_this.props.callbacks.getEditorState());
+	    };
+	
+	    _this.onEditorStateChange = function (editorState) {
+	      var _this$props$store$get = _this.props.store.getState();
+	
+	      var offset = _this$props$store$get.offset;
+	
+	      if (offset.size === 0) {
+	        return editorState;
+	      }
+	      var selection = editorState.getSelection();
+	
+	      var _getSearchWord = (0, _getSearchWord3.default)(editorState, selection);
+	
+	      var word = _getSearchWord.word;
+	
+	      var selectionInsideMention = offset.map(function (_ref) {
+	        var offsetKey = _ref.offsetKey;
+	        var position = _ref.position;
+	
+	        var _decode = (0, _DraftOffsetKey.decode)(offsetKey);
+	
+	        var blockKey = _decode.blockKey;
+	        var decoratorKey = _decode.decoratorKey;
+	        var leafKey = _decode.leafKey;
+	
+	        if (blockKey !== selection.anchorKey) {
+	          return false;
+	        }
+	        var leaf = editorState.getBlockTree(blockKey).getIn([decoratorKey, 'leaves', leafKey]);
+	        if (!leaf) {
+	          return false;
+	        }
+	        var startKey = leaf.get('start');
+	        var endKey = leaf.get('end');
+	        return selection.anchorOffset > startKey + 1 && selection.anchorOffset <= endKey ? offsetKey : false;
+	      });
+	      var selectionInText = selectionInsideMention.some(isNotFalse);
+	      _this.activeOffsetKey = selectionInsideMention.find(isNotFalse);
+	
+	      if (!selectionInText) {
+	        return _this.closeDropDown();
+	      }
+	      var searchValue = word.substring(1, word.length);
+	      if (_this.lastSearchValue !== searchValue) {
+	        _this.lastSearchValue = searchValue;
+	        _this.props.onSearchChange(searchValue);
+	      }
+	      if (!_this.state.active) {
+	        _this.openDropDown();
+	      }
+	    };
+	
 	    _this.onUpArrow = function (ev) {
 	      ev.preventDefault();
 	      if (_this.props.suggestions.length > 0) {
@@ -39531,11 +39586,6 @@
 	      _this.setState({
 	        focusedIndex: newIndex >= _this.props.suggestions.length ? 0 : newIndex
 	      });
-	    };
-	
-	    _this.onBlur = function (ev) {
-	      ev.preventDefault();
-	      _this.closeDropDown();
 	    };
 	
 	    _this.handleReturn = function (ev) {
@@ -39564,11 +39614,8 @@
 	  }
 	
 	  Suggestions.prototype.componentWillMount = function componentWillMount() {
-	    var _this2 = this;
-	
-	    this.props.callbacks.onChange = function (editorState) {
-	      _this2.refreshSuggestions(_this2.props.store.getState().offset, editorState);
-	    };
+	    this.props.callbacks.onChange = this.onEditorStateChange;
+	    this.props.store.subscribe(this.updateSuggestion);
 	  };
 	
 	  Suggestions.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
@@ -39579,72 +39626,34 @@
 	    }
 	  };
 	
-	  Suggestions.prototype.componentDidMount = function componentDidMount() {
-	    var _this3 = this;
-	
-	    var store = this.props.store;
-	
-	    store.subscribe(function () {
-	      _this3.refreshSuggestions(store.getState().offset, _this3.props.callbacks.getEditorState());
-	    });
-	  };
-	
 	  Suggestions.prototype.componentDidUpdate = function componentDidUpdate() {
+	    var _this2 = this;
+	
 	    var focusItem = _reactDom2.default.findDOMNode(this.refs.focusItem);
 	    var container = this.refs.dropdownContainer;
+	    var active = this.state.active;
+	    var activeOffsetKey = this.activeOffsetKey;
+	
+	    var _props$store$getState = this.props.store.getState();
+	
+	    var offset = _props$store$getState.offset;
+	
+	    var dropDownPosition = offset.get(activeOffsetKey);
+	    if (active && dropDownPosition) {
+	      (function () {
+	        var dropDownStyle = _this2.getPositionStyle(true, dropDownPosition.position);
+	        Object.keys(dropDownStyle).forEach(function (key) {
+	          container.style[key] = dropDownStyle[key];
+	        });
+	      })();
+	    }
+	
 	    if (!focusItem) {
 	      return;
 	    }
 	    (0, _domScrollIntoView2.default)(focusItem, container, {
 	      onlyScrollIfNeeded: true
 	    });
-	  };
-	
-	  Suggestions.prototype.refreshSuggestions = function refreshSuggestions(offset, editorState) {
-	    if (offset.size === 0) {
-	      return;
-	    }
-	    var selection = editorState.getSelection();
-	
-	    var _getSearchWord = (0, _getSearchWord3.default)(editorState, selection);
-	
-	    var word = _getSearchWord.word;
-	
-	    var selectionInsideMention = offset.map(function (_ref) {
-	      var offsetKey = _ref.offsetKey;
-	      var position = _ref.position;
-	
-	      var _decode = (0, _DraftOffsetKey.decode)(offsetKey);
-	
-	      var blockKey = _decode.blockKey;
-	      var decoratorKey = _decode.decoratorKey;
-	      var leafKey = _decode.leafKey;
-	
-	      if (blockKey !== selection.anchorKey) {
-	        return false;
-	      }
-	      var leaf = editorState.getBlockTree(blockKey).getIn([decoratorKey, 'leaves', leafKey]);
-	      if (!leaf) {
-	        return false;
-	      }
-	      var startKey = leaf.get('start');
-	      var endKey = leaf.get('end');
-	      return selection.anchorOffset > startKey + 1 && selection.anchorOffset <= endKey ? position : false;
-	    });
-	    var selectionInText = selectionInsideMention.some(isNotFalse);
-	    var dropDownPosition = selectionInsideMention.find(isNotFalse);
-	
-	    if (!selectionInText) {
-	      return this.closeDropDown(dropDownPosition);
-	    }
-	    var searchValue = word.substring(1, word.length);
-	    if (this.lastSearchValue !== searchValue) {
-	      this.lastSearchValue = searchValue;
-	      this.props.onSearchChange(searchValue);
-	    }
-	    if (!this.state.active) {
-	      this.openDropDown(dropDownPosition);
-	    }
 	  };
 	
 	  Suggestions.prototype.onMentionSelect = function onMentionSelect(mention, data) {
@@ -39659,37 +39668,33 @@
 	    }
 	    return position ? _extends({
 	      position: 'absolute',
-	      left: position.left,
-	      top: position.top - (_reactDom2.default.findDOMNode(this) ? _reactDom2.default.findDOMNode(this).parentNode.scrollTop : 0)
+	      left: position.left + 'px',
+	      top: position.top - (_reactDom2.default.findDOMNode(this) ? _reactDom2.default.findDOMNode(this).parentNode.scrollTop : 0) + 'px'
 	    }, this.props.style) : {};
 	  };
 	
-	  Suggestions.prototype.openDropDown = function openDropDown(dropDownPosition) {
+	  Suggestions.prototype.openDropDown = function openDropDown() {
 	    this.props.callbacks.onUpArrow = this.onUpArrow;
 	    this.props.callbacks.handleReturn = this.handleReturn;
 	    this.props.callbacks.handleKeyBinding = this.handleKeyBinding;
 	    this.props.callbacks.onDownArrow = this.onDownArrow;
-	    this.props.callbacks.onBlur = this.onBlur;
 	    this.setState({
-	      active: true,
-	      suggestionStyle: this.getPositionStyle(true, dropDownPosition)
+	      active: true
 	    });
 	  };
 	
-	  Suggestions.prototype.closeDropDown = function closeDropDown(dropDownPosition) {
+	  Suggestions.prototype.closeDropDown = function closeDropDown() {
 	    this.props.callbacks.onUpArrow = null;
 	    this.props.callbacks.handleReturn = null;
 	    this.props.callbacks.handleKeyBinding = null;
 	    this.props.callbacks.onDownArrow = null;
-	    this.props.callbacks.onBlur = null;
 	    this.setState({
-	      active: false,
-	      suggestionStyle: this.getPositionStyle(false, dropDownPosition)
+	      active: false
 	    });
 	  };
 	
 	  Suggestions.prototype.render = function render() {
-	    var _this4 = this;
+	    var _this3 = this;
 	
 	    if (!this.state.active) {
 	      return _react2.default.createElement('span', null);
@@ -39697,9 +39702,7 @@
 	    var _props = this.props;
 	    var prefixCls = _props.prefixCls;
 	    var suggestions = _props.suggestions;
-	    var _state = this.state;
-	    var focusedIndex = _state.focusedIndex;
-	    var suggestionStyle = _state.suggestionStyle;
+	    var focusedIndex = this.state.focusedIndex;
 	
 	    var navigations = suggestions.length ? _react2.default.Children.map(suggestions, function (element, index) {
 	      var focusItem = index === focusedIndex;
@@ -39710,14 +39713,14 @@
 	      if (_react2.default.isValidElement(element)) {
 	        return _react2.default.cloneElement(element, {
 	          className: mentionClass,
-	          onMouseDown: _this4.onMentionSelect.bind(_this4, element.props.value),
+	          onMouseDown: _this3.onMentionSelect.bind(_this3, element.props.value),
 	          ref: ref
 	        });
 	      }
 	      return _react2.default.createElement(
 	        _Nav2.default,
 	        { ref: ref, className: mentionClass,
-	          onMouseDown: _this4.onMentionSelect.bind(_this4, element)
+	          onMouseDown: _this3.onMentionSelect.bind(_this3, element)
 	        },
 	        element
 	      );
@@ -39730,7 +39733,6 @@
 	    return _react2.default.createElement(
 	      'div',
 	      {
-	        style: suggestionStyle,
 	        className: prefixCls + '-dropdown',
 	        ref: 'dropdownContainer'
 	      },

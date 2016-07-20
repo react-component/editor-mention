@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>simple.js - example - rc-editor-mention@0.1.4</title>
+  <title>antd.js - example - rc-editor-mention@0.1.4</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -264,55 +264,98 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     </div>
     <div class="example" id="__react-content"></div>
 
-    <div class="highlight"><pre><code language="js"><span class="hljs-comment">// use jsx to render html, do not modify simple.html</span>
-
-<span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-mention/assets/index.css'</span>;
+    <div class="highlight"><pre><code language="js"><span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-mention/assets/index.css'</span>;
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> Mention, { toString } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-mention'</span>;
+<span class="hljs-keyword">import</span> RcMention, { Nav, toString, toEditorState } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-mention'</span>;
+<span class="hljs-keyword">import</span> classnames <span class="hljs-keyword">from</span> <span class="hljs-string">'classnames'</span>;
 
-<span class="hljs-keyword">const</span> originSuggestions = [<span class="hljs-string">'afc163'</span>, <span class="hljs-string">'benjycui'</span>, <span class="hljs-string">'yiminghe'</span>, <span class="hljs-string">'jljsj33'</span>, <span class="hljs-string">'dqaria'</span>, <span class="hljs-string">'RaoHai'</span>];
-
-<span class="hljs-keyword">const</span> Wrapper = React.createClass({
-  render() {
-    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">MentionEditor</span> /&gt;</span>;</span>
-  }
-});
-
-<span class="hljs-keyword">const</span> MentionEditor = React.createClass({
-  getInitialState() {
-    <span class="hljs-keyword">return</span> {
-      suggestions: originSuggestions,
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Mention</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  static defaultProps = {
+    prefixCls: <span class="hljs-string">'ant-mention'</span>,
+    suggestions: [],
+    notFoundContent: <span class="hljs-string">'无匹配结果，轻敲空格完成输入'</span>,
+    loading: <span class="hljs-literal">false</span>,
+    multiLines: <span class="hljs-literal">false</span>,
+  };
+  constructor(props) {
+    <span class="hljs-keyword">super</span>(props);
+    <span class="hljs-keyword">this</span>.state = {
+      suggestions: props.suggestions,
+      focus: <span class="hljs-literal">false</span>,
     };
-  },
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    <span class="hljs-keyword">this</span>.setState({
+      suggestions: nextProps.suggestions,
+    });
+  }
+  
   onSearchChange(value) {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; value'</span>, value);
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.props.onSearchChange) {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.props.onSearchChange(value);
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.defaultSearchChange(value);
+  }
+  
+  onChange(editorState) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.props.onChange) {
+      <span class="hljs-keyword">this</span>.props.onChange(editorState);
+    }
+  }
+  
+  defaultSearchChange(value) {
     <span class="hljs-keyword">const</span> searchValue = value.toLowerCase();
-    <span class="hljs-keyword">const</span> filtered = originSuggestions.filter(suggestion =&gt;
-      suggestion.toLowerCase().indexOf(searchValue) !== -<span class="hljs-number">1</span>
+    <span class="hljs-keyword">const</span> filteredSuggestions = <span class="hljs-keyword">this</span>.props.suggestions.filter(
+      suggestion =&gt; suggestion.toLowerCase().indexOf(searchValue) !== -<span class="hljs-number">1</span>
     );
     <span class="hljs-keyword">this</span>.setState({
-      suggestions: filtered,
+      suggestions: filteredSuggestions,
     });
-  },
-  onChange(editorState) {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; mentionChange'</span>, toString(editorState));
-  },
+  }
+  
   render() {
-    <span class="hljs-keyword">const</span> { suggestions } = <span class="hljs-keyword">this</span>.state;
-    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Mention</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">width:</span> <span class="hljs-attribute">300</span> }}
-      <span class="hljs-attribute">onSearchChange</span>=<span class="hljs-value">{this.onSearchChange}</span>
-      <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.onChange}</span>
-      <span class="hljs-attribute">placeholder</span>=<span class="hljs-value">" @ 某人 "</span>
-      <span class="hljs-attribute">suggestions</span>=<span class="hljs-value">{suggestions}</span> <span class="hljs-attribute">prefix</span>=<span class="hljs-value">"@"</span>
-    /&gt;</span>)</span>;
-  },
-});
+    <span class="hljs-keyword">const</span> { className, prefixCls, style, multiLines, defaultValue } = <span class="hljs-keyword">this</span>.props;
+    <span class="hljs-keyword">let</span> { notFoundContent } = <span class="hljs-keyword">this</span>.props;
+    
+    <span class="hljs-keyword">const</span> { suggestions, focus } = <span class="hljs-keyword">this</span>.state;
+    <span class="hljs-keyword">const</span> cls = classnames({
+      [className]: !!className,
+      [<span class="hljs-string">'active'</span>]: focus,
+    });
+    
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.props.loading) {
+      notFoundContent = <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">i</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"anticon anticon-loading"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">i</span>&gt;</span>;</span>
+    }
+    
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">RcMention</span>
+      {<span class="hljs-attribute">...this.props</span>}
+      <span class="hljs-attribute">className</span>=<span class="hljs-value">{cls}</span>
+      <span class="hljs-attribute">prefixCls</span>=<span class="hljs-value">{prefixCls}</span>
+      <span class="hljs-attribute">style</span>=<span class="hljs-value">{style}</span>
+      <span class="hljs-attribute">defaultValue</span>=<span class="hljs-value">{defaultValue}</span>
+      <span class="hljs-attribute">multiLines</span>=<span class="hljs-value">{multiLines}</span>
+      <span class="hljs-attribute">onSearchChange</span>=<span class="hljs-value">{this.onSearchChange.bind(this)}</span>
+      <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.onChange.bind(this)}</span>
+      <span class="hljs-attribute">onFocus</span>=<span class="hljs-value">{()</span> =&gt;</span> this.setState({focus: true})}
+      onBlur={() =&gt; this.setState({focus: false})}
+      suggestions={suggestions}
+      notFoundContent={notFoundContent}
+    /&gt;;</span>
+  }
+}
 
-ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span> you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">Wrapper</span> /&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>, document.getElementById('__react-content'));
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onChange</span>(<span class="hljs-params">editorState</span>) </span>{
+  <span class="hljs-built_in">console</span>.log(toString(editorState));
+}
+
+ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Mention</span>
+  <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{onChange}</span>
+  <span class="hljs-attribute">defaultValue</span>=<span class="hljs-value">{toEditorState('@afc163')}</span>
+  <span class="hljs-attribute">suggestions</span>=<span class="hljs-value">{['afc163',</span> '<span class="hljs-attribute">benjycui</span>', '<span class="hljs-attribute">yiminghe</span>', '<span class="hljs-attribute">jljsj33</span>', '<span class="hljs-attribute">dqaria</span>', '<span class="hljs-attribute">RaoHai</span>']}
+/&gt;</span>, document.getElementById('__react-content'));
 </span></code></pre></div>
   </div>
   <a href="https://github.com/react-component/mention">
@@ -323,7 +366,7 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-t
   </a>
   
   <script src="common.js?nowrap"></script>
-  <script src="simple.js?nowrap"></script>
+  <script src="antd.js?nowrap"></script>
 </body>
 
 </html>

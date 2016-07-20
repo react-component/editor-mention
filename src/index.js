@@ -12,5 +12,6 @@ export {
   Nav,
   toString,
   toEditorState,
+  getMentions,
 };
 export default Mention;

@@ -39413,7 +39413,8 @@
 	    callbacks: callbacks,
 	    mentionStore: _mentionStore2.default
 	  };
-	  var suggestionRegex = new RegExp('(\\s|^)' + config.prefix + '[\\w]*', 'g');
+	
+	  var suggestionRegex = new RegExp('(\\s|^)' + config.prefix + '[^\\s]*', 'g');
 	
 	  var tag = config.tag || _MentionContent2.default;
 	  var decorators = [{

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ACTIVE_SUGGESTION, INACTIVE_SUGGESTION, UPDATE_SUGGESTION } from './actions';
-
+import { EditorState } from 'draft-js';
 export default class SuggestionPortal extends React.Component {
   static propTypes = {
     offsetKey: React.PropTypes.any,
@@ -9,30 +9,29 @@ export default class SuggestionPortal extends React.Component {
     children: React.PropTypes.any,
   }
   componentWillMount() {
-    const { offsetKey, mentionStore } = this.props;
-    mentionStore.dispatch({ type: ACTIVE_SUGGESTION, offsetKey });
+    this.updatePortalPosition(this.props);
+    this.props.callbacks.setEditorState(this.props.callbacks.getEditorState());
   }
-  componentDidMount() {
-    this.updatePortalPosition();
-  }
-  componentDidUpdate() {
-    this.updatePortalPosition();
+  componentWillReceiveProps(nextProps) {
+    this.updatePortalPosition(nextProps);
   }
   componentWillUnmount() {
     const { offsetKey, mentionStore } = this.props;
-    mentionStore.dispatch({ type: INACTIVE_SUGGESTION, offsetKey });
+    mentionStore.inActiveSuggestion({ offsetKey });
   }
-  updatePortalPosition() {
-    const { offsetKey, mentionStore, position } = this.props;
-    const element = this.refs.searchPortal;
-    mentionStore.dispatch({
-      type: UPDATE_SUGGESTION,
+  updatePortalPosition(props) {
+    const { offsetKey, mentionStore, position } = props;
+    
+    mentionStore.updateSuggestion({
       offsetKey,
-      position: {
-        left: element.offsetLeft,
-        top: element.offsetTop,
-        width: element.offsetWidth,
-        height: element.offsetHeight
+      position: () => {
+        const element = this.refs.searchPortal;
+        return {
+          left: element.offsetLeft,
+          top: element.offsetTop,
+          width: element.offsetWidth,
+          height: element.offsetHeight,
+        }
       },
     });
   }

@@ -24,7 +24,7 @@ const MentionEditor = React.createClass({
       contributor.login.toLowerCase().indexOf(searchValue) !== -1
     );
     const suggestions = filtered.map(suggestion =>
-      <Nav style={{ height: 34 }} value={suggestion.login}>
+      <Nav style={{ height: 34 }} value={suggestion.login} key={suggestion.login} >
         <img src={suggestion.avatar_url} className="avatar"/>
         <span className="meta">{suggestion.login}</span>
         <span style={{ float: 'right', color: 'green' }}>{suggestion.contributions}</span>

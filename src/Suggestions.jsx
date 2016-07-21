@@ -31,7 +31,6 @@ export default class Suggestions extends React.Component {
   
   componentDidMount() {
     this.props.callbacks.onChange = this.onEditorStateChange;
-    this.props.store.subscribe(this.updateSuggestion);
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.suggestions.length !== this.props.suggestions.length) {
@@ -41,19 +40,15 @@ export default class Suggestions extends React.Component {
     }
   }
   
-  updateSuggestion = () => {
-    this.onEditorStateChange(this.props.callbacks.getEditorState());
-  }
-  
   componentDidUpdate() {
     const focusItem = ReactDOM.findDOMNode(this.refs.focusItem);
     const container = this.refs.dropdownContainer;
     const { active } = this.state;
     const { activeOffsetKey } = this;
-    const { offset } = this.props.store.getState();
+    const offset = this.props.store.getOffset();
     const dropDownPosition = offset.get(activeOffsetKey);
     if (active && dropDownPosition) {
-      const dropDownStyle = this.getPositionStyle(true, dropDownPosition.position);
+      const dropDownStyle = this.getPositionStyle(true, dropDownPosition.position());
       Object.keys(dropDownStyle).forEach((key) => {
         container.style[key] = dropDownStyle[key];
       });
@@ -67,7 +62,7 @@ export default class Suggestions extends React.Component {
     });
   }
   onEditorStateChange = (editorState) => {
-    const { offset } = this.props.store.getState();
+    const offset = this.props.store.getOffset();
     if (offset.size === 0) {
       return editorState;
     }
@@ -84,6 +79,12 @@ export default class Suggestions extends React.Component {
       }
       const startKey = leaf.get('start');
       const endKey = leaf.get('end');
+      // 处理只有一个 `@` 符号时的情况
+      if ( startKey === endKey - 1) {
+        return selection.anchorOffset >= startKey + 1 && selection.anchorOffset <= endKey
+          ? offsetKey
+          : false;
+      }
       return selection.anchorOffset > startKey + 1 && selection.anchorOffset <= endKey
         ? offsetKey
         : false;
@@ -92,7 +93,8 @@ export default class Suggestions extends React.Component {
     this.activeOffsetKey = selectionInsideMention.find(isNotFalse);
     
     if (!selectionInText) {
-      return this.closeDropDown();
+      this.closeDropDown();
+      return editorState;
     }
     const searchValue = word.substring(1, word.length);
     if (this.lastSearchValue !== searchValue) {
@@ -102,6 +104,7 @@ export default class Suggestions extends React.Component {
     if (!this.state.active) {
       this.openDropDown();
     }
+    return editorState;
   }
   onMentionSelect(mention, data) {
     const editorState = this.props.callbacks.getEditorState();

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import getSearchWord from './utils/getSearchWord';
 import { decode } from 'draft-js/lib/DraftOffsetKey';
+import Animate from 'rc-animate';
 import insertMention from './utils/insertMention';
 import Nav from './Nav';
 import cx from 'classnames';
@@ -80,6 +81,9 @@ export default class Suggestions extends React.Component {
       const startKey = leaf.get('start');
       const endKey = leaf.get('end');
       // 处理只有一个 `@` 符号时的情况
+      if (!word) {
+        return false;
+      }
       if ( startKey === endKey - 1) {
         return selection.anchorOffset >= startKey + 1 && selection.anchorOffset <= endKey
           ? offsetKey
@@ -181,11 +185,16 @@ export default class Suggestions extends React.Component {
     });
   }
   render() {
-    if (!this.state.active) {
-      return <span />;
-    }
-    const { prefixCls, suggestions } = this.props;
+   
+    const { prefixCls, suggestions, className } = this.props;
     const { focusedIndex } = this.state;
+    const cls = cx({
+      [`${prefixCls}-dropdown`]: true,
+      ...className,
+    });
+    // if (!this.state.active) {
+    //   return <span className={className} />;
+    // }
     const navigations = suggestions.length ? React.Children.map(suggestions, (element, index) => {
       const focusItem = index === focusedIndex;
       const ref = focusItem ? 'focusItem' : null;
@@ -205,9 +214,16 @@ export default class Suggestions extends React.Component {
       </Nav>);
     }, this) : <div className={`${prefixCls}-dropdown-notfound ${prefixCls}-dropdown-item`}>{this.props.notFoundContent}</div>
     
-    return (<div
-      className={`${prefixCls}-dropdown`}
-      ref="dropdownContainer"
-    >{navigations}</div>);
+    return (<Animate
+      transitionName="slide-up"
+    >
+      { this.state.active ?
+        <div className={cls} ref="dropdownContainer">
+          {navigations}
+        </div>
+        : null }
+    </Animate>);
   }
 }
+
+

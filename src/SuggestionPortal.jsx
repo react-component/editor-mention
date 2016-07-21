@@ -1,5 +1,4 @@
 import React from 'react';
-import { ACTIVE_SUGGESTION, INACTIVE_SUGGESTION, UPDATE_SUGGESTION } from './actions';
 import { EditorState } from 'draft-js';
 export default class SuggestionPortal extends React.Component {
   static propTypes = {

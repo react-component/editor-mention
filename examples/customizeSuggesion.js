@@ -3,12 +3,12 @@ webpackJsonp([2],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(338);
+	module.exports = __webpack_require__(324);
 
 
 /***/ },
 
-/***/ 338:
+/***/ 324:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -58,7 +58,7 @@ webpackJsonp([2],{
 	    var suggestions = filtered.map(function (suggestion) {
 	      return _react2.default.createElement(
 	        Nav,
-	        { style: { height: 34 }, value: suggestion.login },
+	        { style: { height: 34 }, value: suggestion.login, key: suggestion.login },
 	        _react2.default.createElement('img', { src: suggestion.avatar_url, className: 'avatar' }),
 	        _react2.default.createElement(
 	          'span',

@@ -21783,6 +21783,7 @@
 	exports["default"] = EditorCore;
 	module.exports = exports['default'];
 
+
 /***/ },
 /* 179 */
 /***/ function(module, exports, __webpack_require__) {
@@ -35347,6 +35348,7 @@
 	function editOnFocus(e) {
 	  var editorState = this.props.editorState;
 	  var currentSelection = editorState.getSelection();
+	  console.log('>> editOnFocus', currentSelection.getHasFocus());
 	  if (currentSelection.getHasFocus()) {
 	    return;
 	  }
@@ -35364,6 +35366,7 @@
 	}
 	
 	module.exports = editOnFocus;
+
 
 /***/ },
 /* 260 */
@@ -39547,6 +39550,13 @@
 	      }
 	      var selection = editorState.getSelection();
 	
+	      // 修复: 焦点移出再移入时, dropdown 会闪动一下
+	      // 原因: https://github.com/facebook/draft-js/blob/67c5e69499e3b0c149ce83b004872afdf4180463/src/component/handlers/edit/editOnFocus.js#L33
+	      // 此处强制 update 了一下,因此 onEditorStateChange 会 call 两次
+	      if (!_this.props.callbacks.getEditorState().getSelection().getHasFocus() && selection.getHasFocus()) {
+	        return editorState;
+	      }
+	
 	      var _getSearchWord = (0, _getSearchWord3.default)(editorState, selection);
 	
 	      var word = _getSearchWord.word;
@@ -39582,7 +39592,7 @@
 	      var selectionInText = selectionInsideMention.some(isNotFalse);
 	      _this.activeOffsetKey = selectionInsideMention.find(isNotFalse);
 	
-	      if (!selectionInText) {
+	      if (!selectionInText || !selection.getHasFocus()) {
 	        _this.closeDropDown();
 	        return editorState;
 	      }
@@ -39751,8 +39761,7 @@
 	      }
 	      return _react2.default.createElement(
 	        _Nav2.default,
-	        { ref: ref, className: mentionClass,
-	          onMouseDown: _this3.onMentionSelect.bind(_this3, element)
+	        { ref: ref, className: mentionClass, onMouseDown: _this3.onMentionSelect.bind(_this3, element)
 	        },
 	        element
 	      );

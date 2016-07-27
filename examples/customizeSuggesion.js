@@ -33,6 +33,8 @@ webpackJsonp([2],{
 	
 	var Nav = _rcEditorMention2.default.Nav;
 	
+	var defaultValue = '123 13<br />\n123 <br />\n123 <br />\n123 <br />\n';
+	
 	var MentionEditor = _react2.default.createClass({
 	  displayName: 'MentionEditor',
 	  getInitialState: function getInitialState() {
@@ -89,6 +91,7 @@ webpackJsonp([2],{
 	        style: { width: 300, height: 200 },
 	        onSearchChange: this.onSearchChange,
 	        onChange: this.onChange,
+	        defaultValue: (0, _rcEditorMention.toEditorState)(defaultValue),
 	        suggestions: suggestions,
 	        multiLines: true
 	      })

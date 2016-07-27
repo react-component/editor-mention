@@ -3,12 +3,12 @@ webpackJsonp([2],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(333);
+	module.exports = __webpack_require__(334);
 
 
 /***/ },
 
-/***/ 333:
+/***/ 334:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -76,6 +76,9 @@ webpackJsonp([2],{
 	      suggestions: suggestions
 	    });
 	  },
+	  onChange: function onChange(editorState) {
+	    console.log((0, _rcEditorMention.toString)(editorState, { encode: true }));
+	  },
 	  render: function render() {
 	    var suggestions = this.state.suggestions;
 	
@@ -85,6 +88,7 @@ webpackJsonp([2],{
 	      _react2.default.createElement(_rcEditorMention2.default, {
 	        style: { width: 300, height: 200 },
 	        onSearchChange: this.onSearchChange,
+	        onChange: this.onChange,
 	        suggestions: suggestions,
 	        multiLines: true
 	      })

@@ -1,8 +1,18 @@
 import { convertToRaw } from 'draft-js';
 
+function encodeContent(text) {
+  return text
+    .split('&').join('&amp;')
+    .split('<').join('&lt;')
+    .split('>').join('&gt;')
+    .split('\xA0').join('&nbsp;')
+    .split('\n').join('<br >' + '\n');
+}
+
 class MentionGenerator {
-  constructor(contentState) {
+  constructor(contentState, options) {
     this.contentState = contentState;
+    this.options = options;
   }
   generate() {
     const contentRaw = convertToRaw(this.contentState);
@@ -10,13 +20,14 @@ class MentionGenerator {
   }
   processContent(contentRaw) {
     const { blocks } = contentRaw;
+    const { encode } = this.options;
     return blocks.map(block => {
-      return block.text;
-    }).join('\n');
+      return encode ? encodeContent(block.text) : block.text;
+    }).join(encode ? '<br />\n' : '\n');
   }
 }
 
-export default function exportContent(editorState) {
+export default function exportContent(editorState, options = {}) {
   const content = editorState.getCurrentContent();
-  return new MentionGenerator(content).generate();
+  return new MentionGenerator(content, options).generate();
 }

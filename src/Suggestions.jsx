@@ -68,6 +68,14 @@ export default class Suggestions extends React.Component {
       return editorState;
     }
     const selection = editorState.getSelection();
+    
+    // 修复: 焦点移出再移入时, dropdown 会闪动一下
+    // 原因: https://github.com/facebook/draft-js/blob/67c5e69499e3b0c149ce83b004872afdf4180463/src/component/handlers/edit/editOnFocus.js#L33
+    // 此处强制 update 了一下,因此 onEditorStateChange 会 call 两次
+    if (!this.props.callbacks.getEditorState().getSelection().getHasFocus() && selection.getHasFocus()) {
+      return editorState;
+    }
+    
     const { word } = getSearchWord(editorState, selection);
     const selectionInsideMention = offset.map(({ offsetKey, position }) => {
       const { blockKey, decoratorKey, leafKey } = decode(offsetKey);
@@ -96,7 +104,7 @@ export default class Suggestions extends React.Component {
     const selectionInText = selectionInsideMention.some(isNotFalse);
     this.activeOffsetKey = selectionInsideMention.find(isNotFalse);
     
-    if (!selectionInText) {
+    if (!selectionInText || !selection.getHasFocus()) {
       this.closeDropDown();
       return editorState;
     }
@@ -208,8 +216,7 @@ export default class Suggestions extends React.Component {
           ref,
         });
       }
-      return (<Nav ref={ref} className={mentionClass}
-                   onMouseDown={this.onMentionSelect.bind(this, element)}
+      return (<Nav ref={ref} className={mentionClass} onMouseDown={this.onMentionSelect.bind(this, element)}
       >{element}
       </Nav>);
     }, this) : <div className={`${prefixCls}-dropdown-notfound ${prefixCls}-dropdown-item`}>{this.props.notFoundContent}</div>

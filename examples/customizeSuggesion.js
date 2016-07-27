@@ -3,7 +3,7 @@
 import 'rc-editor-mention/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Mention from 'rc-editor-mention';
+import Mention, { toString } from 'rc-editor-mention';
 const Nav = Mention.Nav;
 
 const MentionEditor = React.createClass({
@@ -33,12 +33,16 @@ const MentionEditor = React.createClass({
       suggestions,
     });
   },
+  onChange(editorState) {
+    console.log(toString(editorState, { encode: true }));
+  },
   render() {
     const { suggestions } = this.state;
     return (<div style={{position: 'relative', left: 150}}>
       <Mention
         style={{ width: 300, height: 200 }}
         onSearchChange={this.onSearchChange}
+        onChange={this.onChange}
         suggestions={suggestions}
         multiLines
       />

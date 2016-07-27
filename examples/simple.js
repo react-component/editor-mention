@@ -29,7 +29,10 @@ const MentionEditor = React.createClass({
     });
   },
   onChange(editorState) {
-    console.log('>> mentionChange', toString(editorState), getMentions(editorState));
+    console.log('>> mentionChange',
+      toString(editorState, { encode: true }),
+      getMentions(editorState)
+    );
   },
   render() {
     const { suggestions } = this.state;

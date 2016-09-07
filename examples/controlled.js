@@ -3,12 +3,12 @@ webpackJsonp([1],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(333);
+	module.exports = __webpack_require__(436);
 
 
 /***/ },
 
-/***/ 333:
+/***/ 436:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27,7 +27,7 @@ webpackJsonp([1],{
 	
 	var _rcEditorMention2 = _interopRequireDefault(_rcEditorMention);
 	
-	var _draftJs = __webpack_require__(179);
+	var _draftJs = __webpack_require__(327);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	

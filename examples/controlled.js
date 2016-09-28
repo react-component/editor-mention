@@ -19,7 +19,7 @@ webpackJsonp([1],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(35);
+	var _reactDom = __webpack_require__(36);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
@@ -27,7 +27,7 @@ webpackJsonp([1],{
 	
 	var _rcEditorMention2 = _interopRequireDefault(_rcEditorMention);
 	
-	var _draftJs = __webpack_require__(180);
+	var _draftJs = __webpack_require__(179);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	

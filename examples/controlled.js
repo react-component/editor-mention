@@ -79,8 +79,7 @@ webpackJsonp([1],{
 	        ref: 'mention',
 	        onSearchChange: this.onSearchChange,
 	        defaultValue: this.state.defaultValue,
-	        onChange: this.onChange,
-	        value: editorState,
+	        value: (0, _rcEditorMention.toEditorState)('@qia'),
 	        suggestions: suggestions, prefix: '@'
 	      })
 	    );

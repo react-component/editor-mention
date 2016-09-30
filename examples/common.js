@@ -21687,7 +21687,8 @@
 	          style: suggestionStyle,
 	          notFoundContent: notFoundContent,
 	          suggestions: suggestions,
-	          onSearchChange: this.props.onSearchChange
+	          onSearchChange: this.props.onSearchChange,
+	          onSelect: this.props.onSelect
 	        })
 	      )
 	    );
@@ -21714,7 +21715,8 @@
 	  notFoundContent: _react2.default.PropTypes.any,
 	  position: _react2.default.PropTypes.string,
 	  onFocus: _react2.default.PropTypes.func,
-	  onBlur: _react2.default.PropTypes.func
+	  onBlur: _react2.default.PropTypes.func,
+	  onSelect: _react2.default.PropTypes.func
 	};
 	Mention.controlledMode = false;
 	
@@ -45379,6 +45381,9 @@
 	
 	  Suggestions.prototype.onMentionSelect = function onMentionSelect(mention, data) {
 	    var editorState = this.props.callbacks.getEditorState();
+	    if (this.props.onSelect) {
+	      this.props.onSelect(mention, data || mention);
+	    }
 	    this.props.callbacks.setEditorState((0, _insertMention2.default)(editorState, '' + this.props.prefix + mention, data, this.props.mode));
 	    this.closeDropDown();
 	  };

@@ -56,6 +56,9 @@ webpackJsonp([7],{
 	      suggestions: filtered
 	    });
 	  },
+	  onSelect: function onSelect(value, suggestion) {
+	    console.log('>> onSelect', value, suggestion);
+	  },
 	  onChange: function onChange(editorState) {
 	    console.log('>> mentionChange', (0, _rcEditorMention.toString)(editorState, { encode: true }), (0, _rcEditorMention.getMentions)(editorState));
 	  },
@@ -65,9 +68,9 @@ webpackJsonp([7],{
 	    return _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },
 	      onSearchChange: this.onSearchChange,
 	      onChange: this.onChange,
-	      defaultValue: (0, _rcEditorMention.toEditorState)(' @afc163 '),
 	      placeholder: ' @ 某人 ',
-	      suggestions: suggestions, prefix: '@'
+	      suggestions: suggestions, prefix: '@',
+	      onSelect: this.onSelect
 	    });
 	  }
 	});

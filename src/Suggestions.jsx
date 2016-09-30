@@ -120,6 +120,9 @@ export default class Suggestions extends React.Component {
   }
   onMentionSelect(mention, data) {
     const editorState = this.props.callbacks.getEditorState();
+    if (this.props.onSelect) {
+      this.props.onSelect(mention, data || mention);
+    }
     this.props.callbacks.setEditorState(
       insertMention(editorState, `${this.props.prefix}${mention}`, data, this.props.mode)
     );

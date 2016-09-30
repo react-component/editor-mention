@@ -35,6 +35,7 @@ class Mention extends React.Component {
     position: React.PropTypes.string,
     onFocus: React.PropTypes.func,
     onBlur: React.PropTypes.func,
+    onSelect: React.PropTypes.func,
   }
   static controlledMode = false;
   constructor(props) {
@@ -115,6 +116,7 @@ class Mention extends React.Component {
           notFoundContent={notFoundContent}
           suggestions={suggestions}
           onSearchChange={this.props.onSearchChange}
+          onSelect={this.props.onSelect}
         />
       </EditorCore>
     </div>);

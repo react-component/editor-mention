@@ -44,8 +44,7 @@ const MentionEditor = React.createClass({
         ref="mention"
         onSearchChange={this.onSearchChange}
         defaultValue={this.state.defaultValue}
-        onChange={this.onChange}
-        value={editorState}
+        value={toEditorState('@qia')}
         suggestions={suggestions} prefix="@"
       /></div>);
   },

@@ -28,6 +28,9 @@ const MentionEditor = React.createClass({
       suggestions: filtered,
     });
   },
+  onSelect(value, suggestion) {
+    console.log('>> onSelect', value, suggestion);
+  },
   onChange(editorState) {
     console.log('>> mentionChange',
       toString(editorState, { encode: true }),
@@ -39,9 +42,9 @@ const MentionEditor = React.createClass({
     return (<Mention style={{ width: 300 }}
       onSearchChange={this.onSearchChange}
       onChange={this.onChange}
-      defaultValue={toEditorState(' @afc163 ')}
       placeholder=" @ 某人 "
       suggestions={suggestions} prefix="@"
+      onSelect={this.onSelect}
     />);
   },
 });

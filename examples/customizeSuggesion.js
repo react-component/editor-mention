@@ -49,6 +49,7 @@ const MentionEditor = React.createClass({
         style={{ width: 300, height: 200 }}
         onSearchChange={this.onSearchChange}
         onChange={this.onChange}
+        prefix="$"
         defaultValue={toEditorState(defaultValue)}
         suggestions={suggestions}
         multiLines

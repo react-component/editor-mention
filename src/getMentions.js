@@ -1,6 +1,7 @@
-var regex = new RegExp(`(\\s|^)@[^\\s]*`, 'g');
 
-export default function getMentions(editorState) {
+export default function getMentions(editorState, prefix = '@') {
+  const escapedPrefix = prefix.replace(/(\$|\^)/g, '\\$1');
+  const regex = new RegExp(`(\\s|^)${escapedPrefix}[^\\s]*`, 'g');
   const contentState = editorState.getCurrentContent();
   const entities = [];
   contentState.getBlockMap().forEach(block => {

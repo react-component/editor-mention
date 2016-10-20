@@ -53,8 +53,8 @@ export default function createMention(config = {}) {
     callbacks,
     mentionStore,
   };
-  
-  const suggestionRegex = new RegExp(`(\\s|^)${config.prefix}[^\\s]*`, 'g');
+  const prefix = config.prefix.replace(/(\$|\^)/g, '\\$1');
+  const suggestionRegex = new RegExp(`(\\s|^)${prefix}[^\\s]*`, 'g');
 
   const tag = config.tag || MentionContent;
   const decorators = [{

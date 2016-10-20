@@ -45120,8 +45120,8 @@
 	    callbacks: callbacks,
 	    mentionStore: _mentionStore2.default
 	  };
-	
-	  var suggestionRegex = new RegExp('(\\s|^)' + config.prefix + '[^\\s]*', 'g');
+	  var prefix = config.prefix.replace(/(\$|\^)/g, '\\$1');
+	  var suggestionRegex = new RegExp('(\\s|^)' + prefix + '[^\\s]*', 'g');
 	
 	  var tag = config.tag || _MentionContent2.default;
 	  var decorators = [{
@@ -47640,9 +47640,11 @@
 	  value: true
 	});
 	exports.default = getMentions;
-	var regex = new RegExp('(\\s|^)@[^\\s]*', 'g');
-	
 	function getMentions(editorState) {
+	  var prefix = arguments.length <= 1 || arguments[1] === undefined ? '@' : arguments[1];
+	
+	  var escapedPrefix = prefix.replace(/(\$|\^)/g, '\\$1');
+	  var regex = new RegExp('(\\s|^)' + escapedPrefix + '[^\\s]*', 'g');
 	  var contentState = editorState.getCurrentContent();
 	  var entities = [];
 	  contentState.getBlockMap().forEach(function (block) {

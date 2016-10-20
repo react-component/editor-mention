@@ -91,6 +91,7 @@ webpackJsonp([2],{
 	        style: { width: 300, height: 200 },
 	        onSearchChange: this.onSearchChange,
 	        onChange: this.onChange,
+	        prefix: '$',
 	        defaultValue: (0, _rcEditorMention.toEditorState)(defaultValue),
 	        suggestions: suggestions,
 	        multiLines: true

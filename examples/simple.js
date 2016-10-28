@@ -3,12 +3,12 @@ webpackJsonp([7],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(343);
+	module.exports = __webpack_require__(344);
 
 
 /***/ },
 
-/***/ 343:
+/***/ 344:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -68,7 +68,7 @@ webpackJsonp([7],{
 	    return _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },
 	      onSearchChange: this.onSearchChange,
 	      onChange: this.onChange,
-	      placeholder: ' @ 某人 ',
+	      placeholder: ' @ \u67D0\u4EBA ',
 	      suggestions: suggestions, prefix: '@',
 	      onSelect: this.onSelect
 	    });

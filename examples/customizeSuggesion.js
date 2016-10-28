@@ -3,12 +3,12 @@ webpackJsonp([2],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(338);
+	module.exports = __webpack_require__(339);
 
 
 /***/ },
 
-/***/ 338:
+/***/ 339:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -91,7 +91,6 @@ webpackJsonp([2],{
 	        style: { width: 300, height: 200 },
 	        onSearchChange: this.onSearchChange,
 	        onChange: this.onChange,
-	        prefix: '$',
 	        defaultValue: (0, _rcEditorMention.toEditorState)(defaultValue),
 	        suggestions: suggestions,
 	        multiLines: true

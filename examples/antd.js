@@ -95,16 +95,16 @@ webpackJsonp([0],[
 	    var _classnames,
 	        _this2 = this;
 	
-	    var _props = this.props;
-	    var className = _props.className;
-	    var prefixCls = _props.prefixCls;
-	    var style = _props.style;
-	    var multiLines = _props.multiLines;
-	    var defaultValue = _props.defaultValue;
+	    var _props = this.props,
+	        className = _props.className,
+	        prefixCls = _props.prefixCls,
+	        style = _props.style,
+	        multiLines = _props.multiLines,
+	        defaultValue = _props.defaultValue;
 	    var notFoundContent = this.props.notFoundContent;
-	    var _state = this.state;
-	    var suggestions = _state.suggestions;
-	    var focus = _state.focus;
+	    var _state = this.state,
+	        suggestions = _state.suggestions,
+	        focus = _state.focus;
 	
 	    var cls = (0, _classnames3.default)((_classnames = {}, _defineProperty(_classnames, className, !!className), _defineProperty(_classnames, 'active', focus), _classnames));
 	

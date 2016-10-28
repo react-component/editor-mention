@@ -3,12 +3,12 @@ webpackJsonp([1],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(337);
+	module.exports = __webpack_require__(338);
 
 
 /***/ },
 
-/***/ 337:
+/***/ 338:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -62,9 +62,9 @@ webpackJsonp([1],{
 	    });
 	  },
 	  render: function render() {
-	    var _state = this.state;
-	    var suggestions = _state.suggestions;
-	    var editorState = _state.editorState;
+	    var _state = this.state,
+	        suggestions = _state.suggestions,
+	        editorState = _state.editorState;
 	
 	    return _react2.default.createElement(
 	      'div',

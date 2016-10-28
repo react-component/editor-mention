@@ -3,12 +3,12 @@ webpackJsonp([5],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(341);
+	module.exports = __webpack_require__(342);
 
 
 /***/ },
 
-/***/ 341:
+/***/ 342:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -57,9 +57,9 @@ webpackJsonp([5],{
 	    });
 	  },
 	  render: function render() {
-	    var _state = this.state;
-	    var suggestions = _state.suggestions;
-	    var editorMode = _state.editorMode;
+	    var _state = this.state,
+	        suggestions = _state.suggestions,
+	        editorMode = _state.editorMode;
 	
 	    return _react2.default.createElement(
 	      'div',
@@ -67,12 +67,12 @@ webpackJsonp([5],{
 	      _react2.default.createElement(
 	        'h4',
 	        null,
-	        '完整标签模式时, 在 tag 后边按退格键,将会删除整个标签。而在自由模式时,按退格键,则会重新编辑标签。'
+	        '\u5B8C\u6574\u6807\u7B7E\u6A21\u5F0F\u65F6, \u5728 tag \u540E\u8FB9\u6309\u9000\u683C\u952E,\u5C06\u4F1A\u5220\u9664\u6574\u4E2A\u6807\u7B7E\u3002\u800C\u5728\u81EA\u7531\u6A21\u5F0F\u65F6,\u6309\u9000\u683C\u952E,\u5219\u4F1A\u91CD\u65B0\u7F16\u8F91\u6807\u7B7E\u3002'
 	      ),
 	      _react2.default.createElement(
 	        'p',
 	        null,
-	        '切换标签模式只对之后添加的 tag 有效。'
+	        '\u5207\u6362\u6807\u7B7E\u6A21\u5F0F\u53EA\u5BF9\u4E4B\u540E\u6DFB\u52A0\u7684 tag \u6709\u6548\u3002'
 	      ),
 	      _react2.default.createElement(
 	        'select',
@@ -80,12 +80,12 @@ webpackJsonp([5],{
 	        _react2.default.createElement(
 	          'option',
 	          { value: 'immutable' },
-	          '完整标签模式'
+	          '\u5B8C\u6574\u6807\u7B7E\u6A21\u5F0F'
 	        ),
 	        _react2.default.createElement(
 	          'option',
 	          { value: 'mutable' },
-	          '自由模式'
+	          '\u81EA\u7531\u6A21\u5F0F'
 	        )
 	      ),
 	      _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },

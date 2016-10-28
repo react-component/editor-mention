@@ -3,12 +3,12 @@ webpackJsonp([6],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(342);
+	module.exports = __webpack_require__(343);
 
 
 /***/ },
 
-/***/ 342:
+/***/ 343:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -62,9 +62,9 @@ webpackJsonp([6],{
 	    });
 	  },
 	  render: function render() {
-	    var _state = this.state;
-	    var suggestions = _state.suggestions;
-	    var suggestionStyle = _state.suggestionStyle;
+	    var _state = this.state,
+	        suggestions = _state.suggestions,
+	        suggestionStyle = _state.suggestionStyle;
 	
 	    var multiLines = true;
 	    return _react2.default.createElement(_rcEditorMention2.default, {

@@ -44,12 +44,11 @@ const MentionEditor = React.createClass({
   },
   render() {
     const { suggestions } = this.state;
-    return (<div style={{position: 'relative', left: 150}}>
+    return (<div style={{ position: 'relative', left: 150 }}>
       <Mention
         style={{ width: 300, height: 200 }}
         onSearchChange={this.onSearchChange}
         onChange={this.onChange}
-        prefix="$"
         defaultValue={toEditorState(defaultValue)}
         suggestions={suggestions}
         multiLines

@@ -3,15 +3,9 @@
 import 'rc-editor-mention/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Mention, { toString, getMentions, toEditorState } from 'rc-editor-mention';
+import Mention, { toString, getMentions } from 'rc-editor-mention';
 
 const originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
-
-const Wrapper = React.createClass({
-  render() {
-    return <MentionEditor />;
-  }
-});
 
 const MentionEditor = React.createClass({
   getInitialState() {
@@ -51,5 +45,5 @@ const MentionEditor = React.createClass({
 
 ReactDOM.render(<div>
   <p> you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai</p>
-  <Wrapper />
+  <MentionEditor />
   </div>, document.getElementById('__react-content'));

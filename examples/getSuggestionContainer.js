@@ -3,7 +3,7 @@
 import 'rc-editor-mention/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Mention, { toEditorState } from 'rc-editor-mention';
+import Mention, { toString, getMentions } from 'rc-editor-mention';
 
 const originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
 
@@ -22,19 +22,30 @@ const MentionEditor = React.createClass({
       suggestions: filtered,
     });
   },
-  reset() {
-    this.refs.mention.reset();
+  onSelect(value, suggestion) {
+    console.log('>> onSelect', value, suggestion);
+  },
+  onChange(editorState) {
+    console.log('>> mentionChange',
+      toString(editorState, { encode: true }),
+      getMentions(editorState)
+    );
+  },
+  getSuggestionContainer() {
+    return this.refs.wrapper;
   },
   render() {
     const { suggestions } = this.state;
-    return (<div>
-      <button onClick={this.reset}> reset </button>
-      <Mention style={{ width: 300 }}
-        ref="mention"
-        onSearchChange={this.onSearchChange}
-        defaultValue={toEditorState('hello @afc163 ')}
-        suggestions={suggestions} prefix="@"
-      /></div>);
+    return (<div ref="wrapper" style={{ position: 'relative' }}>
+        <Mention style={{ width: 300 }}
+          onSearchChange={this.onSearchChange}
+          onChange={this.onChange}
+          placeholder=" @ 某人 "
+          getSuggestionContainer={this.getSuggestionContainer}
+          suggestions={suggestions} prefix="@"
+          onSelect={this.onSelect}
+        />
+      </div>);
   },
 });
 

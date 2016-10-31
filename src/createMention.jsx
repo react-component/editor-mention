@@ -61,7 +61,7 @@ export default function createMention(config = {}) {
     strategy: (contentBlock, callback) => {
       findWithRegex(suggestionRegex, contentBlock, callback);
     },
-    component: (props) => <SuggestionPortal {...props} {...componentProps} />
+    component: (props) => <SuggestionPortal {...props} {...componentProps} />,
   }];
   if (config.mode !== 'immutable') {
     decorators.unshift({

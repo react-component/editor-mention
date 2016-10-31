@@ -7,29 +7,20 @@ import insertMention from './utils/insertMention';
 import Nav from './Nav';
 import cx from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
+import SuggetionWrapper from './SuggestionWrapper';
+import getOffset from './utils/getOffset';
 
 const isNotFalse = (i) => i !== false;
 export default class Suggestions extends React.Component {
-  static propTypes = {
-    callbacks: React.PropTypes.object,
-    suggestions: React.PropTypes.array,
-    store: React.PropTypes.object,
-    onSearchChange: React.PropTypes.func,
-    prefix: React.PropTypes.string,
-    prefixCls: React.PropTypes.string,
-    mode: React.PropTypes.string,
-    style: React.PropTypes.object,
-    notFoundContent: React.PropTypes.any,
-    getSuggestionStyle: React.PropTypes.func,
-  }
   constructor() {
     super();
     this.state = {
       isActive: false,
       focusedIndex: 0,
+      container: false,
     };
   }
-  
+
   componentDidMount() {
     this.props.callbacks.onChange = this.onEditorStateChange;
   }
@@ -40,44 +31,23 @@ export default class Suggestions extends React.Component {
       });
     }
   }
-  
-  componentDidUpdate() {
-    const focusItem = ReactDOM.findDOMNode(this.refs.focusItem);
-    const container = this.refs.dropdownContainer;
-    const { active } = this.state;
-    const { activeOffsetKey } = this;
-    const offset = this.props.store.getOffset();
-    const dropDownPosition = offset.get(activeOffsetKey);
-    if (active && dropDownPosition) {
-      const dropDownStyle = this.getPositionStyle(true, dropDownPosition.position());
-      Object.keys(dropDownStyle).forEach((key) => {
-        container.style[key] = dropDownStyle[key];
-      });
-    }
-    
-    if (!focusItem) {
-      return;
-    }
-    scrollIntoView(focusItem, container, {
-      onlyScrollIfNeeded: true,
-    });
-  }
+
   onEditorStateChange = (editorState) => {
     const offset = this.props.store.getOffset();
     if (offset.size === 0) {
       return editorState;
     }
     const selection = editorState.getSelection();
-    
     // 修复: 焦点移出再移入时, dropdown 会闪动一下
     // 原因: https://github.com/facebook/draft-js/blob/67c5e69499e3b0c149ce83b004872afdf4180463/src/component/handlers/edit/editOnFocus.js#L33
     // 此处强制 update 了一下,因此 onEditorStateChange 会 call 两次
-    if (!this.props.callbacks.getEditorState().getSelection().getHasFocus() && selection.getHasFocus()) {
+    if (!this.props.callbacks.getEditorState().getSelection().getHasFocus()
+      && selection.getHasFocus()) {
       return editorState;
     }
-    
+
     const { word } = getSearchWord(editorState, selection);
-    const selectionInsideMention = offset.map(({ offsetKey, position }) => {
+    const selectionInsideMention = offset.map(({ offsetKey }) => {
       const { blockKey, decoratorKey, leafKey } = decode(offsetKey);
       if (blockKey !== selection.anchorKey) {
         return false;
@@ -92,7 +62,7 @@ export default class Suggestions extends React.Component {
       if (!word) {
         return false;
       }
-      if ( startKey === endKey - 1) {
+      if (startKey === endKey - 1) {
         return selection.anchorOffset >= startKey + 1 && selection.anchorOffset <= endKey
           ? offsetKey
           : false;
@@ -103,7 +73,7 @@ export default class Suggestions extends React.Component {
     });
     const selectionInText = selectionInsideMention.some(isNotFalse);
     this.activeOffsetKey = selectionInsideMention.find(isNotFalse);
-    
+
     if (!selectionInText || !selection.getHasFocus()) {
       this.closeDropDown();
       return editorState;
@@ -152,12 +122,29 @@ export default class Suggestions extends React.Component {
     if (this.props.getSuggestionStyle) {
       return this.props.getSuggestionStyle(isActive, position);
     }
+    const container = this.props.getSuggestionContainer ? this.state.container : document.body;
+    const offset = getOffset(container);
     return position ? {
       position: 'absolute',
-      left: `${position.left}px`,
-      top: `${position.top - (ReactDOM.findDOMNode(this) ? ReactDOM.findDOMNode(this).parentNode.scrollTop : 0)}px`,
+      left: `${position.left - offset.left}px`,
+      top: `${position.top - offset.top}px`,
       ...this.props.style,
     } : {};
+  }
+  getContainer = () => {
+    const popupContainer = document.createElement('div');
+    let mountNode;
+    if (this.props.getSuggestionContainer) {
+      mountNode = this.props.getSuggestionContainer(ReactDOM.findDOMNode(this));
+      popupContainer.style.position = 'relative';
+    } else {
+      mountNode = document.body;
+    }
+    mountNode.appendChild(popupContainer);
+    return popupContainer;
+  }
+  handleKeyBinding = (command) => {
+    return command === 'split-block';
   }
   handleReturn = (ev) => {
     ev.preventDefault();
@@ -172,9 +159,6 @@ export default class Suggestions extends React.Component {
     }
     return false;
   }
-  handleKeyBinding = (command) => {
-    return command === 'split-block';
-  }
   openDropDown() {
     this.props.callbacks.onUpArrow = this.onUpArrow;
     this.props.callbacks.handleReturn = this.handleReturn;
@@ -183,6 +167,7 @@ export default class Suggestions extends React.Component {
     this.props.callbacks.onBlur = this.onBlur;
     this.setState({
       active: true,
+      container: this.state.container || this.getContainer(),
     });
   }
   closeDropDown() {
@@ -195,17 +180,38 @@ export default class Suggestions extends React.Component {
       active: false,
     });
   }
+  renderReady = () => {
+    const focusItem = ReactDOM.findDOMNode(this.refs.focusItem);
+    const container = this.refs.dropdownContainer;
+    if (!container) {
+      return;
+    }
+    const { active } = this.state;
+    const { activeOffsetKey } = this;
+    const offset = this.props.store.getOffset();
+    const dropDownPosition = offset.get(activeOffsetKey);
+    if (active && dropDownPosition) {
+      const dropDownStyle = this.getPositionStyle(true, dropDownPosition.position());
+      Object.keys(dropDownStyle).forEach((key) => {
+        container.style[key] = dropDownStyle[key];
+      });
+    }
+
+    if (!focusItem) {
+      return;
+    }
+    scrollIntoView(focusItem, container, {
+      onlyScrollIfNeeded: true,
+    });
+  }
   render() {
-   
     const { prefixCls, suggestions, className } = this.props;
-    const { focusedIndex } = this.state;
+    const { container, focusedIndex } = this.state;
     const cls = cx({
       [`${prefixCls}-dropdown`]: true,
       ...className,
     });
-    // if (!this.state.active) {
-    //   return <span className={className} />;
-    // }
+
     const navigations = suggestions.length ? React.Children.map(suggestions, (element, index) => {
       const focusItem = index === focusedIndex;
       const ref = focusItem ? 'focusItem' : null;
@@ -219,21 +225,41 @@ export default class Suggestions extends React.Component {
           ref,
         });
       }
-      return (<Nav ref={ref} className={mentionClass} onMouseDown={this.onMentionSelect.bind(this, element)}
-      >{element}
-      </Nav>);
-    }, this) : <div className={`${prefixCls}-dropdown-notfound ${prefixCls}-dropdown-item`}>{this.props.notFoundContent}</div>
-    
-    return (<Animate
-      transitionName="slide-up"
-    >
-      { this.state.active ?
-        <div className={cls} ref="dropdownContainer">
-          {navigations}
-        </div>
-        : null }
-    </Animate>);
+      return (<Nav ref={ref}
+        className={mentionClass}
+        onMouseDown={this.onMentionSelect.bind(this, element)}
+      >{element}</Nav>);
+    }, this) :
+      <div className={`${prefixCls}-dropdown-notfound ${prefixCls}-dropdown-item`}>
+        {this.props.notFoundContent}
+      </div>;
+
+    return container ? (<SuggetionWrapper renderReady={this.renderReady} container={container}>
+      <Animate
+        transitionName="slide-up"
+      >
+        { this.state.active ?
+          <div className={cls} ref="dropdownContainer">
+            {navigations}
+          </div>
+          : null }
+      </Animate>
+    </SuggetionWrapper>) : null;
   }
 }
 
-
+Suggestions.propTypes = {
+  callbacks: React.PropTypes.object,
+  suggestions: React.PropTypes.array,
+  store: React.PropTypes.object,
+  onSearchChange: React.PropTypes.func,
+  prefix: React.PropTypes.string,
+  prefixCls: React.PropTypes.string,
+  mode: React.PropTypes.string,
+  style: React.PropTypes.object,
+  onSelect: React.PropTypes.func,
+  getSuggestionContainer: React.PropTypes.func,
+  notFoundContent: React.PropTypes.any,
+  getSuggestionStyle: React.PropTypes.func,
+  className: React.PropTypes.string,
+};

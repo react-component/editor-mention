@@ -36,14 +36,15 @@ class Mention extends React.Component {
     onFocus: React.PropTypes.func,
     onBlur: React.PropTypes.func,
     onSelect: React.PropTypes.func,
+    getSuggestionContainer: React.PropTypes.func,
   }
-  static controlledMode = false;
   constructor(props) {
     super(props);
     this.state = {
       suggestions: props.suggestions,
       value: props.value,
     };
+
     this.mention = createMention({
       prefix: props.prefix,
       tag: props.tag,
@@ -51,7 +52,7 @@ class Mention extends React.Component {
     });
     this.Suggestions = this.mention.Suggestions;
     this.plugins = [this.mention];
-    
+
     if (typeof props.defaultValue === 'string') {
       console.warn('The property `defaultValue` now allow `EditorState` only, see http://react-component.github.io/editor-mention/examples/defaultValue.html ');
     }
@@ -81,19 +82,27 @@ class Mention extends React.Component {
       this.props.onBlur();
     }
   }
+  static controlledMode = false;
   reset = () => {
+    /*eslint-disable*/
     this.refs.editor.Reset();
+    /*eslint-enable*/
   }
   render() {
-    const { prefixCls, style, prefix, tag, mode, multiLines, suggestionStyle, placeholder, defaultValue, className, notFoundContent} = this.props;
+    const {
+      prefixCls, style, prefix, tag, multiLines,
+      suggestionStyle, placeholder, defaultValue, className, notFoundContent,
+      getSuggestionContainer,
+    } = this.props;
     const { suggestions } = this.state;
     const { Suggestions } = this;
     const editorClass = classnames(className, {
       [`${prefixCls}-wrapper`]: true,
       multilines: multiLines,
     });
-    const editorCoreProps = this.controlledMode ? { value : this.state.value }: {};
-    const defaultValueState = typeof defaultValue === 'string' ? toEditorState(defaultValue) : defaultValue;
+    const editorCoreProps = this.controlledMode ? { value: this.state.value } : {};
+    const defaultValueState =
+      typeof defaultValue === 'string' ? toEditorState(defaultValue) : defaultValue;
     return (<div className={editorClass} style={style} ref="wrapper">
       <EditorCore
         ref="editor"
@@ -109,12 +118,13 @@ class Mention extends React.Component {
         {...editorCoreProps}
       >
         <Suggestions
-          mode={tag ? 'immutable': 'mutable'}
+          mode={tag ? 'immutable' : 'mutable'}
           prefix={prefix}
           prefixCls={prefixCls}
           style={suggestionStyle}
           notFoundContent={notFoundContent}
           suggestions={suggestions}
+          getSuggestionContainer={getSuggestionContainer}
           onSearchChange={this.props.onSearchChange}
           onSelect={this.props.onSelect}
         />

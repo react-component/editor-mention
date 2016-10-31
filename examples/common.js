@@ -45436,11 +45436,10 @@
 	    }
 	    var container = this.props.getSuggestionContainer ? this.state.container : document.body;
 	    var offset = getOffset(container);
-	    console.log('>> position', position.top, offset.top, container.scrollTop);
 	    return position ? _extends({
-	      position: 'absoulute',
-	      left: position.left - offset.left + container.scrollLeft + 'px',
-	      top: position.top - offset.top + container.scrollTop + 'px'
+	      position: 'absolute',
+	      left: position.left - offset.left + 'px',
+	      top: position.top - offset.top + 'px'
 	    }, this.props.style) : {};
 	  };
 	

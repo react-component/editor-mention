@@ -1,14 +1,12 @@
-webpackJsonp([1],{
-
-/***/ 0:
+webpackJsonp([0],[
+/* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(338);
+	module.exports = __webpack_require__(1);
 
 
 /***/ },
-
-/***/ 338:
+/* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -98,6 +96,5 @@ webpackJsonp([1],{
 	), document.getElementById('__react-content'));
 
 /***/ }
-
-});
+]);
 //# sourceMappingURL=controlled.js.map

@@ -1,4 +1,4 @@
-webpackJsonp([8],{
+webpackJsonp([7],{
 
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
@@ -32,13 +32,6 @@ webpackJsonp([8],{
 	// use jsx to render html, do not modify simple.html
 	
 	var originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
-	
-	var Wrapper = _react2.default.createClass({
-	  displayName: 'Wrapper',
-	  render: function render() {
-	    return _react2.default.createElement(MentionEditor, null);
-	  }
-	});
 	
 	var MentionEditor = _react2.default.createClass({
 	  displayName: 'MentionEditor',
@@ -83,7 +76,7 @@ webpackJsonp([8],{
 	    null,
 	    ' you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai'
 	  ),
-	  _react2.default.createElement(Wrapper, null)
+	  _react2.default.createElement(MentionEditor, null)
 	), document.getElementById('__react-content'));
 
 /***/ }

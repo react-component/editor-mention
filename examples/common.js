@@ -30,7 +30,7 @@
 /******/ 	// "0" means "already loaded"
 /******/ 	// Array means "loading", array contains callbacks
 /******/ 	var installedChunks = {
-/******/ 		9:0
+/******/ 		8:0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -76,7 +76,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"antd","1":"controlled","2":"customizeSuggesion","3":"customizeSuggesionAndTag","4":"defaultValue","5":"getSuggestionContainer","6":"mentionMode","7":"multilines","8":"simple"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"controlled","1":"customizeSuggesion","2":"customizeSuggesionAndTag","3":"defaultValue","4":"getSuggestionContainer","5":"mentionMode","6":"multilines","7":"simple"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -21501,11 +21501,11 @@
 	
 	var _Mention2 = _interopRequireDefault(_Mention);
 	
-	var _exportContent = __webpack_require__(336);
+	var _exportContent = __webpack_require__(337);
 	
 	var _exportContent2 = _interopRequireDefault(_exportContent);
 	
-	var _getMentions = __webpack_require__(337);
+	var _getMentions = __webpack_require__(338);
 	
 	var _getMentions2 = _interopRequireDefault(_getMentions);
 	
@@ -21550,7 +21550,7 @@
 	
 	var _createMention2 = _interopRequireDefault(_createMention);
 	
-	var _exportContent = __webpack_require__(336);
+	var _exportContent = __webpack_require__(337);
 	
 	var _exportContent2 = _interopRequireDefault(_exportContent);
 	
@@ -21581,12 +21581,6 @@
 	}();
 	/*eslint-enable*/
 	
-	function defaultGetContainer() {
-	  var container = document.createElement('div');
-	  document.body.appendChild(container);
-	  return container;
-	}
-	
 	var Mention = function (_React$Component) {
 	  _inherits(Mention, _React$Component);
 	
@@ -21614,7 +21608,9 @@
 	    };
 	
 	    _this.reset = function () {
+	      /*eslint-disable*/
 	      _this.refs.editor.Reset();
+	      /*eslint-enable*/
 	    };
 	
 	    _this.state = {
@@ -21657,7 +21653,6 @@
 	        style = _props.style,
 	        prefix = _props.prefix,
 	        tag = _props.tag,
-	        mode = _props.mode,
 	        multiLines = _props.multiLines,
 	        suggestionStyle = _props.suggestionStyle,
 	        placeholder = _props.placeholder,
@@ -45039,19 +45034,19 @@
 	
 	var _Suggestions3 = _interopRequireDefault(_Suggestions2);
 	
-	var _SuggestionPortal = __webpack_require__(333);
+	var _SuggestionPortal = __webpack_require__(334);
 	
 	var _SuggestionPortal2 = _interopRequireDefault(_SuggestionPortal);
 	
-	var _MentionContent = __webpack_require__(334);
+	var _MentionContent = __webpack_require__(335);
 	
 	var _MentionContent2 = _interopRequireDefault(_MentionContent);
 	
-	var _mentionStore = __webpack_require__(335);
+	var _mentionStore = __webpack_require__(336);
 	
 	var _mentionStore2 = _interopRequireDefault(_mentionStore);
 	
-	var _exportContent = __webpack_require__(336);
+	var _exportContent = __webpack_require__(337);
 	
 	var _exportContent2 = _interopRequireDefault(_exportContent);
 	
@@ -45218,6 +45213,10 @@
 	
 	var _SuggestionWrapper2 = _interopRequireDefault(_SuggestionWrapper);
 	
+	var _getOffset = __webpack_require__(333);
+	
+	var _getOffset2 = _interopRequireDefault(_getOffset);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
@@ -45229,21 +45228,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-	
-	function getOffset(element, container) {
-	  var rect = element.getBoundingClientRect();
-	  if (rect.width || rect.height) {
-	    var _container = container || element.parentElement;
-	    console.log(' rect', rect);
-	    return {
-	      top: rect.top - _container.clientTop,
-	      left: rect.left - _container.clientLeft
-	    };
-	  }
-	
-	  // Return zeros for disconnected and hidden elements (gh-2310)
-	  return rect;
-	}
 	
 	var isNotFalse = function isNotFalse(i) {
 	  return i !== false;
@@ -45257,41 +45241,12 @@
 	
 	    var _this = _possibleConstructorReturn(this, _React$Component.call(this));
 	
-	    _this.renderReady = function () {
-	      var focusItem = _reactDom2.default.findDOMNode(_this.refs.focusItem);
-	      var container = _this.refs.dropdownContainer;
-	      if (!container) {
-	        return;
-	      }
-	      var active = _this.state.active;
-	      var activeOffsetKey = _this.activeOffsetKey;
-	
-	      var offset = _this.props.store.getOffset();
-	      var dropDownPosition = offset.get(activeOffsetKey);
-	      if (active && dropDownPosition) {
-	        (function () {
-	          var dropDownStyle = _this.getPositionStyle(true, dropDownPosition.position());
-	          Object.keys(dropDownStyle).forEach(function (key) {
-	            container.style[key] = dropDownStyle[key];
-	          });
-	        })();
-	      }
-	
-	      if (!focusItem) {
-	        return;
-	      }
-	      (0, _domScrollIntoView2.default)(focusItem, container, {
-	        onlyScrollIfNeeded: true
-	      });
-	    };
-	
 	    _this.onEditorStateChange = function (editorState) {
 	      var offset = _this.props.store.getOffset();
 	      if (offset.size === 0) {
 	        return editorState;
 	      }
 	      var selection = editorState.getSelection();
-	
 	      // 修复: 焦点移出再移入时, dropdown 会闪动一下
 	      // 原因: https://github.com/facebook/draft-js/blob/67c5e69499e3b0c149ce83b004872afdf4180463/src/component/handlers/edit/editOnFocus.js#L33
 	      // 此处强制 update 了一下,因此 onEditorStateChange 会 call 两次
@@ -45303,8 +45258,7 @@
 	          word = _getSearchWord.word;
 	
 	      var selectionInsideMention = offset.map(function (_ref) {
-	        var offsetKey = _ref.offsetKey,
-	            position = _ref.position;
+	        var offsetKey = _ref.offsetKey;
 	
 	        var _decode = (0, _DraftOffsetKey.decode)(offsetKey),
 	            blockKey = _decode.blockKey,
@@ -45370,6 +45324,23 @@
 	      });
 	    };
 	
+	    _this.getContainer = function () {
+	      var popupContainer = document.createElement('div');
+	      var mountNode = void 0;
+	      if (_this.props.getSuggestionContainer) {
+	        mountNode = _this.props.getSuggestionContainer(_reactDom2.default.findDOMNode(_this));
+	        popupContainer.style.position = 'relative';
+	      } else {
+	        mountNode = document.body;
+	      }
+	      mountNode.appendChild(popupContainer);
+	      return popupContainer;
+	    };
+	
+	    _this.handleKeyBinding = function (command) {
+	      return command === 'split-block';
+	    };
+	
 	    _this.handleReturn = function (ev) {
 	      ev.preventDefault();
 	      var selectedSuggestion = _this.props.suggestions[_this.state.focusedIndex];
@@ -45384,21 +45355,32 @@
 	      return false;
 	    };
 	
-	    _this.handleKeyBinding = function (command) {
-	      return command === 'split-block';
-	    };
-	
-	    _this.getContainer = function () {
-	      var popupContainer = document.createElement('div');
-	      var mountNode = void 0;
-	      if (_this.props.getSuggestionContainer) {
-	        mountNode = _this.props.getSuggestionContainer(_reactDom2.default.findDOMNode(_this));
-	        popupContainer.style.position = 'relative';
-	      } else {
-	        mountNode = document.body;
+	    _this.renderReady = function () {
+	      var focusItem = _reactDom2.default.findDOMNode(_this.refs.focusItem);
+	      var container = _this.refs.dropdownContainer;
+	      if (!container) {
+	        return;
 	      }
-	      mountNode.appendChild(popupContainer);
-	      return popupContainer;
+	      var active = _this.state.active;
+	      var activeOffsetKey = _this.activeOffsetKey;
+	
+	      var offset = _this.props.store.getOffset();
+	      var dropDownPosition = offset.get(activeOffsetKey);
+	      if (active && dropDownPosition) {
+	        (function () {
+	          var dropDownStyle = _this.getPositionStyle(true, dropDownPosition.position());
+	          Object.keys(dropDownStyle).forEach(function (key) {
+	            container.style[key] = dropDownStyle[key];
+	          });
+	        })();
+	      }
+	
+	      if (!focusItem) {
+	        return;
+	      }
+	      (0, _domScrollIntoView2.default)(focusItem, container, {
+	        onlyScrollIfNeeded: true
+	      });
 	    };
 	
 	    _this.state = {
@@ -45435,7 +45417,7 @@
 	      return this.props.getSuggestionStyle(isActive, position);
 	    }
 	    var container = this.props.getSuggestionContainer ? this.state.container : document.body;
-	    var offset = getOffset(container);
+	    var offset = (0, _getOffset2.default)(container);
 	    return position ? _extends({
 	      position: 'absolute',
 	      left: position.left - offset.left + 'px',
@@ -45472,8 +45454,7 @@
 	    var _props = this.props,
 	        prefixCls = _props.prefixCls,
 	        suggestions = _props.suggestions,
-	        className = _props.className,
-	        getSuggestionContainer = _props.getSuggestionContainer;
+	        className = _props.className;
 	    var _state = this.state,
 	        container = _state.container,
 	        focusedIndex = _state.focusedIndex;
@@ -45495,7 +45476,9 @@
 	      }
 	      return _react2.default.createElement(
 	        _Nav2.default,
-	        { ref: ref, className: mentionClass, onMouseDown: _this2.onMentionSelect.bind(_this2, element)
+	        { ref: ref,
+	          className: mentionClass,
+	          onMouseDown: _this2.onMentionSelect.bind(_this2, element)
 	        },
 	        element
 	      );
@@ -45525,6 +45508,9 @@
 	  return Suggestions;
 	}(_react2.default.Component);
 	
+	exports.default = Suggestions;
+	
+	
 	Suggestions.propTypes = {
 	  callbacks: _react2.default.PropTypes.object,
 	  suggestions: _react2.default.PropTypes.array,
@@ -45534,10 +45520,12 @@
 	  prefixCls: _react2.default.PropTypes.string,
 	  mode: _react2.default.PropTypes.string,
 	  style: _react2.default.PropTypes.object,
+	  onSelect: _react2.default.PropTypes.func,
+	  getSuggestionContainer: _react2.default.PropTypes.func,
 	  notFoundContent: _react2.default.PropTypes.any,
-	  getSuggestionStyle: _react2.default.PropTypes.func
+	  getSuggestionStyle: _react2.default.PropTypes.func,
+	  className: _react2.default.PropTypes.string
 	};
-	exports.default = Suggestions;
 	module.exports = exports['default'];
 
 /***/ },
@@ -47490,6 +47478,29 @@
 
 /***/ },
 /* 333 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = getOffset;
+	function getOffset(element, container) {
+	  var rect = element.getBoundingClientRect();
+	  if (rect.width || rect.height) {
+	    var _container = container || element.parentElement;
+	    return {
+	      top: rect.top - _container.clientTop,
+	      left: rect.left - _container.clientLeft
+	    };
+	  }
+	  return rect;
+	}
+	module.exports = exports['default'];
+
+/***/ },
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47502,7 +47513,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _draftJs = __webpack_require__(179);
+	var _getOffset = __webpack_require__(333);
+	
+	var _getOffset2 = _interopRequireDefault(_getOffset);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -47513,21 +47526,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-	
-	function getOffset(element, container) {
-	  var rect = element.getBoundingClientRect();
-	  if (rect.width || rect.height) {
-	    var _container = container || element.parentElement;
-	    console.log(' rect', rect);
-	    return {
-	      top: rect.top - _container.clientTop,
-	      left: rect.left - _container.clientLeft
-	    };
-	  }
-	
-	  // Return zeros for disconnected and hidden elements (gh-2310)
-	  return rect;
-	}
 	
 	var SuggestionPortal = function (_React$Component) {
 	  _inherits(SuggestionPortal, _React$Component);
@@ -47559,14 +47557,13 @@
 	    var _this2 = this;
 	
 	    var offsetKey = props.offsetKey,
-	        mentionStore = props.mentionStore,
-	        position = props.position;
+	        mentionStore = props.mentionStore;
 	
 	    mentionStore.updateSuggestion({
 	      offsetKey: offsetKey,
 	      position: function position() {
 	        var element = _this2.refs.searchPortal;
-	        var rect = getOffset(element);
+	        var rect = (0, _getOffset2.default)(element);
 	        return {
 	          left: rect.left,
 	          top: rect.top,
@@ -47592,13 +47589,14 @@
 	  offsetKey: _react2.default.PropTypes.any,
 	  mentionStore: _react2.default.PropTypes.object,
 	  decoratedText: _react2.default.PropTypes.string,
-	  children: _react2.default.PropTypes.any
+	  children: _react2.default.PropTypes.any,
+	  callbacks: _react2.default.PropTypes.any
 	};
 	exports.default = SuggestionPortal;
 	module.exports = exports['default'];
 
 /***/ },
-/* 334 */
+/* 335 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47649,7 +47647,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 335 */
+/* 336 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47716,7 +47714,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 336 */
+/* 337 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47768,7 +47766,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 337 */
+/* 338 */
 /***/ function(module, exports) {
 
 	'use strict';

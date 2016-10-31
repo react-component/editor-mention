@@ -45230,6 +45230,21 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 	
+	function getOffset(element, container) {
+	  var rect = element.getBoundingClientRect();
+	  if (rect.width || rect.height) {
+	    var _container = container || element.parentElement;
+	    console.log(' rect', rect);
+	    return {
+	      top: rect.top - _container.clientTop,
+	      left: rect.left - _container.clientLeft
+	    };
+	  }
+	
+	  // Return zeros for disconnected and hidden elements (gh-2310)
+	  return rect;
+	}
+	
 	var isNotFalse = function isNotFalse(i) {
 	  return i !== false;
 	};
@@ -45375,7 +45390,13 @@
 	
 	    _this.getContainer = function () {
 	      var popupContainer = document.createElement('div');
-	      var mountNode = _this.props.getSuggestionContainer ? _this.props.getSuggestionContainer(_reactDom2.default.findDOMNode(_this)) : document.body;
+	      var mountNode = void 0;
+	      if (_this.props.getSuggestionContainer) {
+	        mountNode = _this.props.getSuggestionContainer(_reactDom2.default.findDOMNode(_this));
+	        popupContainer.style.position = 'relative';
+	      } else {
+	        mountNode = document.body;
+	      }
 	      mountNode.appendChild(popupContainer);
 	      return popupContainer;
 	    };
@@ -45413,11 +45434,13 @@
 	    if (this.props.getSuggestionStyle) {
 	      return this.props.getSuggestionStyle(isActive, position);
 	    }
-	    // const container = this.props.getSuggestionContainer ? this.props.
+	    var container = this.props.getSuggestionContainer ? this.state.container : document.body;
+	    var offset = getOffset(container);
+	    console.log('>> position', position.top, offset.top, container.scrollTop);
 	    return position ? _extends({
 	      position: 'absoulute',
-	      left: position.left + 'px',
-	      top: position.top - (_reactDom2.default.findDOMNode(this) ? _reactDom2.default.findDOMNode(this).parentNode.scrollTop : 0) + 'px'
+	      left: position.left - offset.left + container.scrollLeft + 'px',
+	      top: position.top - offset.top + container.scrollTop + 'px'
 	    }, this.props.style) : {};
 	  };
 	
@@ -47462,7 +47485,7 @@
 	SuggestionWrapper.propTypes = {
 	  children: _react2.default.PropTypes.any,
 	  renderReady: _react2.default.PropTypes.func,
-	  container: _react2.default.PropTypes.element
+	  container: _react2.default.PropTypes.any
 	};
 	module.exports = exports['default'];
 
@@ -47544,7 +47567,7 @@
 	      offsetKey: offsetKey,
 	      position: function position() {
 	        var element = _this2.refs.searchPortal;
-	        var rect = element.getBoundingClientRect();
+	        var rect = getOffset(element);
 	        return {
 	          left: rect.left,
 	          top: rect.top,

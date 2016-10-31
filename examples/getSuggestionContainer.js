@@ -70,7 +70,7 @@ webpackJsonp([5],{
 	
 	    return _react2.default.createElement(
 	      'div',
-	      { ref: 'wrapper' },
+	      { ref: 'wrapper', style: { position: 'relative' } },
 	      _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },
 	        onSearchChange: this.onSearchChange,
 	        onChange: this.onChange,

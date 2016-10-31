@@ -30,7 +30,7 @@
 /******/ 	// "0" means "already loaded"
 /******/ 	// Array means "loading", array contains callbacks
 /******/ 	var installedChunks = {
-/******/ 		8:0
+/******/ 		9:0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -76,7 +76,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"antd","1":"controlled","2":"customizeSuggesion","3":"customizeSuggesionAndTag","4":"defaultValue","5":"mentionMode","6":"multilines","7":"simple"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"antd","1":"controlled","2":"customizeSuggesion","3":"customizeSuggesionAndTag","4":"defaultValue","5":"getSuggestionContainer","6":"mentionMode","7":"multilines","8":"simple"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -21581,6 +21581,12 @@
 	}();
 	/*eslint-enable*/
 	
+	function defaultGetContainer() {
+	  var container = document.createElement('div');
+	  document.body.appendChild(container);
+	  return container;
+	}
+	
 	var Mention = function (_React$Component) {
 	  _inherits(Mention, _React$Component);
 	
@@ -21615,6 +21621,7 @@
 	      suggestions: props.suggestions,
 	      value: props.value
 	    };
+	
 	    _this.mention = (0, _createMention2.default)({
 	      prefix: props.prefix,
 	      tag: props.tag,
@@ -21656,7 +21663,8 @@
 	        placeholder = _props.placeholder,
 	        defaultValue = _props.defaultValue,
 	        className = _props.className,
-	        notFoundContent = _props.notFoundContent;
+	        notFoundContent = _props.notFoundContent,
+	        getSuggestionContainer = _props.getSuggestionContainer;
 	    var suggestions = this.state.suggestions;
 	    var Suggestions = this.Suggestions;
 	
@@ -21687,6 +21695,7 @@
 	          style: suggestionStyle,
 	          notFoundContent: notFoundContent,
 	          suggestions: suggestions,
+	          getSuggestionContainer: getSuggestionContainer,
 	          onSearchChange: this.props.onSearchChange,
 	          onSelect: this.props.onSelect
 	        })
@@ -21716,7 +21725,8 @@
 	  position: _react2.default.PropTypes.string,
 	  onFocus: _react2.default.PropTypes.func,
 	  onBlur: _react2.default.PropTypes.func,
-	  onSelect: _react2.default.PropTypes.func
+	  onSelect: _react2.default.PropTypes.func,
+	  getSuggestionContainer: _react2.default.PropTypes.func
 	};
 	Mention.controlledMode = false;
 	
@@ -45363,9 +45373,17 @@
 	      return command === 'split-block';
 	    };
 	
+	    _this.getContainer = function () {
+	      var popupContainer = document.createElement('div');
+	      var mountNode = _this.props.getSuggestionContainer ? _this.props.getSuggestionContainer(_reactDom2.default.findDOMNode(_this)) : document.body;
+	      mountNode.appendChild(popupContainer);
+	      return popupContainer;
+	    };
+	
 	    _this.state = {
 	      isActive: false,
-	      focusedIndex: 0
+	      focusedIndex: 0,
+	      container: false
 	    };
 	    return _this;
 	  }
@@ -45395,8 +45413,9 @@
 	    if (this.props.getSuggestionStyle) {
 	      return this.props.getSuggestionStyle(isActive, position);
 	    }
+	    // const container = this.props.getSuggestionContainer ? this.props.
 	    return position ? _extends({
-	      position: 'fixed',
+	      position: 'absoulute',
 	      left: position.left + 'px',
 	      top: position.top - (_reactDom2.default.findDOMNode(this) ? _reactDom2.default.findDOMNode(this).parentNode.scrollTop : 0) + 'px'
 	    }, this.props.style) : {};
@@ -45409,7 +45428,8 @@
 	    this.props.callbacks.onDownArrow = this.onDownArrow;
 	    this.props.callbacks.onBlur = this.onBlur;
 	    this.setState({
-	      active: true
+	      active: true,
+	      container: this.state.container || this.getContainer()
 	    });
 	  };
 	
@@ -45430,8 +45450,11 @@
 	    var _props = this.props,
 	        prefixCls = _props.prefixCls,
 	        suggestions = _props.suggestions,
-	        className = _props.className;
-	    var focusedIndex = this.state.focusedIndex;
+	        className = _props.className,
+	        getSuggestionContainer = _props.getSuggestionContainer;
+	    var _state = this.state,
+	        container = _state.container,
+	        focusedIndex = _state.focusedIndex;
 	
 	    var cls = (0, _classnames2.default)(_extends(_defineProperty({}, prefixCls + '-dropdown', true), className));
 	
@@ -45460,9 +45483,9 @@
 	      this.props.notFoundContent
 	    );
 	
-	    return _react2.default.createElement(
+	    return container ? _react2.default.createElement(
 	      _SuggestionWrapper2.default,
-	      { renderReady: this.renderReady },
+	      { renderReady: this.renderReady, container: container },
 	      _react2.default.createElement(
 	        _rcAnimate2.default,
 	        {
@@ -45474,7 +45497,7 @@
 	          navigations
 	        ) : null
 	      )
-	    );
+	    ) : null;
 	  };
 	
 	  return Suggestions;
@@ -47399,12 +47422,6 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 	
-	function defaultGetContainer() {
-	  var container = document.createElement('div');
-	  document.body.appendChild(container);
-	  return container;
-	}
-	
 	var SuggestionWrapper = function (_React$Component) {
 	  _inherits(SuggestionWrapper, _React$Component);
 	
@@ -47415,33 +47432,21 @@
 	  }
 	
 	  SuggestionWrapper.prototype.componentDidMount = function componentDidMount() {
-	    this.renderComponent(this, {}, this.props.renderReady);
+	    this.renderComponent();
 	  };
 	
 	  SuggestionWrapper.prototype.componentDidUpdate = function componentDidUpdate() {
-	    this.renderComponent(this, {}, this.props.renderReady);
+	    this.renderComponent();
 	  };
 	
-	  SuggestionWrapper.prototype.getComponent = function getComponent() {
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      this.props.children
-	    );
-	  };
-	
-	  SuggestionWrapper.prototype.renderComponent = function renderComponent(instance, componentArg, ready) {
-	    // if (!isVisible || instance._component || isVisible(instance)) {
-	    if (!instance._container) {
-	      instance._container = defaultGetContainer();
-	    }
-	    _reactDom2.default.unstable_renderSubtreeIntoContainer(instance, this.getComponent(), instance._container, function callback() {
-	      instance._component = this;
+	  SuggestionWrapper.prototype.renderComponent = function renderComponent() {
+	    var instance = this.props.children;
+	    var ready = this.props.renderReady;
+	    _reactDom2.default.unstable_renderSubtreeIntoContainer(this, instance, this.props.container, function callback() {
 	      if (ready) {
 	        ready.call(this);
 	      }
 	    });
-	    // }
 	  };
 	
 	  SuggestionWrapper.prototype.render = function render() {
@@ -47451,10 +47456,14 @@
 	  return SuggestionWrapper;
 	}(_react2.default.Component);
 	
-	SuggestionWrapper.propTypes = {
-	  renderReady: _react2.default.PropTypes.any
-	};
 	exports.default = SuggestionWrapper;
+	
+	
+	SuggestionWrapper.propTypes = {
+	  children: _react2.default.PropTypes.any,
+	  renderReady: _react2.default.PropTypes.func,
+	  container: _react2.default.PropTypes.element
+	};
 	module.exports = exports['default'];
 
 /***/ },
@@ -47482,6 +47491,21 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+	
+	function getOffset(element, container) {
+	  var rect = element.getBoundingClientRect();
+	  if (rect.width || rect.height) {
+	    var _container = container || element.parentElement;
+	    console.log(' rect', rect);
+	    return {
+	      top: rect.top - _container.clientTop,
+	      left: rect.left - _container.clientLeft
+	    };
+	  }
+	
+	  // Return zeros for disconnected and hidden elements (gh-2310)
+	  return rect;
+	}
 	
 	var SuggestionPortal = function (_React$Component) {
 	  _inherits(SuggestionPortal, _React$Component);
@@ -47515,7 +47539,6 @@
 	    var offsetKey = props.offsetKey,
 	        mentionStore = props.mentionStore,
 	        position = props.position;
-	
 	
 	    mentionStore.updateSuggestion({
 	      offsetKey: offsetKey,

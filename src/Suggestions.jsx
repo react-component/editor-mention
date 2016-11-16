@@ -221,7 +221,7 @@ export default class Suggestions extends React.Component {
       if (React.isValidElement(element)) {
         return React.cloneElement(element, {
           className: mentionClass,
-          onMouseDown: this.onMentionSelect.bind(this, element.props.value),
+          onMouseDown: this.onMentionSelect.bind(this, element.props.value, element.props.data),
           ref,
         });
       }

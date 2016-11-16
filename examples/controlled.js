@@ -40,7 +40,7 @@ const MentionEditor = React.createClass({
     return (<div>
       <button onClick={this.reset}> reset </button>
       <Mention
-        style={{ width: 300 }}
+        style={{ width: 300, height: 200 }}
         ref="mention"
         onSearchChange={this.onSearchChange}
         defaultValue={this.state.defaultValue}

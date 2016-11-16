@@ -73,7 +73,7 @@ webpackJsonp([0],[
 	        ' reset '
 	      ),
 	      _react2.default.createElement(_rcEditorMention2.default, {
-	        style: { width: 300 },
+	        style: { width: 300, height: 200 },
 	        ref: 'mention',
 	        onSearchChange: this.onSearchChange,
 	        defaultValue: this.state.defaultValue,

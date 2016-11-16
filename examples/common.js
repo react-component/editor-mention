@@ -21756,18 +21756,6 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
-	// import createPlugin from './EditorCore/createPlugin';
-	// export this package's api
-	/*eslint-disable*/
-	console.error = function () {
-	    var error = console.error;
-	    return function (exception) {
-	        if ((exception + '').indexOf('Warning: A component is `contentEditable`') != 0) {
-	            error.apply(console, arguments);
-	        }
-	    };
-	}();
-	
 	var EditorCorePublic = {
 	    EditorCore: _EditorCore2["default"],
 	    GetText: _EditorCore2["default"].GetText,
@@ -22005,8 +21993,8 @@
 	        });
 	    };
 	
-	    EditorCore.prototype.focus = function focus() {
-	        this.refs.editor.focus();
+	    EditorCore.prototype.focus = function focus(ev) {
+	        this.refs.editor.focus(ev);
 	    };
 	
 	    EditorCore.prototype.getPlugins = function getPlugins() {
@@ -22082,8 +22070,16 @@
 	    };
 	
 	    EditorCore.prototype.blockRendererFn = function blockRendererFn(contentBlock) {
-	        var type = contentBlock.getType();
-	        console.log('>> blockRender', type);
+	        var blockRenderResult = null;
+	        this.getPlugins().forEach(function (plugin) {
+	            if (plugin.blockRendererFn) {
+	                var result = plugin.blockRendererFn(contentBlock);
+	                if (result) {
+	                    blockRenderResult = result;
+	                }
+	            }
+	        });
+	        return blockRenderResult;
 	    };
 	
 	    EditorCore.prototype.eventHandle = function eventHandle(eventName) {
@@ -22159,7 +22155,7 @@
 	            React.createElement(
 	                'div',
 	                { className: prefixCls + '-editor-wrapper', style: style },
-	                React.createElement(_draftJs.Editor, _extends({}, this.props, eventHandler, { ref: 'editor', customStyleMap: customStyleMap, customStyleFn: this.customStyleFn.bind(this), editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.setEditorState.bind(this), blockStyleFn: this.getBlockStyle.bind(this), blockRenderMap: blockRenderMap, blockRendererFn: this.blockRendererFn })),
+	                React.createElement(_draftJs.Editor, _extends({}, this.props, eventHandler, { ref: 'editor', customStyleMap: customStyleMap, customStyleFn: this.customStyleFn.bind(this), editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.setEditorState.bind(this), blockStyleFn: this.getBlockStyle.bind(this), blockRenderMap: blockRenderMap, blockRendererFn: this.blockRendererFn.bind(this) })),
 	                this.props.children
 	            )
 	        );
@@ -45470,7 +45466,7 @@
 	      if (_react2.default.isValidElement(element)) {
 	        return _react2.default.cloneElement(element, {
 	          className: mentionClass,
-	          onMouseDown: _this2.onMentionSelect.bind(_this2, element.props.value),
+	          onMouseDown: _this2.onMentionSelect.bind(_this2, element.props.value, element.props.data),
 	          ref: ref
 	        });
 	      }

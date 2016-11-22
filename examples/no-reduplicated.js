@@ -1,14 +1,14 @@
-webpackJsonp([6],{
+webpackJsonp([7],{
 
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(352);
+	module.exports = __webpack_require__(353);
 
 
 /***/ },
 
-/***/ 352:
+/***/ 353:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33,48 +33,47 @@ webpackJsonp([6],{
 	
 	var originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
 	
-	var activeStyle = {
-	  transform: 'scaleY(1)',
-	  transition: 'all 0.25s cubic-bezier(.3,1.2,.2,1)'
-	};
-	
-	var disableStyle = {
-	  transform: 'scaleY(0)',
-	  transition: 'all 0.25s cubic-bezier(.3,1,.2,1)'
-	};
-	
 	var MentionEditor = _react2.default.createClass({
 	  displayName: 'MentionEditor',
 	  getInitialState: function getInitialState() {
 	    return {
 	      suggestions: originSuggestions,
-	      suggestionStyle: activeStyle
+	      mentions: []
 	    };
 	  },
 	  onSearchChange: function onSearchChange(value) {
 	    var searchValue = value.toLowerCase();
+	    var mentions = this.state.mentions;
+	
+	    console.log('>> onSearchChange', value);
 	    var filtered = originSuggestions.filter(function (suggestion) {
-	      return suggestion.toLowerCase().indexOf(searchValue) !== -1;
+	      return suggestion.toLowerCase().indexOf(searchValue) !== -1 && mentions.indexOf('@' + suggestion) === -1;
 	    });
 	    this.setState({
-	      suggestions: filtered,
-	      suggestionStyle: filtered.length ? activeStyle : disableStyle
+	      suggestions: filtered
+	    });
+	  },
+	  onSelect: function onSelect(value, suggestion) {
+	    console.log('>> onSelect', value, suggestion);
+	  },
+	  onChange: function onChange(editorState) {
+	    var mentions = (0, _rcEditorMention.getMentions)(editorState);
+	    console.log('>> editorOnChange', mentions);
+	    this.setState({
+	      mentions: mentions
 	    });
 	  },
 	  render: function render() {
-	    var _state = this.state,
-	        suggestions = _state.suggestions,
-	        suggestionStyle = _state.suggestionStyle;
+	    var suggestions = this.state.suggestions;
 	
-	    var multiLines = true;
-	    return _react2.default.createElement(_rcEditorMention2.default, {
-	      style: { width: 300 },
-	      multiLines: multiLines,
+	    return _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },
 	      onSearchChange: this.onSearchChange,
+	      onChange: this.onChange,
+	      placeholder: ' @ \u67D0\u4EBA ',
 	      suggestions: suggestions,
-	      suggestionStyle: suggestionStyle,
-	      prefixCls: 'rc-editor-mention',
-	      prefix: '@'
+	      prefix: '@',
+	      onSelect: this.onSelect,
+	      noRedup: true
 	    });
 	  }
 	});
@@ -87,15 +86,10 @@ webpackJsonp([6],{
 	    null,
 	    ' you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai'
 	  ),
-	  _react2.default.createElement(
-	    'p',
-	    null,
-	    ' multilines mode '
-	  ),
 	  _react2.default.createElement(MentionEditor, null)
 	), document.getElementById('__react-content'));
 
 /***/ }
 
 });
-//# sourceMappingURL=multilines.js.map
+//# sourceMappingURL=no-reduplicated.js.map

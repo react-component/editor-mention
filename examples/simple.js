@@ -1,14 +1,14 @@
-webpackJsonp([7],{
+webpackJsonp([8],{
 
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(345);
+	module.exports = __webpack_require__(354);
 
 
 /***/ },
 
-/***/ 345:
+/***/ 354:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19,11 +19,11 @@ webpackJsonp([7],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(36);
+	var _reactDom = __webpack_require__(34);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcEditorMention = __webpack_require__(174);
+	var _rcEditorMention = __webpack_require__(180);
 	
 	var _rcEditorMention2 = _interopRequireDefault(_rcEditorMention);
 	
@@ -62,7 +62,8 @@ webpackJsonp([7],{
 	      onSearchChange: this.onSearchChange,
 	      onChange: this.onChange,
 	      placeholder: ' @ \u67D0\u4EBA ',
-	      suggestions: suggestions, prefix: '@',
+	      suggestions: suggestions,
+	      prefix: '@',
 	      onSelect: this.onSelect
 	    });
 	  }

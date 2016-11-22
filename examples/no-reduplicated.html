@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>simple.js - example - rc-editor-mention@0.3.3</title>
+  <title>no-reduplicated.js - example - rc-editor-mention@0.3.3</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -274,7 +274,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-mention/assets/index.css'</span>;
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> Mention, { toString, getMentions } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-mention'</span>;
+<span class="hljs-keyword">import</span> Mention, { getMentions } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-mention'</span>;
 
 <span class="hljs-keyword">const</span> originSuggestions = [<span class="hljs-string">'afc163'</span>, <span class="hljs-string">'benjycui'</span>, <span class="hljs-string">'yiminghe'</span>, <span class="hljs-string">'jljsj33'</span>, <span class="hljs-string">'dqaria'</span>, <span class="hljs-string">'RaoHai'</span>];
 
@@ -282,12 +282,16 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   getInitialState() {
     <span class="hljs-keyword">return</span> {
       suggestions: originSuggestions,
+      mentions: [],
     };
   },
   onSearchChange(value) {
     <span class="hljs-keyword">const</span> searchValue = value.toLowerCase();
+    <span class="hljs-keyword">const</span> { mentions } = <span class="hljs-keyword">this</span>.state;
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; onSearchChange'</span>, value);
     <span class="hljs-keyword">const</span> filtered = originSuggestions.filter(suggestion =&gt;
-      suggestion.toLowerCase().indexOf(searchValue) !== -<span class="hljs-number">1</span>
+     suggestion.toLowerCase().indexOf(searchValue) !== -<span class="hljs-number">1</span>
+     &amp;&amp; mentions.indexOf(<span class="hljs-string">`@<span class="hljs-subst">${suggestion}</span>`</span>) === -<span class="hljs-number">1</span>
     );
     <span class="hljs-keyword">this</span>.setState({
       suggestions: filtered,
@@ -297,10 +301,11 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; onSelect'</span>, value, suggestion);
   },
   onChange(editorState) {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; mentionChange'</span>,
-      toString(editorState, { encode: <span class="hljs-literal">true</span> }),
-      getMentions(editorState)
-    );
+    <span class="hljs-keyword">const</span> mentions = getMentions(editorState);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; editorOnChange'</span>, mentions);
+    <span class="hljs-keyword">this</span>.setState({
+      mentions,
+    });
   },
   render() {
     <span class="hljs-keyword">const</span> { suggestions } = <span class="hljs-keyword">this</span>.state;
@@ -311,6 +316,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
       <span class="hljs-attribute">suggestions</span>=<span class="hljs-value">{suggestions}</span>
       <span class="hljs-attribute">prefix</span>=<span class="hljs-value">"@"</span>
       <span class="hljs-attribute">onSelect</span>=<span class="hljs-value">{this.onSelect}</span>
+      <span class="hljs-attribute">noRedup</span>
     /&gt;</span>)</span>;
   },
 });
@@ -329,7 +335,7 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-t
   </a>
   <script>FastClick.attach(document.body);</script>
   <script src="common.js?nowrap"></script>
-  <script src="simple.js?nowrap"></script>
+  <script src="no-reduplicated.js?nowrap"></script>
 </body>
 
 </html>

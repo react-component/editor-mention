@@ -37,6 +37,7 @@ class Mention extends React.Component {
     onBlur: React.PropTypes.func,
     onSelect: React.PropTypes.func,
     getSuggestionContainer: React.PropTypes.func,
+    noRedup: React.PropTypes.bool,
   }
   constructor(props) {
     super(props);
@@ -127,6 +128,7 @@ class Mention extends React.Component {
           getSuggestionContainer={getSuggestionContainer}
           onSearchChange={this.props.onSearchChange}
           onSelect={this.props.onSelect}
+          noRedup={this.props.noRedup}
         />
       </EditorCore>
     </div>);

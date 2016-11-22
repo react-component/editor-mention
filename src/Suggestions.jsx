@@ -4,11 +4,13 @@ import getSearchWord from './utils/getSearchWord';
 import { decode } from 'draft-js/lib/DraftOffsetKey';
 import Animate from 'rc-animate';
 import insertMention from './utils/insertMention';
+import clearMention from './utils/clearMention';
 import Nav from './Nav';
 import cx from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
 import SuggetionWrapper from './SuggestionWrapper';
 import getOffset from './utils/getOffset';
+import getMentions from './getMentions';
 
 const isNotFalse = (i) => i !== false;
 export default class Suggestions extends React.Component {
@@ -90,11 +92,23 @@ export default class Suggestions extends React.Component {
   }
   onMentionSelect(mention, data) {
     const editorState = this.props.callbacks.getEditorState();
-    if (this.props.onSelect) {
-      this.props.onSelect(mention, data || mention);
+    const { prefix, onSelect } = this.props;
+    if (onSelect) {
+      onSelect(mention, data || mention);
+    }
+    if (this.props.noRedup) {
+      const mentions = getMentions(editorState, prefix);
+      if (mentions.indexOf(`${prefix}${mention}`) !== -1) {
+        console.warn('you have specified `noRedup` props but have duplicated mentions.');
+        this.closeDropDown();
+        this.props.callbacks.setEditorState(
+          clearMention(editorState),
+        );
+        return;
+      }
     }
     this.props.callbacks.setEditorState(
-      insertMention(editorState, `${this.props.prefix}${mention}`, data, this.props.mode)
+      insertMention(editorState, `${prefix}${mention}`, data, this.props.mode)
     );
     this.closeDropDown();
   }
@@ -155,6 +169,7 @@ export default class Suggestions extends React.Component {
       } else {
         this.onMentionSelect(selectedSuggestion);
       }
+      this.lastSearchValue = null;
       return true;
     }
     return false;
@@ -262,4 +277,5 @@ Suggestions.propTypes = {
   notFoundContent: React.PropTypes.any,
   getSuggestionStyle: React.PropTypes.func,
   className: React.PropTypes.string,
+  noRedup: React.PropTypes.bool,
 };

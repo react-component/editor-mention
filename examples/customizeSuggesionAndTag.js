@@ -52,7 +52,8 @@ const MentionEditor = React.createClass({
         onSearchChange={this.onSearchChange}
         notFoundContent=""
         mode="mutable"
-        suggestions={suggestions} tag={Tag}
+        suggestions={suggestions}
+        tag={Tag}
       />
     </div>);
   },

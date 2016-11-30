@@ -109,7 +109,7 @@ export default class Suggestions extends React.Component {
     }
     this.props.callbacks.setEditorState(
       insertMention(editorState, `${prefix}${mention}`, data, this.props.mode)
-    );
+    , true);
     this.closeDropDown();
   }
   onUpArrow = (ev) => {

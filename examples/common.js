@@ -45086,7 +45086,7 @@
 	        return;
 	      }
 	    }
-	    this.props.callbacks.setEditorState((0, _insertMention2.default)(editorState, '' + prefix + mention, data, this.props.mode));
+	    this.props.callbacks.setEditorState((0, _insertMention2.default)(editorState, '' + prefix + mention, data, this.props.mode), true);
 	    this.closeDropDown();
 	  };
 	

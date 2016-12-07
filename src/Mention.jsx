@@ -73,14 +73,14 @@ class Mention extends React.Component {
       this.props.onChange(editorState, exportContent(editorState));
     }
   }
-  onFocus = () => {
+  onFocus = (e) => {
     if (this.props.onFocus) {
-      this.props.onFocus();
+      this.props.onFocus(e);
     }
   }
-  onBlur = () => {
+  onBlur = (e) => {
     if (this.props.onBlur) {
-      this.props.onBlur();
+      this.props.onBlur(e);
     }
   }
   static controlledMode = false;

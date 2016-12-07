@@ -37,6 +37,8 @@ const MentionEditor = React.createClass({
       onSearchChange={this.onSearchChange}
       onChange={this.onChange}
       placeholder=" @ 某人 "
+      onFocus={(e) => console.log('focus', e)}
+      onBlur={(e) => console.log('blur', e)}
       suggestions={suggestions}
       prefix="@"
       onSelect={this.onSelect}

@@ -62,6 +62,12 @@ webpackJsonp([8],{
 	      onSearchChange: this.onSearchChange,
 	      onChange: this.onChange,
 	      placeholder: ' @ \u67D0\u4EBA ',
+	      onFocus: function onFocus(e) {
+	        return console.log('focus', e);
+	      },
+	      onBlur: function onBlur(e) {
+	        return console.log('blur', e);
+	      },
 	      suggestions: suggestions,
 	      prefix: '@',
 	      onSelect: this.onSelect

@@ -21175,15 +21175,15 @@
 	      }
 	    };
 	
-	    _this.onFocus = function () {
+	    _this.onFocus = function (e) {
 	      if (_this.props.onFocus) {
-	        _this.props.onFocus();
+	        _this.props.onFocus(e);
 	      }
 	    };
 	
-	    _this.onBlur = function () {
+	    _this.onBlur = function (e) {
 	      if (_this.props.onBlur) {
-	        _this.props.onBlur();
+	        _this.props.onBlur(e);
 	      }
 	    };
 	
@@ -21449,7 +21449,9 @@
 	    };
 	
 	    EditorCore.prototype.Reset = function Reset() {
-	        this.setEditorState(_draftJs.EditorState.push(this.state.editorState, this.props.defaultValue.getCurrentContent(), 'remove-range'));
+	        var defaultValue = this.props.defaultValue;
+	
+	        this.setEditorState(_draftJs.EditorState.push(this.state.editorState, defaultValue ? defaultValue.getCurrentContent() : _draftJs.ContentState.createFromText(''), 'remove-range'));
 	    };
 	
 	    EditorCore.prototype.SetText = function SetText(text) {
@@ -21585,7 +21587,10 @@
 	            this.setState({
 	                editorState: _draftJs.EditorState.moveFocusToEnd(editorState)
 	            }, function () {
-	                return _this4.refs.editor.focus(ev);
+	                _this4.refs.editor.focus(ev);
+	                if (_this4.props.onFocus) {
+	                    _this4.props.onFocus(ev);
+	                }
 	            });
 	        }
 	    };

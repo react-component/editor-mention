@@ -4,17 +4,6 @@ import createMention from './createMention';
 import exportContent from './exportContent';
 import classnames from 'classnames';
 
-/*eslint-disable*/
-console.error = (function() {
-  var error = console.error;
-  return function(exception) {
-    if ((exception + '').indexOf('Warning: A component is `contentEditable`') != 0) {
-      error.apply(console, arguments)
-    }
-  }
-})();
-/*eslint-enable*/
-
 class Mention extends React.Component {
   static propTypes = {
     value: React.PropTypes.object,

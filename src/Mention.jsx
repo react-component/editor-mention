@@ -75,7 +75,7 @@ class Mention extends React.Component {
   static controlledMode = false;
   reset = () => {
     /*eslint-disable*/
-    this.refs.editor.Reset();
+    this._editor.Reset();
     /*eslint-enable*/
   }
   render() {
@@ -93,9 +93,9 @@ class Mention extends React.Component {
     const editorCoreProps = this.controlledMode ? { value: this.state.value } : {};
     const defaultValueState =
       typeof defaultValue === 'string' ? toEditorState(defaultValue) : defaultValue;
-    return (<div className={editorClass} style={style} ref="wrapper">
+    return (<div className={editorClass} style={style} ref={wrapper => this._wrapper = wrapper}>
       <EditorCore
-        ref="editor"
+        ref={editor => this._editor = editor}
         prefixCls={prefixCls}
         style={style}
         multiLines={multiLines}
@@ -114,7 +114,7 @@ class Mention extends React.Component {
           style={suggestionStyle}
           notFoundContent={notFoundContent}
           suggestions={suggestions}
-          getSuggestionContainer={getSuggestionContainer}
+          getSuggestionContainer={() => getSuggestionContainer(this._wrapper)}
           onSearchChange={this.props.onSearchChange}
           onSelect={this.props.onSelect}
           noRedup={this.props.noRedup}

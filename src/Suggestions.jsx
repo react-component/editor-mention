@@ -149,7 +149,7 @@ export default class Suggestions extends React.Component {
     const popupContainer = document.createElement('div');
     let mountNode;
     if (this.props.getSuggestionContainer) {
-      mountNode = this.props.getSuggestionContainer(ReactDOM.findDOMNode(this));
+      mountNode = this.props.getSuggestionContainer();
       popupContainer.style.position = 'relative';
     } else {
       mountNode = document.body;

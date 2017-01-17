@@ -21178,7 +21178,7 @@
 	
 	    _this.reset = function () {
 	      /*eslint-disable*/
-	      _this.refs.editor.Reset();
+	      _this._editor.Reset();
 	      /*eslint-enable*/
 	    };
 	
@@ -21215,7 +21215,8 @@
 	  };
 	
 	  Mention.prototype.render = function render() {
-	    var _classnames;
+	    var _classnames,
+	        _this2 = this;
 	
 	    var _props = this.props,
 	        prefixCls = _props.prefixCls,
@@ -21228,7 +21229,7 @@
 	        defaultValue = _props.defaultValue,
 	        className = _props.className,
 	        notFoundContent = _props.notFoundContent,
-	        getSuggestionContainer = _props.getSuggestionContainer;
+	        _getSuggestionContainer = _props.getSuggestionContainer;
 	    var suggestions = this.state.suggestions;
 	    var Suggestions = this.Suggestions;
 	
@@ -21237,11 +21238,15 @@
 	    var defaultValueState = typeof defaultValue === 'string' ? (0, _rcEditorCore.toEditorState)(defaultValue) : defaultValue;
 	    return _react2.default.createElement(
 	      'div',
-	      { className: editorClass, style: style, ref: 'wrapper' },
+	      { className: editorClass, style: style, ref: function ref(wrapper) {
+	          return _this2._wrapper = wrapper;
+	        } },
 	      _react2.default.createElement(
 	        _rcEditorCore.EditorCore,
 	        _extends({
-	          ref: 'editor',
+	          ref: function ref(editor) {
+	            return _this2._editor = editor;
+	          },
 	          prefixCls: prefixCls,
 	          style: style,
 	          multiLines: multiLines,
@@ -21259,7 +21264,9 @@
 	          style: suggestionStyle,
 	          notFoundContent: notFoundContent,
 	          suggestions: suggestions,
-	          getSuggestionContainer: getSuggestionContainer,
+	          getSuggestionContainer: function getSuggestionContainer() {
+	            return _getSuggestionContainer(_this2._wrapper);
+	          },
 	          onSearchChange: this.props.onSearchChange,
 	          onSelect: this.props.onSelect,
 	          noRedup: this.props.noRedup
@@ -44986,7 +44993,7 @@
 	      var popupContainer = document.createElement('div');
 	      var mountNode = void 0;
 	      if (_this.props.getSuggestionContainer) {
-	        mountNode = _this.props.getSuggestionContainer(_reactDom2.default.findDOMNode(_this));
+	        mountNode = _this.props.getSuggestionContainer();
 	        popupContainer.style.position = 'relative';
 	      } else {
 	        mountNode = document.body;

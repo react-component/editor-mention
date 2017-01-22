@@ -44908,6 +44908,8 @@
 	
 	    _this.onEditorStateChange = function (editorState) {
 	      var offset = _this.props.store.getOffset();
+	      var prefix = _this.props.prefix;
+	
 	      if (offset.size === 0) {
 	        return editorState;
 	      }
@@ -44955,7 +44957,7 @@
 	        _this.closeDropDown();
 	        return editorState;
 	      }
-	      var searchValue = word.substring(1, word.length);
+	      var searchValue = word.substring(prefix.length, word.length);
 	      if (_this.lastSearchValue !== searchValue) {
 	        _this.lastSearchValue = searchValue;
 	        _this.props.onSearchChange(searchValue);

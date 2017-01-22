@@ -21229,7 +21229,7 @@
 	        defaultValue = _props.defaultValue,
 	        className = _props.className,
 	        notFoundContent = _props.notFoundContent,
-	        _getSuggestionContainer = _props.getSuggestionContainer;
+	        getSuggestionContainer = _props.getSuggestionContainer;
 	    var suggestions = this.state.suggestions;
 	    var Suggestions = this.Suggestions;
 	
@@ -21264,9 +21264,9 @@
 	          style: suggestionStyle,
 	          notFoundContent: notFoundContent,
 	          suggestions: suggestions,
-	          getSuggestionContainer: function getSuggestionContainer() {
-	            return _getSuggestionContainer(_this2._wrapper);
-	          },
+	          getSuggestionContainer: getSuggestionContainer ? function () {
+	            return getSuggestionContainer(_this2._wrapper);
+	          } : null,
 	          onSearchChange: this.props.onSearchChange,
 	          onSelect: this.props.onSelect,
 	          noRedup: this.props.noRedup

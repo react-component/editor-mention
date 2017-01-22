@@ -36,6 +36,7 @@ export default class Suggestions extends React.Component {
 
   onEditorStateChange = (editorState) => {
     const offset = this.props.store.getOffset();
+    const { prefix } = this.props;
     if (offset.size === 0) {
       return editorState;
     }
@@ -80,7 +81,7 @@ export default class Suggestions extends React.Component {
       this.closeDropDown();
       return editorState;
     }
-    const searchValue = word.substring(1, word.length);
+    const searchValue = word.substring(prefix.length, word.length);
     if (this.lastSearchValue !== searchValue) {
       this.lastSearchValue = searchValue;
       this.props.onSearchChange(searchValue);

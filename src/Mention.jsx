@@ -114,7 +114,10 @@ class Mention extends React.Component {
           style={suggestionStyle}
           notFoundContent={notFoundContent}
           suggestions={suggestions}
-          getSuggestionContainer={() => getSuggestionContainer(this._wrapper)}
+          getSuggestionContainer={getSuggestionContainer ?
+            () => getSuggestionContainer(this._wrapper) :
+            null
+          }
           onSearchChange={this.props.onSearchChange}
           onSelect={this.props.onSelect}
           noRedup={this.props.noRedup}

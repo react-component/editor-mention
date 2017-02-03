@@ -4,7 +4,6 @@ import SuggestionPortal from './SuggestionPortal';
 import MentionContent from './MentionContent';
 import mentionStore from './mentionStore';
 import exportContent from './exportContent';
-import { Entity } from 'draft-js';
 
 function findWithRegex(regex, contentBlock, callback) {
   // Get the text from the contentBlock
@@ -18,10 +17,10 @@ function findWithRegex(regex, contentBlock, callback) {
   }
 }
 
-function mentionContentStrategy(contentBlock, callback) {
+function mentionContentStrategy(contentBlock, callback, contentState) {
   contentBlock.findEntityRanges(character => {
     const entityKey = character.getEntity();
-    return entityKey && Entity.get(entityKey).getType() === 'mention';
+    return entityKey && contentState.getEntity(entityKey).getType() === 'mention';
   }, callback);
 }
 
@@ -30,11 +29,14 @@ function noop() {}
 class MentionContentComponent extends React.Component {
   static propTypes = {
     entityKey: React.PropTypes.element,
+    callbacks: React.PropTypes.func,
     tag: React.PropTypes.element,
   }
   render() {
-    const { entityKey, tag } = this.props;
-    const data = Entity.get(entityKey).getData();
+    const { entityKey, tag, callbacks } = this.props;
+    console.log('>> callbacks', callbacks);
+    const contentState = callbacks.getEditorState().getCurrentContent();
+    const data = contentState.getEntity(entityKey).getData();
     return React.createElement(tag, { ...this.props, data });
   }
 }
@@ -66,7 +68,7 @@ export default function createMention(config = {}) {
   if (config.mode !== 'immutable') {
     decorators.unshift({
       strategy: mentionContentStrategy,
-      component: (props) => <MentionContentComponent tag={tag} {...props} />,
+      component: (props) => <MentionContentComponent tag={tag} {...props} callbacks={callbacks} />,
     });
   }
 

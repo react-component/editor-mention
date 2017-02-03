@@ -1,20 +1,22 @@
-import { Modifier, EditorState, Entity } from 'draft-js';
+import { Modifier, EditorState } from 'draft-js';
 import getSearchWord from './getSearchWord';
 export default function insertMention(editorState, mention, data, mode) {
   const entityMode = mode === 'immutable' ? 'IMMUTABLE' : 'MUTABLE';
-  const entityKey = Entity.create('mention', entityMode, data || mention);
   const selection = editorState.getSelection();
+  const contentState = editorState.getCurrentContent();
+
+  contentState.createEntity('mention', entityMode, data || mention);
   const searchWord = getSearchWord(editorState, selection);
   const { begin, end } = searchWord;
   const replacedContent = Modifier.replaceText(
-    editorState.getCurrentContent(),
+    contentState,
     selection.merge({
       anchorOffset: begin,
       focusOffset: end,
     }),
     mention,
     null,
-    entityKey
+    contentState.getLastCreatedEntityKey()
   );
 
   const InsertSpaceContent = Modifier.insertText(

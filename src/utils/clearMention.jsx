@@ -1,7 +1,7 @@
 import { Modifier, EditorState } from 'draft-js';
 import getSearchWord from './getSearchWord';
 
-export default function insertMention(editorState) {
+export default function clearMention(editorState) {
   const selection = editorState.getSelection();
   const searchWord = getSearchWord(editorState, selection);
   const { begin, end } = searchWord;

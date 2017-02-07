@@ -8,7 +8,7 @@ class Mention extends React.Component {
   static propTypes = {
     value: React.PropTypes.object,
     suggestions: React.PropTypes.array,
-    prefix: React.PropTypes.string,
+    prefix: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.arrayOf(React.PropTypes.string)]),
     prefixCls: React.PropTypes.string,
     tag: React.PropTypes.element,
     style: React.PropTypes.object,
@@ -36,7 +36,7 @@ class Mention extends React.Component {
     };
 
     this.mention = createMention({
-      prefix: props.prefix,
+      prefix: this.getPrefix(props),
       tag: props.tag,
       mode: props.mode,
     });
@@ -49,6 +49,9 @@ class Mention extends React.Component {
     if (props.value !== undefined) {
       this.controlledMode = true;
     }
+  }
+  getPrefix(props = this.props) {
+    return Array.isArray(props.prefix) ? props.prefix : [props.prefix];
   }
   componentWillReceiveProps(nextProps) {
     const { suggestions, value } = nextProps;
@@ -109,7 +112,7 @@ class Mention extends React.Component {
       >
         <Suggestions
           mode={tag ? 'immutable' : 'mutable'}
-          prefix={prefix}
+          prefix={this.getPrefix()}
           prefixCls={prefixCls}
           style={suggestionStyle}
           notFoundContent={notFoundContent}

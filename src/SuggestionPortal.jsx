@@ -9,9 +9,15 @@ export default class SuggestionPortal extends React.Component {
     children: React.PropTypes.any,
     callbacks: React.PropTypes.any,
   }
+  constructor() {
+    super();
+  }
   componentWillMount() {
+    const { callbacks, suggestionRegex, decoratedText } = this.props;
+    const matches = suggestionRegex.exec(decoratedText);
+    this.trigger = matches[2];
     this.updatePortalPosition(this.props);
-    this.props.callbacks.setEditorState(this.props.callbacks.getEditorState());
+    callbacks.setEditorState(callbacks.getEditorState());
   }
   componentWillReceiveProps(nextProps) {
     this.updatePortalPosition(nextProps);
@@ -24,6 +30,7 @@ export default class SuggestionPortal extends React.Component {
     const { offsetKey, mentionStore } = props;
     mentionStore.updateSuggestion({
       offsetKey,
+      trigger: this.trigger,
       position: () => {
         const element = this.refs.searchPortal;
         const rect = getOffset(element);

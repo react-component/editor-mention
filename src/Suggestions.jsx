@@ -50,6 +50,7 @@ export default class Suggestions extends React.Component {
     }
 
     const { word } = getSearchWord(editorState, selection);
+    console.log('>> word', word);
     const selectionInsideMention = offset.map(({ offsetKey }) => {
       const { blockKey, decoratorKey, leafKey } = decode(offsetKey);
       if (blockKey !== selection.anchorKey) {
@@ -76,15 +77,16 @@ export default class Suggestions extends React.Component {
     });
     const selectionInText = selectionInsideMention.some(isNotFalse);
     this.activeOffsetKey = selectionInsideMention.find(isNotFalse);
+    const trigger = this.props.store.getTrigger(this.activeOffsetKey);
 
     if (!selectionInText || !selection.getHasFocus()) {
       this.closeDropDown();
       return editorState;
     }
-    const searchValue = word.substring(prefix.length, word.length);
+    const searchValue = word.substring(trigger.length, word.length);
     if (this.lastSearchValue !== searchValue) {
       this.lastSearchValue = searchValue;
-      this.props.onSearchChange(searchValue);
+      this.props.onSearchChange(searchValue, trigger);
     }
     if (!this.state.active) {
       this.openDropDown();
@@ -93,13 +95,14 @@ export default class Suggestions extends React.Component {
   }
   onMentionSelect(mention, data) {
     const editorState = this.props.callbacks.getEditorState();
-    const { prefix, onSelect } = this.props;
+    const { store, onSelect } = this.props;
+    const trigger = store.getTrigger(this.activeOffsetKey);
     if (onSelect) {
       onSelect(mention, data || mention);
     }
     if (this.props.noRedup) {
-      const mentions = getMentions(editorState, prefix);
-      if (mentions.indexOf(`${prefix}${mention}`) !== -1) {
+      const mentions = getMentions(editorState, trigger);
+      if (mentions.indexOf(`${trigger}${mention}`) !== -1) {
         console.warn('you have specified `noRedup` props but have duplicated mentions.');
         this.closeDropDown();
         this.props.callbacks.setEditorState(
@@ -109,7 +112,7 @@ export default class Suggestions extends React.Component {
       }
     }
     this.props.callbacks.setEditorState(
-      insertMention(editorState, `${prefix}${mention}`, data, this.props.mode)
+      insertMention(editorState, `${trigger}${mention}`, data, this.props.mode)
     , true);
     this.closeDropDown();
   }
@@ -269,7 +272,7 @@ Suggestions.propTypes = {
   suggestions: React.PropTypes.array,
   store: React.PropTypes.object,
   onSearchChange: React.PropTypes.func,
-  prefix: React.PropTypes.string,
+  prefix: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.arrayOf(React.PropTypes.string)]),
   prefixCls: React.PropTypes.string,
   mode: React.PropTypes.string,
   style: React.PropTypes.object,

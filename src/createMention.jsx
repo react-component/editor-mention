@@ -34,7 +34,6 @@ class MentionContentComponent extends React.Component {
   }
   render() {
     const { entityKey, tag, callbacks } = this.props;
-    console.log('>> callbacks', callbacks);
     const contentState = callbacks.getEditorState().getCurrentContent();
     const data = contentState.getEntity(entityKey).getData();
     return React.createElement(tag, { ...this.props, data });
@@ -55,15 +54,19 @@ export default function createMention(config = {}) {
     callbacks,
     mentionStore,
   };
-  const prefix = config.prefix.replace(/(\$|\^)/g, '\\$1');
-  const suggestionRegex = new RegExp(`(\\s|^)${prefix}[^\\s]*`, 'g');
+  // merge ['@', '#'] to  '@|#', and replace $ -> \\$
+  const prefix = (Array.isArray(config.prefix) ? config.prefix : [config.prefix])
+    .join('|')
+    .replace(/(\$|\^)/g, '\\$1');
 
+  const suggestionRegex = new RegExp(`(\\s|^)([${prefix}])[^\\s]*`, 'g');
+  console.log('>> suggestionRegex', suggestionRegex);
   const tag = config.tag || MentionContent;
   const decorators = [{
     strategy: (contentBlock, callback) => {
       findWithRegex(suggestionRegex, contentBlock, callback);
     },
-    component: (props) => <SuggestionPortal {...props} {...componentProps} />,
+    component: (props) => <SuggestionPortal {...props} {...componentProps} suggestionRegex={suggestionRegex} />,
   }];
   if (config.mode !== 'immutable') {
     decorators.unshift({

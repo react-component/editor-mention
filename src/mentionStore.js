@@ -7,6 +7,10 @@ const mentionStore = {
   getOffset() {
     return offset;
   },
+  getTrigger(offsetKey) {
+    const currentOffset = offset.get(offsetKey);
+    return currentOffset && currentOffset.trigger;
+  },
   activeSuggestion({ offsetKey }) {
     offset = offset.set(offsetKey, {
       offsetKey,
@@ -15,10 +19,11 @@ const mentionStore = {
   inActiveSuggestion({ offsetKey }) {
     offset = offset.delete(offsetKey);
   },
-  updateSuggestion({ offsetKey, position }) {
+  updateSuggestion({ offsetKey, position, trigger }) {
     offset = offset.set(offsetKey, {
       offsetKey,
       position,
+      trigger
     });
   },
 };

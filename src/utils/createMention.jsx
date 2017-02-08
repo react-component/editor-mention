@@ -4,10 +4,7 @@ import SuggestionPortal from '../component/SuggestionPortal.react';
 import MentionContent from '../component/MentionContent.react';
 import mentionStore from '../model/mentionStore';
 import exportContent from './exportContent';
-
-function getRegExp(prefix) {
-  return new RegExp(`(\\s|^)(${prefix})[^\\s]*`, 'g');
-}
+import getRegExp from '../utils/getRegExp';
 
 function findWithRegex(regex, contentBlock, callback) {
   // Get the text from the contentBlock
@@ -16,7 +13,6 @@ function findWithRegex(regex, contentBlock, callback) {
   let start; // eslint-disable-line
   // Go through all matches in the text and return the indizes to the callback
   while ((matchArr = regex.exec(text)) !== null) { // eslint-disable-line
-    console.log('>> match', matchArr);
     start = matchArr.index;
     callback(start, start + matchArr[0].length);
   }
@@ -59,14 +55,7 @@ export default function createMention(config = {}) {
     callbacks,
     mentionStore,
   };
-  // merge ['@', '#'] to  '@|#', and replace $ -> \\$
-  const prefixArray = Array.isArray(config.prefix) ? config.prefix : [config.prefix];
-  let prefix = prefixArray.join('').replace(/(\$|\^)/g, '\\$1');
-
-  if (prefixArray.length > 1) {
-    prefix = `[${prefix}]`;
-  }
-  const suggestionRegex = getRegExp(prefix);
+  const suggestionRegex = getRegExp(config.prefix);
 
   const tag = config.tag || MentionContent;
   const decorators = [{
@@ -76,7 +65,7 @@ export default function createMention(config = {}) {
     component: (props) => <SuggestionPortal
       {...props}
       {...componentProps}
-      suggestionRegex={getRegExp(prefix)}
+      suggestionRegex={getRegExp(config.prefix)}
     />,
   }];
   if (config.mode !== 'immutable') {

@@ -1,5 +1,6 @@
 function getWord(text, position) {
   const str = String(text);
+  /* eslint no-bitwise:0 */
   const pos = Number(position) >>> 0;
 
   // Search for the word's beginning and end.

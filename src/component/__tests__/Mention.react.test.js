@@ -1,23 +1,22 @@
 import React from 'react';
-import { render, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import Mention from '../Mention.react';
 
 
 describe('Mention.react', () => {
   describe('Basic rendering', () => {
     it('render correctly', () => {
-      var block = mount(
-        <Mention prefix="test"/>
+      const block = mount(
+        <Mention prefix="test" />
       );
 
       expect(block.find('.test-wrapper')).not.toBe(null);
-
     });
 
     it('Basic suggestion', () => {
       jest.useFakeTimers();
       const handleSearch = jest.fn();
-      var block = mount(
+      const block = mount(
         <Mention
           suggestions={['afc163', 'raohai']}
           onSearchChange={handleSearch}

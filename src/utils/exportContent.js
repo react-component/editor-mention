@@ -2,11 +2,20 @@ import { convertToRaw } from 'draft-js';
 
 function encodeContent(text) {
   return text
-    .split('&').join('&amp;')
-    .split('<').join('&lt;')
-    .split('>').join('&gt;')
-    .split('\xA0').join('&nbsp;')
-    .split('\n').join('<br >' + '\n');
+    .split('&')
+    .join('&amp;')
+
+    .split('<')
+    .join('&lt;')
+
+    .split('>')
+    .join('&gt;')
+
+    .split('\xA0')
+    .join('&nbsp;')
+
+    .split('\n')
+    .join('<br > \n');
 }
 
 class MentionGenerator {
@@ -21,7 +30,7 @@ class MentionGenerator {
   processContent(contentRaw) {
     const { blocks } = contentRaw;
     const { encode } = this.options;
-    return blocks.map(block => {
+    return blocks.map((block) => {
       return encode ? encodeContent(block.text) : block.text;
     }).join(encode ? '<br />\n' : '\n');
   }

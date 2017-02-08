@@ -1,12 +1,14 @@
-webpackJsonp([0],[
-/* 0 */
+webpackJsonp([7],{
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(1);
+	module.exports = __webpack_require__(358);
 
 
 /***/ },
-/* 1 */
+
+/***/ 358:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25,22 +27,21 @@ webpackJsonp([0],[
 	
 	var _rcEditorMention2 = _interopRequireDefault(_rcEditorMention);
 	
-	var _draftJs = __webpack_require__(184);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai']; // use jsx to render html, do not modify simple.html
+	// use jsx to render html, do not modify simple.html
+	
+	var originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
 	
 	var MentionEditor = _react2.default.createClass({
 	  displayName: 'MentionEditor',
 	  getInitialState: function getInitialState() {
 	    return {
-	      suggestions: originSuggestions,
-	      defaultValue: (0, _rcEditorMention.toEditorState)('hello @afc163'),
-	      editorState: _draftJs.EditorState.createEmpty()
+	      suggestions: originSuggestions
 	    };
 	  },
-	  onSearchChange: function onSearchChange(value) {
+	  onSearchChange: function onSearchChange(value, type) {
+	    console.log('>> onSearchChange', value, type);
 	    var searchValue = value.toLowerCase();
 	    var filtered = originSuggestions.filter(function (suggestion) {
 	      return suggestion.toLowerCase().indexOf(searchValue) !== -1;
@@ -49,38 +50,29 @@ webpackJsonp([0],[
 	      suggestions: filtered
 	    });
 	  },
-	  onChange: function onChange(editorState) {
-	    this.setState({
-	      editorState: editorState
-	    });
+	  onSelect: function onSelect(value, suggestion) {
+	    console.log('>> onSelect', value, suggestion);
 	  },
-	  reset: function reset() {
-	    this.setState({
-	      editorState: this.state.defaultValue
-	    });
+	  onChange: function onChange(editorState) {
+	    console.log('>> mentionChange', (0, _rcEditorMention.toString)(editorState, { encode: true }), (0, _rcEditorMention.getMentions)(editorState));
 	  },
 	  render: function render() {
-	    var _state = this.state,
-	        suggestions = _state.suggestions,
-	        editorState = _state.editorState;
+	    var suggestions = this.state.suggestions;
 	
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      _react2.default.createElement(
-	        'button',
-	        { onClick: this.reset },
-	        ' reset '
-	      ),
-	      _react2.default.createElement(_rcEditorMention2.default, {
-	        style: { width: 300, height: 200 },
-	        ref: 'mention',
-	        onSearchChange: this.onSearchChange,
-	        defaultValue: this.state.defaultValue,
-	        value: editorState,
-	        suggestions: suggestions, prefix: '@'
-	      })
-	    );
+	    return _react2.default.createElement(_rcEditorMention2.default, { style: { width: 300 },
+	      onSearchChange: this.onSearchChange,
+	      onChange: this.onChange,
+	      placeholder: ' @ \u67D0\u4EBA ',
+	      onFocus: function onFocus(e) {
+	        return console.log('focus', e);
+	      },
+	      onBlur: function onBlur(e) {
+	        return console.log('blur', e);
+	      },
+	      suggestions: suggestions,
+	      prefix: ['@', ' '],
+	      onSelect: this.onSelect
+	    });
 	  }
 	});
 	
@@ -96,5 +88,6 @@ webpackJsonp([0],[
 	), document.getElementById('__react-content'));
 
 /***/ }
-]);
-//# sourceMappingURL=controlled.js.map
+
+});
+//# sourceMappingURL=multiple-trigger.js.map

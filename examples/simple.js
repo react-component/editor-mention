@@ -1,14 +1,14 @@
-webpackJsonp([8],{
+webpackJsonp([9],{
 
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(359);
+	module.exports = __webpack_require__(360);
 
 
 /***/ },
 
-/***/ 359:
+/***/ 360:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -69,7 +69,7 @@ webpackJsonp([8],{
 	        return console.log('blur', e);
 	      },
 	      suggestions: suggestions,
-	      prefix: '@',
+	      prefix: '',
 	      onSelect: this.onSelect
 	    });
 	  }

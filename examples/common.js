@@ -62609,6 +62609,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 	
+	function getRegExp(prefix) {
+	  return new RegExp('(\\s|^)(' + prefix + ')[^\\s]*', 'g');
+	}
+	
 	function findWithRegex(regex, contentBlock, callback) {
 	  // Get the text from the contentBlock
 	  var text = contentBlock.getText();
@@ -62617,6 +62621,7 @@
 	  // Go through all matches in the text and return the indizes to the callback
 	  while ((matchArr = regex.exec(text)) !== null) {
 	    // eslint-disable-line
+	    console.log('>> match', matchArr);
 	    start = matchArr.index;
 	    callback(start, start + matchArr[0].length);
 	  }
@@ -62682,7 +62687,7 @@
 	  if (prefixArray.length > 1) {
 	    prefix = '[' + prefix + ']';
 	  }
-	  var suggestionRegex = new RegExp('(\\s|^)(' + prefix + ')[^\\s]*', 'g');
+	  var suggestionRegex = getRegExp(prefix);
 	
 	  var tag = config.tag || _MentionContent2.default;
 	  var decorators = [{
@@ -62691,7 +62696,7 @@
 	    },
 	    component: function component(props) {
 	      return _react2.default.createElement(_SuggestionPortal2.default, _extends({}, props, componentProps, {
-	        suggestionRegex: suggestionRegex
+	        suggestionRegex: getRegExp(prefix)
 	      }));
 	    }
 	  }];
@@ -62858,6 +62863,7 @@
 	        _this.closeDropDown();
 	        return editorState;
 	      }
+	      console.log('>> trigger', trigger);
 	      var searchValue = word.substring(trigger.length, word.length);
 	      if (_this.lastSearchValue !== searchValue) {
 	        _this.lastSearchValue = searchValue;
@@ -62958,7 +62964,7 @@
 	          suggestions = _this$props.suggestions;
 	      var focusedIndex = _this.state.focusedIndex;
 	
-	      suggestions.length ? _react2.default.Children.map(suggestions, function (element, index) {
+	      return suggestions.length ? _react2.default.Children.map(suggestions, function (element, index) {
 	        var focusItem = index === focusedIndex;
 	        var ref = focusItem ? 'focusItem' : null;
 	        var mentionClass = (0, _classnames2.default)(prefixCls + '-dropdown-item', {

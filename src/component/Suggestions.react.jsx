@@ -86,6 +86,7 @@ export default class Suggestions extends React.Component {
       this.closeDropDown();
       return editorState;
     }
+    console.log('>> trigger', trigger);
     const searchValue = word.substring(trigger.length, word.length);
     if (this.lastSearchValue !== searchValue) {
       this.lastSearchValue = searchValue;
@@ -229,7 +230,7 @@ export default class Suggestions extends React.Component {
   getNavigations = () => {
     const { prefixCls, suggestions } = this.props;
     const { focusedIndex } = this.state;
-    suggestions.length ? React.Children.map(suggestions, (element, index) => {
+    return suggestions.length ? React.Children.map(suggestions, (element, index) => {
       const focusItem = index === focusedIndex;
       const ref = focusItem ? 'focusItem' : null;
       const mentionClass = cx(`${prefixCls}-dropdown-item`, {

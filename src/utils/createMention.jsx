@@ -5,6 +5,10 @@ import MentionContent from '../component/MentionContent.react';
 import mentionStore from '../model/mentionStore';
 import exportContent from './exportContent';
 
+function getRegExp(prefix) {
+  return new RegExp(`(\\s|^)(${prefix})[^\\s]*`, 'g');
+}
+
 function findWithRegex(regex, contentBlock, callback) {
   // Get the text from the contentBlock
   const text = contentBlock.getText();
@@ -12,6 +16,7 @@ function findWithRegex(regex, contentBlock, callback) {
   let start; // eslint-disable-line
   // Go through all matches in the text and return the indizes to the callback
   while ((matchArr = regex.exec(text)) !== null) { // eslint-disable-line
+    console.log('>> match', matchArr);
     start = matchArr.index;
     callback(start, start + matchArr[0].length);
   }
@@ -61,7 +66,7 @@ export default function createMention(config = {}) {
   if (prefixArray.length > 1) {
     prefix = `[${prefix}]`;
   }
-  const suggestionRegex = new RegExp(`(\\s|^)(${prefix})[^\\s]*`, 'g');
+  const suggestionRegex = getRegExp(prefix);
 
   const tag = config.tag || MentionContent;
   const decorators = [{
@@ -71,7 +76,7 @@ export default function createMention(config = {}) {
     component: (props) => <SuggestionPortal
       {...props}
       {...componentProps}
-      suggestionRegex={suggestionRegex}
+      suggestionRegex={getRegExp(prefix)}
     />,
   }];
   if (config.mode !== 'immutable') {

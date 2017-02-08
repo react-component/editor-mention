@@ -1,16 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import getSearchWord from './utils/getSearchWord';
 import { decode } from 'draft-js/lib/DraftOffsetKey';
 import Animate from 'rc-animate';
-import insertMention from './utils/insertMention';
-import clearMention from './utils/clearMention';
-import Nav from './Nav';
+
 import cx from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
-import SuggetionWrapper from './SuggestionWrapper';
-import getOffset from './utils/getOffset';
-import getMentions from './getMentions';
+
+import Nav from './Nav.react';
+import SuggetionWrapper from './SuggestionWrapper.react';
+
+import insertMention from '../utils/insertMention';
+import clearMention from '../utils/clearMention';
+import getOffset from '../utils/getOffset';
+import getMentions from '../utils/getMentions';
+import getSearchWord from '../utils/getSearchWord';
 
 const isNotFalse = (i) => i !== false;
 export default class Suggestions extends React.Component {
@@ -36,7 +39,6 @@ export default class Suggestions extends React.Component {
 
   onEditorStateChange = (editorState) => {
     const offset = this.props.store.getOffset();
-    const { prefix } = this.props;
     if (offset.size === 0) {
       return editorState;
     }
@@ -50,7 +52,7 @@ export default class Suggestions extends React.Component {
     }
 
     const { word } = getSearchWord(editorState, selection);
-    console.log('>> word', word);
+
     const selectionInsideMention = offset.map(({ offsetKey }) => {
       const { blockKey, decoratorKey, leafKey } = decode(offsetKey);
       if (blockKey !== selection.anchorKey) {
@@ -75,6 +77,7 @@ export default class Suggestions extends React.Component {
         ? offsetKey
         : false;
     });
+
     const selectionInText = selectionInsideMention.some(isNotFalse);
     this.activeOffsetKey = selectionInsideMention.find(isNotFalse);
     const trigger = this.props.store.getTrigger(this.activeOffsetKey);
@@ -223,15 +226,10 @@ export default class Suggestions extends React.Component {
       onlyScrollIfNeeded: true,
     });
   }
-  render() {
-    const { prefixCls, suggestions, className } = this.props;
-    const { container, focusedIndex } = this.state;
-    const cls = cx({
-      [`${prefixCls}-dropdown`]: true,
-      ...className,
-    });
-
-    const navigations = suggestions.length ? React.Children.map(suggestions, (element, index) => {
+  getNavigations = () => {
+    const { prefixCls, suggestions } = this.props;
+    const { focusedIndex } = this.state;
+    suggestions.length ? React.Children.map(suggestions, (element, index) => {
       const focusItem = index === focusedIndex;
       const ref = focusItem ? 'focusItem' : null;
       const mentionClass = cx(`${prefixCls}-dropdown-item`, {
@@ -249,9 +247,19 @@ export default class Suggestions extends React.Component {
         onMouseDown={this.onMentionSelect.bind(this, element)}
       >{element}</Nav>);
     }, this) :
-      <div className={`${prefixCls}-dropdown-notfound ${prefixCls}-dropdown-item`}>
-        {this.props.notFoundContent}
-      </div>;
+    <div className={`${prefixCls}-dropdown-notfound ${prefixCls}-dropdown-item`}>
+      {this.props.notFoundContent}
+    </div>;
+  }
+  render() {
+    const { prefixCls, suggestions, className } = this.props;
+    const { container } = this.state;
+    const cls = cx({
+      [`${prefixCls}-dropdown`]: true,
+      ...className,
+    });
+
+    const navigations = this.getNavigations();
 
     return container ? (<SuggetionWrapper renderReady={this.renderReady} container={container}>
       <Animate
@@ -272,7 +280,9 @@ Suggestions.propTypes = {
   suggestions: React.PropTypes.array,
   store: React.PropTypes.object,
   onSearchChange: React.PropTypes.func,
-  prefix: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.arrayOf(React.PropTypes.string)]),
+  prefix: React.PropTypes.oneOfType(
+    [React.PropTypes.string, React.PropTypes.arrayOf(React.PropTypes.string)]
+  ),
   prefixCls: React.PropTypes.string,
   mode: React.PropTypes.string,
   style: React.PropTypes.object,

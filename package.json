@@ -44,7 +44,11 @@
     "rc-tools": "5.x",
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.0.0",
-    "react-dom": "^15.0.0"
+    "react-dom": "^15.0.0",
+    "babel-jest": "^13.2.2",
+    "jest-cli": "^15.1.1",
+    "enzyme": "^2.7.1",
+    "typescript-babel-jest": "^0.1.5"
   },
   "pre-commit": [
     "lint"
@@ -56,5 +60,19 @@
     "immutable": "^3.8.1",
     "rc-animate": "^2.3.0",
     "rc-editor-core": "~0.6.12"
+  },
+  "jest": {
+    "verbose": true,
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testRegex": "(/tests/.*|\\.(test|spec))\\.(js)$"
   }
 }

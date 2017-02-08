@@ -1,14 +1,17 @@
 import React from 'react';
-import { EditorCore, toEditorState } from 'rc-editor-core';
-import createMention from './createMention';
-import exportContent from './exportContent';
 import classnames from 'classnames';
+import { EditorCore, toEditorState } from 'rc-editor-core';
+
+import createMention from '../utils/createMention';
+import exportContent from '../utils/exportContent';
 
 class Mention extends React.Component {
   static propTypes = {
     value: React.PropTypes.object,
     suggestions: React.PropTypes.array,
-    prefix: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.arrayOf(React.PropTypes.string)]),
+    prefix: React.PropTypes.oneOfType(
+      [React.PropTypes.string, React.PropTypes.arrayOf(React.PropTypes.string)]
+    ),
     prefixCls: React.PropTypes.string,
     tag: React.PropTypes.element,
     style: React.PropTypes.object,
@@ -28,6 +31,7 @@ class Mention extends React.Component {
     getSuggestionContainer: React.PropTypes.func,
     noRedup: React.PropTypes.bool,
   }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -49,9 +53,6 @@ class Mention extends React.Component {
     if (props.value !== undefined) {
       this.controlledMode = true;
     }
-  }
-  getPrefix(props = this.props) {
-    return Array.isArray(props.prefix) ? props.prefix : [props.prefix];
   }
   componentWillReceiveProps(nextProps) {
     const { suggestions, value } = nextProps;
@@ -75,7 +76,12 @@ class Mention extends React.Component {
       this.props.onBlur(e);
     }
   }
+  getPrefix(props = this.props) {
+    return Array.isArray(props.prefix) ? props.prefix : [props.prefix];
+  }
+
   static controlledMode = false;
+
   reset = () => {
     /*eslint-disable*/
     this._editor.Reset();
@@ -83,7 +89,7 @@ class Mention extends React.Component {
   }
   render() {
     const {
-      prefixCls, style, prefix, tag, multiLines,
+      prefixCls, style, tag, multiLines,
       suggestionStyle, placeholder, defaultValue, className, notFoundContent,
       getSuggestionContainer,
     } = this.props;
@@ -134,6 +140,7 @@ Mention.defaultProps = {
   prefixCls: 'rc-editor-mention',
   prefix: '@',
   mode: 'immutable',
+  suggestions: [],
   multiLines: false,
   className: '',
   suggestionStyle: {},

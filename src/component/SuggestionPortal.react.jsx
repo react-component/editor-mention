@@ -1,5 +1,5 @@
 import React from 'react';
-import getOffset from './utils/getOffset';
+import getOffset from '../utils/getOffset';
 
 export default class SuggestionPortal extends React.Component {
   static propTypes = {
@@ -8,9 +8,7 @@ export default class SuggestionPortal extends React.Component {
     decoratedText: React.PropTypes.string,
     children: React.PropTypes.any,
     callbacks: React.PropTypes.any,
-  }
-  constructor() {
-    super();
+    suggestionRegex: React.PropTypes.any,
   }
   componentWillMount() {
     const { callbacks, suggestionRegex, decoratedText } = this.props;

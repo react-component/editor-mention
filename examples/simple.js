@@ -40,7 +40,7 @@ const MentionEditor = React.createClass({
       onFocus={(e) => console.log('focus', e)}
       onBlur={(e) => console.log('blur', e)}
       suggestions={suggestions}
-      prefix="@"
+      prefix=""
       onSelect={this.onSelect}
     />);
   },

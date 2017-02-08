@@ -1,8 +1,8 @@
 import React from 'react';
-import Suggestions from './Suggestions';
-import SuggestionPortal from './SuggestionPortal';
-import MentionContent from './MentionContent';
-import mentionStore from './mentionStore';
+import Suggestions from '../component/Suggestions.react';
+import SuggestionPortal from '../component/SuggestionPortal.react';
+import MentionContent from '../component/MentionContent.react';
+import mentionStore from '../model/mentionStore';
 import exportContent from './exportContent';
 
 function findWithRegex(regex, contentBlock, callback) {
@@ -55,18 +55,24 @@ export default function createMention(config = {}) {
     mentionStore,
   };
   // merge ['@', '#'] to  '@|#', and replace $ -> \\$
-  const prefix = (Array.isArray(config.prefix) ? config.prefix : [config.prefix])
-    .join('|')
-    .replace(/(\$|\^)/g, '\\$1');
+  const prefixArray = Array.isArray(config.prefix) ? config.prefix : [config.prefix];
+  let prefix = prefixArray.join('').replace(/(\$|\^)/g, '\\$1');
 
-  const suggestionRegex = new RegExp(`(\\s|^)([${prefix}])[^\\s]*`, 'g');
-  console.log('>> suggestionRegex', suggestionRegex);
+  if (prefixArray.length > 1) {
+    prefix = `[${prefix}]`;
+  }
+  const suggestionRegex = new RegExp(`(\\s|^)(${prefix})[^\\s]*`, 'g');
+
   const tag = config.tag || MentionContent;
   const decorators = [{
     strategy: (contentBlock, callback) => {
       findWithRegex(suggestionRegex, contentBlock, callback);
     },
-    component: (props) => <SuggestionPortal {...props} {...componentProps} suggestionRegex={suggestionRegex} />,
+    component: (props) => <SuggestionPortal
+      {...props}
+      {...componentProps}
+      suggestionRegex={suggestionRegex}
+    />,
   }];
   if (config.mode !== 'immutable') {
     decorators.unshift({

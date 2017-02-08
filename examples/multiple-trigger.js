@@ -14,7 +14,7 @@ const MentionEditor = React.createClass({
     };
   },
   onSearchChange(value, type) {
-    console.log('>> onSearchChange', value);
+    console.log('>> onSearchChange', value, type);
     const searchValue = value.toLowerCase();
     const filtered = originSuggestions.filter(suggestion =>
       suggestion.toLowerCase().indexOf(searchValue) !== -1

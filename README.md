@@ -15,12 +15,12 @@ React Mention Component
 
 [npm-image]: http://img.shields.io/npm/v/rc-editor-mention.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/rc-editor-mention
-[travis-image]: https://img.shields.io/travis/react-component/mention.svg?style=flat-square
-[travis-url]: https://travis-ci.org/react-component/mention
-[coveralls-image]: https://img.shields.io/coveralls/react-component/mention.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/react-component/mention?branch=master
-[gemnasium-image]: http://img.shields.io/gemnasium/react-component/mention.svg?style=flat-square
-[gemnasium-url]: https://gemnasium.com/react-component/mention
+[travis-image]: https://img.shields.io/travis/react-component/editor-mention.svg?style=flat-square
+[travis-url]: https://travis-ci.org/react-component/editor-mention
+[coveralls-image]: https://img.shields.io/coveralls/react-component/editor-mention.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/react-component/editor-mention?branch=master
+[gemnasium-image]: http://img.shields.io/gemnasium/react-component/editor-mention.svg?style=flat-square
+[gemnasium-url]: https://gemnasium.com/react-component/editor-mention
 [node-image]: https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square
 [node-url]: http://nodejs.org/download/
 [download-image]: https://img.shields.io/npm/dm/rc-editor-mention.svg?style=flat-square

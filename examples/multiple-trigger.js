@@ -3,12 +3,12 @@ webpackJsonp([7],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(358);
+	module.exports = __webpack_require__(359);
 
 
 /***/ },
 
-/***/ 358:
+/***/ 359:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54,7 +54,7 @@ webpackJsonp([7],{
 	    console.log('>> onSelect', value, suggestion);
 	  },
 	  onChange: function onChange(editorState) {
-	    console.log('>> mentionChange', (0, _rcEditorMention.toString)(editorState, { encode: true }), (0, _rcEditorMention.getMentions)(editorState));
+	    console.log('>> mentionChange', (0, _rcEditorMention.toString)(editorState, { encode: true }), (0, _rcEditorMention.getMentions)(editorState, ['@', '#']));
 	  },
 	  render: function render() {
 	    var suggestions = this.state.suggestions;
@@ -70,7 +70,7 @@ webpackJsonp([7],{
 	        return console.log('blur', e);
 	      },
 	      suggestions: suggestions,
-	      prefix: ['@', ' '],
+	      prefix: ['@', '#'],
 	      onSelect: this.onSelect
 	    });
 	  }

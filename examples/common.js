@@ -725,7 +725,7 @@
 
 /***/ },
 /* 8 */
-[361, 9],
+[362, 9],
 /* 9 */
 /***/ function(module, exports) {
 
@@ -6437,7 +6437,7 @@
 
 /***/ },
 /* 52 */
-[361, 37],
+[362, 37],
 /* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -21154,7 +21154,7 @@
 	
 	var _Mention2 = _interopRequireDefault(_Mention);
 	
-	var _exportContent = __webpack_require__(351);
+	var _exportContent = __webpack_require__(352);
 	
 	var _exportContent2 = _interopRequireDefault(_exportContent);
 	
@@ -62317,7 +62317,7 @@
 	
 	var _createMention2 = _interopRequireDefault(_createMention);
 	
-	var _exportContent = __webpack_require__(351);
+	var _exportContent = __webpack_require__(352);
 	
 	var _exportContent2 = _interopRequireDefault(_exportContent);
 	
@@ -62583,21 +62583,25 @@
 	
 	var _Suggestions3 = _interopRequireDefault(_Suggestions2);
 	
-	var _SuggestionPortal = __webpack_require__(348);
+	var _SuggestionPortal = __webpack_require__(349);
 	
 	var _SuggestionPortal2 = _interopRequireDefault(_SuggestionPortal);
 	
-	var _MentionContent = __webpack_require__(349);
+	var _MentionContent = __webpack_require__(350);
 	
 	var _MentionContent2 = _interopRequireDefault(_MentionContent);
 	
-	var _mentionStore = __webpack_require__(350);
+	var _mentionStore = __webpack_require__(351);
 	
 	var _mentionStore2 = _interopRequireDefault(_mentionStore);
 	
-	var _exportContent = __webpack_require__(351);
+	var _exportContent = __webpack_require__(352);
 	
 	var _exportContent2 = _interopRequireDefault(_exportContent);
+	
+	var _getRegExp = __webpack_require__(348);
+	
+	var _getRegExp2 = _interopRequireDefault(_getRegExp);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -62609,10 +62613,6 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 	
-	function getRegExp(prefix) {
-	  return new RegExp('(\\s|^)(' + prefix + ')[^\\s]*', 'g');
-	}
-	
 	function findWithRegex(regex, contentBlock, callback) {
 	  // Get the text from the contentBlock
 	  var text = contentBlock.getText();
@@ -62621,7 +62621,6 @@
 	  // Go through all matches in the text and return the indizes to the callback
 	  while ((matchArr = regex.exec(text)) !== null) {
 	    // eslint-disable-line
-	    console.log('>> match', matchArr);
 	    start = matchArr.index;
 	    callback(start, start + matchArr[0].length);
 	  }
@@ -62680,14 +62679,7 @@
 	    callbacks: callbacks,
 	    mentionStore: _mentionStore2.default
 	  };
-	  // merge ['@', '#'] to  '@|#', and replace $ -> \\$
-	  var prefixArray = Array.isArray(config.prefix) ? config.prefix : [config.prefix];
-	  var prefix = prefixArray.join('').replace(/(\$|\^)/g, '\\$1');
-	
-	  if (prefixArray.length > 1) {
-	    prefix = '[' + prefix + ']';
-	  }
-	  var suggestionRegex = getRegExp(prefix);
+	  var suggestionRegex = (0, _getRegExp2.default)(config.prefix);
 	
 	  var tag = config.tag || _MentionContent2.default;
 	  var decorators = [{
@@ -62696,7 +62688,7 @@
 	    },
 	    component: function component(props) {
 	      return _react2.default.createElement(_SuggestionPortal2.default, _extends({}, props, componentProps, {
-	        suggestionRegex: getRegExp(prefix)
+	        suggestionRegex: (0, _getRegExp2.default)(config.prefix)
 	      }));
 	    }
 	  }];
@@ -65082,7 +65074,7 @@
 
 /***/ },
 /* 347 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -65090,11 +65082,17 @@
 	  value: true
 	});
 	exports.default = getMentions;
+	
+	var _getRegExp = __webpack_require__(348);
+	
+	var _getRegExp2 = _interopRequireDefault(_getRegExp);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	function getMentions(editorState) {
 	  var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '@';
 	
-	  var escapedPrefix = prefix.replace(/(\$|\^)/g, '\\$1');
-	  var regex = new RegExp('(\\s|^)' + escapedPrefix + '[^\\s]*', 'g');
+	  var regex = (0, _getRegExp2.default)(prefix);
 	  var contentState = editorState.getCurrentContent();
 	  var entities = [];
 	  contentState.getBlockMap().forEach(function (block) {
@@ -65111,6 +65109,28 @@
 
 /***/ },
 /* 348 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = getRegExp;
+	function getRegExp(prefix) {
+	  var prefixArray = Array.isArray(prefix) ? prefix : [prefix];
+	  var prefixToken = prefixArray.join('').replace(/(\$|\^)/g, '\\$1');
+	
+	  if (prefixArray.length > 1) {
+	    prefixToken = '[' + prefixToken + ']';
+	  }
+	
+	  return new RegExp('(\\s|^)(' + prefixToken + ')[^\\s]*', 'g');
+	}
+	module.exports = exports['default'];
+
+/***/ },
+/* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -65215,7 +65235,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 349 */
+/* 350 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -65265,7 +65285,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 350 */
+/* 351 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -65316,7 +65336,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 351 */
+/* 352 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -65368,7 +65388,6 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 352 */,
 /* 353 */,
 /* 354 */,
 /* 355 */,
@@ -65377,7 +65396,8 @@
 /* 358 */,
 /* 359 */,
 /* 360 */,
-/* 361 */
+/* 361 */,
+/* 362 */
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**

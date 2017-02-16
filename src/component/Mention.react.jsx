@@ -30,6 +30,7 @@ class Mention extends React.Component {
     onSelect: React.PropTypes.func,
     getSuggestionContainer: React.PropTypes.func,
     noRedup: React.PropTypes.bool,
+    mentionStyle: React.PropTypes.object,
   }
 
   constructor(props) {
@@ -43,6 +44,7 @@ class Mention extends React.Component {
       prefix: this.getPrefix(props),
       tag: props.tag,
       mode: props.mode,
+      mentionStyle: props.mentionStyle,
     });
     this.Suggestions = this.mention.Suggestions;
     this.plugins = [this.mention];
@@ -146,6 +148,7 @@ Mention.defaultProps = {
   suggestionStyle: {},
   notFoundContent: '无法找到',
   position: 'absolute',
+  mentionStyle: {},
 };
 
 export default Mention;

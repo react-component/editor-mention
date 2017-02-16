@@ -65,6 +65,7 @@ export default function createMention(config = {}) {
     component: (props) => <SuggestionPortal
       {...props}
       {...componentProps}
+      style={config.mentionStyle}
       suggestionRegex={getRegExp(config.prefix)}
     />,
   }];

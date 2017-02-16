@@ -65219,7 +65219,7 @@
 	  SuggestionPortal.prototype.render = function render() {
 	    return _react2.default.createElement(
 	      'span',
-	      { ref: 'searchPortal' },
+	      { ref: 'searchPortal', style: this.props.style },
 	      this.props.children
 	    );
 	  };

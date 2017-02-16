@@ -1,14 +1,14 @@
-webpackJsonp([8],{
+webpackJsonp([5],{
 
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(360);
+	module.exports = __webpack_require__(357);
 
 
 /***/ },
 
-/***/ 360:
+/***/ 357:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40,12 +40,12 @@ webpackJsonp([8],{
 	      suggestions: originSuggestions
 	    };
 	  },
-	  onSearchChange: function onSearchChange(value, type) {
-	    console.log('>> onSearchChange', value, type);
+	  onSearchChange: function onSearchChange(value) {
 	    var searchValue = value.toLowerCase();
 	    var filtered = originSuggestions.filter(function (suggestion) {
 	      return suggestion.toLowerCase().indexOf(searchValue) !== -1;
 	    });
+	    console.log('>> onSearchChange', searchValue, filtered);
 	    this.setState({
 	      suggestions: filtered
 	    });
@@ -54,7 +54,7 @@ webpackJsonp([8],{
 	    console.log('>> onSelect', value, suggestion);
 	  },
 	  onChange: function onChange(editorState) {
-	    console.log('>> mentionChange', (0, _rcEditorMention.toString)(editorState, { encode: true }), (0, _rcEditorMention.getMentions)(editorState, ['@', '#']));
+	    console.log('>> mentionChange', (0, _rcEditorMention.toString)(editorState, { encode: true }), (0, _rcEditorMention.getMentions)(editorState));
 	  },
 	  render: function render() {
 	    var suggestions = this.state.suggestions;
@@ -70,8 +70,9 @@ webpackJsonp([8],{
 	        return console.log('blur', e);
 	      },
 	      suggestions: suggestions,
-	      prefix: ['@', '#'],
-	      onSelect: this.onSelect
+	      prefix: '@',
+	      onSelect: this.onSelect,
+	      mode: 'immutable'
 	    });
 	  }
 	});
@@ -90,4 +91,4 @@ webpackJsonp([8],{
 /***/ }
 
 });
-//# sourceMappingURL=multiple-trigger.js.map
+//# sourceMappingURL=immutable.js.map

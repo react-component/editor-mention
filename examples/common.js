@@ -51,7 +51,7 @@
 /******/ 	// "0" means "already loaded"
 /******/ 	// Array means "loading", array contains callbacks
 /******/ 	var installedChunks = {
-/******/ 		10:0
+/******/ 		11:0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -97,7 +97,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"controlled","1":"customizeSuggesion","2":"customizeSuggesionAndTag","3":"defaultValue","4":"getSuggestionContainer","5":"mentionMode","6":"multilines","7":"multiple-trigger","8":"no-reduplicated","9":"simple"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"controlled","1":"customizeSuggesion","2":"customizeSuggesionAndTag","3":"defaultValue","4":"getSuggestionContainer","5":"immutable","6":"mentionMode","7":"multilines","8":"multiple-trigger","9":"no-reduplicated","10":"simple"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -725,7 +725,7 @@
 
 /***/ },
 /* 8 */
-[362, 9],
+[363, 9],
 /* 9 */
 /***/ function(module, exports) {
 
@@ -6437,7 +6437,7 @@
 
 /***/ },
 /* 52 */
-[362, 37],
+[363, 37],
 /* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -62373,7 +62373,8 @@
 	    _this.mention = (0, _createMention2.default)({
 	      prefix: _this.getPrefix(props),
 	      tag: props.tag,
-	      mode: props.mode
+	      mode: props.mode,
+	      mentionStyle: props.mentionStyle
 	    });
 	    _this.Suggestions = _this.mention.Suggestions;
 	    _this.plugins = [_this.mention];
@@ -62487,7 +62488,8 @@
 	  onBlur: _react2.default.PropTypes.func,
 	  onSelect: _react2.default.PropTypes.func,
 	  getSuggestionContainer: _react2.default.PropTypes.func,
-	  noRedup: _react2.default.PropTypes.bool
+	  noRedup: _react2.default.PropTypes.bool,
+	  mentionStyle: _react2.default.PropTypes.object
 	};
 	Mention.controlledMode = false;
 	
@@ -62501,7 +62503,8 @@
 	  className: '',
 	  suggestionStyle: {},
 	  notFoundContent: '无法找到',
-	  position: 'absolute'
+	  position: 'absolute',
+	  mentionStyle: {}
 	};
 	
 	exports.default = Mention;
@@ -62688,6 +62691,7 @@
 	    },
 	    component: function component(props) {
 	      return _react2.default.createElement(_SuggestionPortal2.default, _extends({}, props, componentProps, {
+	        style: config.mentionStyle,
 	        suggestionRegex: (0, _getRegExp2.default)(config.prefix)
 	      }));
 	    }
@@ -65397,7 +65401,8 @@
 /* 359 */,
 /* 360 */,
 /* 361 */,
-/* 362 */
+/* 362 */,
+/* 363 */
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**

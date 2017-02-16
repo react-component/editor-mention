@@ -42,6 +42,6 @@ export default class SuggestionPortal extends React.Component {
     });
   }
   render() {
-    return <span ref="searchPortal">{this.props.children}</span>;
+    return <span ref="searchPortal" style={this.props.style}>{this.props.children}</span>;
   }
 }

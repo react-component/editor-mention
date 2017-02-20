@@ -62861,8 +62861,9 @@
 	      }
 	      console.log('>> trigger', trigger);
 	      var searchValue = word.substring(trigger.length, word.length);
-	      if (_this.lastSearchValue !== searchValue) {
+	      if (_this.lastSearchValue !== searchValue || _this.lastTrigger !== trigger) {
 	        _this.lastSearchValue = searchValue;
+	        _this.lastTrigger = trigger;
 	        _this.props.onSearchChange(searchValue, trigger);
 	      }
 	      if (!_this.state.active) {
@@ -62921,6 +62922,7 @@
 	          _this.onMentionSelect(selectedSuggestion);
 	        }
 	        _this.lastSearchValue = null;
+	        _this.lastTrigger = null;
 	        return true;
 	      }
 	      return false;

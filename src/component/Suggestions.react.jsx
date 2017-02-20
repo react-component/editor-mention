@@ -88,8 +88,9 @@ export default class Suggestions extends React.Component {
     }
     console.log('>> trigger', trigger);
     const searchValue = word.substring(trigger.length, word.length);
-    if (this.lastSearchValue !== searchValue) {
+    if (this.lastSearchValue !== searchValue || this.lastTrigger !== trigger) {
       this.lastSearchValue = searchValue;
+      this.lastTrigger = trigger;
       this.props.onSearchChange(searchValue, trigger);
     }
     if (!this.state.active) {
@@ -178,6 +179,7 @@ export default class Suggestions extends React.Component {
         this.onMentionSelect(selectedSuggestion);
       }
       this.lastSearchValue = null;
+      this.lastTrigger = null;
       return true;
     }
     return false;

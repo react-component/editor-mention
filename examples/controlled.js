@@ -78,6 +78,7 @@ webpackJsonp([0],[
 	        onSearchChange: this.onSearchChange,
 	        defaultValue: this.state.defaultValue,
 	        value: editorState,
+	        onChange: this.onChange,
 	        suggestions: suggestions, prefix: '@'
 	      })
 	    );

@@ -62313,6 +62313,8 @@
 	
 	var _rcEditorCore = __webpack_require__(182);
 	
+	var _draftJs = __webpack_require__(184);
+	
 	var _createMention = __webpack_require__(327);
 	
 	var _createMention2 = _interopRequireDefault(_createMention);
@@ -62342,8 +62344,10 @@
 	    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
 	
 	    _this.onEditorChange = function (editorState) {
+	      _this._selection = editorState.getSelection();
+	      var decorator = editorState.getDecorator();
 	      if (_this.props.onChange) {
-	        _this.props.onChange(editorState, (0, _exportContent2.default)(editorState));
+	        _this.props.onChange(_draftJs.EditorState.createWithContent(editorState.getCurrentContent(), decorator), (0, _exportContent2.default)(editorState));
 	      }
 	    };
 	
@@ -62389,9 +62393,12 @@
 	  }
 	
 	  Mention.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-	    var suggestions = nextProps.suggestions,
-	        value = nextProps.value;
+	    var suggestions = nextProps.suggestions;
 	
+	    var value = nextProps.value;
+	    if (this._selection) {
+	      value = _draftJs.EditorState.acceptSelection(value, this._selection);
+	    }
 	    this.setState({
 	      suggestions: suggestions,
 	      value: value

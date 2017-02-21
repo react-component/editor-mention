@@ -62866,7 +62866,7 @@
 	        _this.closeDropDown();
 	        return editorState;
 	      }
-	      console.log('>> trigger', trigger);
+	
 	      var searchValue = word.substring(trigger.length, word.length);
 	      if (_this.lastSearchValue !== searchValue || _this.lastTrigger !== trigger) {
 	        _this.lastSearchValue = searchValue;

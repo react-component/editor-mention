@@ -86,7 +86,7 @@ export default class Suggestions extends React.Component {
       this.closeDropDown();
       return editorState;
     }
-    console.log('>> trigger', trigger);
+
     const searchValue = word.substring(trigger.length, word.length);
     if (this.lastSearchValue !== searchValue || this.lastTrigger !== trigger) {
       this.lastSearchValue = searchValue;

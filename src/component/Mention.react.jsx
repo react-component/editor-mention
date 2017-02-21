@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import { EditorCore, toEditorState } from 'rc-editor-core';
+import { EditorState } from 'draft-js';
 
 import createMention from '../utils/createMention';
 import exportContent from '../utils/exportContent';
@@ -57,15 +58,28 @@ class Mention extends React.Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    const { suggestions, value } = nextProps;
+    const { suggestions } = nextProps;
+    let value = nextProps.value;
+    if (this._selection) {
+      value = EditorState.acceptSelection(
+        value,
+        this._selection,
+      );
+    }
     this.setState({
       suggestions,
       value,
     });
   }
   onEditorChange = (editorState) => {
+    this._selection = editorState.getSelection();
+    const decorator = editorState.getDecorator();
     if (this.props.onChange) {
-      this.props.onChange(editorState, exportContent(editorState));
+      this.props.onChange(
+        EditorState.createWithContent(
+          editorState.getCurrentContent(), 
+          decorator
+        ), exportContent(editorState));
     }
   }
   onFocus = (e) => {

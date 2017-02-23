@@ -64991,7 +64991,7 @@
 /* 344 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -65027,8 +65027,11 @@
 	  var anchorOffset = selection.getAnchorOffset() - 1;
 	  var currentContent = editorState.getCurrentContent();
 	  var currentBlock = currentContent.getBlockForKey(anchorKey);
-	  var blockText = currentBlock.getText();
-	  return getWord(blockText, anchorOffset);
+	  if (currentBlock) {
+	    var blockText = currentBlock.getText();
+	    return getWord(blockText, anchorOffset);
+	  }
+	  return '';
 	}
 	module.exports = exports['default'];
 

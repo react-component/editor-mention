@@ -12,11 +12,12 @@ const MentionEditor = React.createClass({
   getInitialState() {
     return {
       suggestions: originSuggestions,
-      defaultValue: toEditorState('hello @afc163'),
+      defaultValue: null,
       editorState: EditorState.createEmpty(),
     };
   },
   onSearchChange(value) {
+    console.log('>> onSearchChange');
     const searchValue = value.toLowerCase();
     const filtered = originSuggestions.filter(suggestion =>
       suggestion.toLowerCase().indexOf(searchValue) !== -1

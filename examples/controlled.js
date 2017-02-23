@@ -36,11 +36,12 @@ webpackJsonp([0],[
 	  getInitialState: function getInitialState() {
 	    return {
 	      suggestions: originSuggestions,
-	      defaultValue: (0, _rcEditorMention.toEditorState)('hello @afc163'),
+	      defaultValue: null,
 	      editorState: _draftJs.EditorState.createEmpty()
 	    };
 	  },
 	  onSearchChange: function onSearchChange(value) {
+	    console.log('>> onSearchChange');
 	    var searchValue = value.toLowerCase();
 	    var filtered = originSuggestions.filter(function (suggestion) {
 	      return suggestion.toLowerCase().indexOf(searchValue) !== -1;

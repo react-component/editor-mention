@@ -62301,8 +62301,6 @@
 	  value: true
 	});
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
 	var _react = __webpack_require__(3);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -62345,9 +62343,18 @@
 	
 	    _this.onEditorChange = function (editorState) {
 	      _this._selection = editorState.getSelection();
+	      var content = editorState.getCurrentContent();
 	      var decorator = editorState.getDecorator();
+	      var updatedValue = _draftJs.EditorState.createWithContent(content, decorator);
+	
 	      if (_this.props.onChange) {
-	        _this.props.onChange(_draftJs.EditorState.createWithContent(editorState.getCurrentContent(), decorator), (0, _exportContent2.default)(editorState));
+	        if (content !== _this.props.value.getCurrentContent()) {
+	          _this.props.onChange(updatedValue, (0, _exportContent2.default)(editorState));
+	        }
+	      } else {
+	        _this.setState({
+	          editorState: editorState
+	        });
 	      }
 	    };
 	
@@ -62430,8 +62437,9 @@
 	    var Suggestions = this.Suggestions;
 	
 	    var editorClass = (0, _classnames3.default)(className, (_classnames = {}, _defineProperty(_classnames, prefixCls + '-wrapper', true), _defineProperty(_classnames, 'multilines', multiLines), _classnames));
-	    var editorCoreProps = this.controlledMode ? { value: this.state.value } : {};
+	    var value = this.controlledMode ? this.state.value : null;
 	    var defaultValueState = typeof defaultValue === 'string' ? (0, _rcEditorCore.toEditorState)(defaultValue) : defaultValue;
+	    console.log('>> defaultValueState', defaultValueState);
 	    return _react2.default.createElement(
 	      'div',
 	      { className: editorClass, style: style, ref: function ref(wrapper) {
@@ -62439,7 +62447,7 @@
 	        } },
 	      _react2.default.createElement(
 	        _rcEditorCore.EditorCore,
-	        _extends({
+	        {
 	          ref: function ref(editor) {
 	            return _this2._editor = editor;
 	          },
@@ -62451,8 +62459,9 @@
 	          placeholder: placeholder,
 	          onFocus: this.onFocus,
 	          onBlur: this.onBlur,
-	          onChange: this.onEditorChange
-	        }, editorCoreProps),
+	          onChange: this.onEditorChange,
+	          value: value
+	        },
 	        _react2.default.createElement(Suggestions, {
 	          mode: tag ? 'immutable' : 'mutable',
 	          prefix: this.getPrefix(),
@@ -62947,12 +62956,10 @@
 	      var offset = _this.props.store.getOffset();
 	      var dropDownPosition = offset.get(activeOffsetKey);
 	      if (active && dropDownPosition) {
-	        (function () {
-	          var dropDownStyle = _this.getPositionStyle(true, dropDownPosition.position());
-	          Object.keys(dropDownStyle).forEach(function (key) {
-	            container.style[key] = dropDownStyle[key];
-	          });
-	        })();
+	        var dropDownStyle = _this.getPositionStyle(true, dropDownPosition.position());
+	        Object.keys(dropDownStyle).forEach(function (key) {
+	          container.style[key] = dropDownStyle[key];
+	        });
 	      }
 	
 	      if (!focusItem) {
@@ -63733,8 +63740,8 @@
 	var prefixes = ['-webkit-', '-moz-', '-o-', 'ms-', ''];
 	
 	function getStyleProperty(node, name) {
-	  var style = window.getComputedStyle(node);
-	
+	  // old ff need null, https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle
+	  var style = window.getComputedStyle(node, null);
 	  var ret = '';
 	  for (var i = 0; i < prefixes.length; i++) {
 	    ret = style.getPropertyValue(prefixes[i] + name);

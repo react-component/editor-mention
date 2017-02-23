@@ -62439,7 +62439,6 @@
 	    var editorClass = (0, _classnames3.default)(className, (_classnames = {}, _defineProperty(_classnames, prefixCls + '-wrapper', true), _defineProperty(_classnames, 'multilines', multiLines), _classnames));
 	    var value = this.controlledMode ? this.state.value : null;
 	    var defaultValueState = typeof defaultValue === 'string' ? (0, _rcEditorCore.toEditorState)(defaultValue) : defaultValue;
-	    console.log('>> defaultValueState', defaultValueState);
 	    return _react2.default.createElement(
 	      'div',
 	      { className: editorClass, style: style, ref: function ref(wrapper) {
@@ -62840,6 +62839,9 @@
 	      var _getSearchWord = (0, _getSearchWord3.default)(editorState, selection),
 	          word = _getSearchWord.word;
 	
+	      if (!word) {
+	        return;
+	      }
 	      var selectionInsideMention = offset.map(function (_ref) {
 	        var offsetKey = _ref.offsetKey;
 	

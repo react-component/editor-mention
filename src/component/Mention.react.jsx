@@ -74,12 +74,17 @@ class Mention extends React.Component {
   onEditorChange = (editorState) => {
     this._selection = editorState.getSelection();
     const decorator = editorState.getDecorator();
+    const value = EditorState.createWithContent(
+      editorState.getCurrentContent(), 
+      decorator
+    );
+
     if (this.props.onChange) {
-      this.props.onChange(
-        EditorState.createWithContent(
-          editorState.getCurrentContent(), 
-          decorator
-        ), exportContent(editorState));
+      this.props.onChange(value, exportContent(editorState));
+    } else {
+      this.setState({
+        value,
+      });
     }
   }
   onFocus = (e) => {
@@ -115,9 +120,10 @@ class Mention extends React.Component {
       [`${prefixCls}-wrapper`]: true,
       multilines: multiLines,
     });
-    const editorCoreProps = this.controlledMode ? { value: this.state.value } : {};
+    const value = this.controlledMode ? this.state.value : null;
     const defaultValueState =
       typeof defaultValue === 'string' ? toEditorState(defaultValue) : defaultValue;
+    console.log('>> defaultValueState', defaultValueState);
     return (<div className={editorClass} style={style} ref={wrapper => this._wrapper = wrapper}>
       <EditorCore
         ref={editor => this._editor = editor}
@@ -130,7 +136,7 @@ class Mention extends React.Component {
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         onChange={this.onEditorChange}
-        {...editorCoreProps}
+        value={value}
       >
         <Suggestions
           mode={tag ? 'immutable' : 'mutable'}

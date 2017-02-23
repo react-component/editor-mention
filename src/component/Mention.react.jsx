@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import { EditorCore, toEditorState } from 'rc-editor-core';
-import { EditorState } from 'draft-js';
+import { EditorState, SelectionState } from 'draft-js';
 
 import createMention from '../utils/createMention';
 import exportContent from '../utils/exportContent';
@@ -39,6 +39,7 @@ class Mention extends React.Component {
     this.state = {
       suggestions: props.suggestions,
       value: props.value,
+      selection: SelectionState.createEmpty(),
     };
 
     this.mention = createMention({
@@ -59,11 +60,15 @@ class Mention extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     const { suggestions } = nextProps;
+    const { selection } = this.state;
     let value = nextProps.value;
-    if (this._selection) {
+    if (value && selection) {
       value = EditorState.acceptSelection(
-        value,
-        this._selection,
+        EditorState.createWithContent(
+          value, 
+          this._decorator
+        ),
+        selection,
       );
     }
     this.setState({
@@ -72,18 +77,22 @@ class Mention extends React.Component {
     });
   }
   onEditorChange = (editorState) => {
-    this._selection = editorState.getSelection();
-    const decorator = editorState.getDecorator();
-    const value = EditorState.createWithContent(
-      editorState.getCurrentContent(), 
-      decorator
-    );
+    const selection = editorState.getSelection();
+    this._decorator = editorState.getDecorator();
+    const content = editorState.getCurrentContent();
 
     if (this.props.onChange) {
-      this.props.onChange(value, exportContent(editorState));
+       this.setState({
+          selection,
+        }, () => {
+          if (this.props.value !== content) {
+            this.props.onChange(content, exportContent(content));
+          }
+        });
     } else {
       this.setState({
-        value,
+        editorState,
+        selection, 
       });
     }
   }
@@ -120,10 +129,9 @@ class Mention extends React.Component {
       [`${prefixCls}-wrapper`]: true,
       multilines: multiLines,
     });
-    const value = this.controlledMode ? this.state.value : null;
+    const editorProps = this.controlledMode ? {value: this.state.value }: {};
     const defaultValueState =
       typeof defaultValue === 'string' ? toEditorState(defaultValue) : defaultValue;
-    console.log('>> defaultValueState', defaultValueState);
     return (<div className={editorClass} style={style} ref={wrapper => this._wrapper = wrapper}>
       <EditorCore
         ref={editor => this._editor = editor}
@@ -131,12 +139,16 @@ class Mention extends React.Component {
         style={style}
         multiLines={multiLines}
         plugins={this.plugins}
-        defaultValue={defaultValueState}
+        defaultValue={
+          EditorState.createWithContent(
+          defaultValueState, 
+          this._decorator
+        )}
         placeholder={placeholder}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         onChange={this.onEditorChange}
-        value={value}
+        {...editorProps}
       >
         <Suggestions
           mode={tag ? 'immutable' : 'mutable'}

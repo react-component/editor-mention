@@ -36,7 +36,6 @@ class MentionGenerator {
   }
 }
 
-export default function exportContent(editorState, options = {}) {
-  const content = editorState.getCurrentContent();
-  return new MentionGenerator(content, options).generate();
+export default function exportContent(contentState, options = {}) {
+  return new MentionGenerator(contentState, options).generate();
 }

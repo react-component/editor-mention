@@ -29,6 +29,9 @@ export default function getSearchWord(editorState, selection) {
   const anchorOffset = selection.getAnchorOffset() - 1;
   const currentContent = editorState.getCurrentContent();
   const currentBlock = currentContent.getBlockForKey(anchorKey);
-  const blockText = currentBlock.getText();
-  return getWord(blockText, anchorOffset);
+  if (currentBlock) {
+    const blockText = currentBlock.getText();
+    return getWord(blockText, anchorOffset);
+  }
+  return '';
 }

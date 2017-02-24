@@ -25,7 +25,7 @@ webpackJsonp([0],[
 	
 	var _rcEditorMention2 = _interopRequireDefault(_rcEditorMention);
 	
-	var _draftJs = __webpack_require__(184);
+	var _draftJs = __webpack_require__(182);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -37,7 +37,7 @@ webpackJsonp([0],[
 	    return {
 	      suggestions: originSuggestions,
 	      defaultValue: null,
-	      editorState: _draftJs.EditorState.createEmpty()
+	      editorState: (0, _rcEditorMention.toEditorState)('')
 	    };
 	  },
 	  onSearchChange: function onSearchChange(value) {

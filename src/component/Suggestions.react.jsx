@@ -53,7 +53,8 @@ export default class Suggestions extends React.Component {
 
     const { word } = getSearchWord(editorState, selection);
     if (!word) {
-      return;
+      this.closeDropDown();
+      return editorState;
     }
     const selectionInsideMention = offset.map(({ offsetKey }) => {
       const { blockKey, decoratorKey, leafKey } = decode(offsetKey);

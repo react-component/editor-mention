@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
-import { EditorCore, toEditorState } from 'rc-editor-core';
-import { EditorState, SelectionState } from 'draft-js';
+import { EditorCore } from 'rc-editor-core';
+import { EditorState, SelectionState, ContentState, CompositeDecorator } from 'draft-js';
 
 import createMention from '../utils/createMention';
 import exportContent from '../utils/exportContent';
@@ -36,11 +36,7 @@ class Mention extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      suggestions: props.suggestions,
-      value: props.value,
-      selection: SelectionState.createEmpty(),
-    };
+   
 
     this.mention = createMention({
       prefix: this.getPrefix(props),
@@ -48,8 +44,15 @@ class Mention extends React.Component {
       mode: props.mode,
       mentionStyle: props.mentionStyle,
     });
+
     this.Suggestions = this.mention.Suggestions;
     this.plugins = [this.mention];
+
+    this.state = {
+      suggestions: props.suggestions,
+      value: props.value && EditorState.createWithContent(props.value,  new CompositeDecorator(this.mention.decorators)),
+      selection: SelectionState.createEmpty(),
+    };
 
     if (typeof props.defaultValue === 'string') {
       console.warn('The property `defaultValue` now allow `EditorState` only, see http://react-component.github.io/editor-mention/examples/defaultValue.html ');
@@ -85,9 +88,7 @@ class Mention extends React.Component {
        this.setState({
           selection,
         }, () => {
-          if (this.props.value !== content) {
-            this.props.onChange(content, exportContent(content));
-          }
+          this.props.onChange(content, exportContent(content));
         });
     } else {
       this.setState({
@@ -130,8 +131,10 @@ class Mention extends React.Component {
       multilines: multiLines,
     });
     const editorProps = this.controlledMode ? {value: this.state.value }: {};
-    const defaultValueState =
-      typeof defaultValue === 'string' ? toEditorState(defaultValue) : defaultValue;
+    const defaultValueState = defaultValue &&
+      EditorState.createWithContent(
+        typeof defaultValue === 'string' ? ContentState.createFromText(defaultValue) : defaultValue
+        ,this._decorator);
     return (<div className={editorClass} style={style} ref={wrapper => this._wrapper = wrapper}>
       <EditorCore
         ref={editor => this._editor = editor}
@@ -139,11 +142,7 @@ class Mention extends React.Component {
         style={style}
         multiLines={multiLines}
         plugins={this.plugins}
-        defaultValue={
-          EditorState.createWithContent(
-          defaultValueState, 
-          this._decorator
-        )}
+        defaultValue={defaultValueState}
         placeholder={placeholder}
         onFocus={this.onFocus}
         onBlur={this.onBlur}

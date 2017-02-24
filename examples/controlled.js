@@ -13,7 +13,7 @@ const MentionEditor = React.createClass({
     return {
       suggestions: originSuggestions,
       defaultValue: null,
-      editorState: EditorState.createEmpty(),
+      editorState: toEditorState(''),
     };
   },
   onSearchChange(value) {

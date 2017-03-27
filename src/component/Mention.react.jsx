@@ -32,6 +32,7 @@ class Mention extends React.Component {
     getSuggestionContainer: React.PropTypes.func,
     noRedup: React.PropTypes.bool,
     mentionStyle: React.PropTypes.object,
+    readOnly: React.PropTypes.bool,
   }
 
   constructor(props) {
@@ -77,7 +78,7 @@ class Mention extends React.Component {
     if (this.props.onChange) {
       this.props.onChange(
         EditorState.createWithContent(
-          editorState.getCurrentContent(), 
+          editorState.getCurrentContent(),
           decorator
         ), exportContent(editorState));
     }
@@ -107,7 +108,7 @@ class Mention extends React.Component {
     const {
       prefixCls, style, tag, multiLines,
       suggestionStyle, placeholder, defaultValue, className, notFoundContent,
-      getSuggestionContainer,
+      getSuggestionContainer, readOnly,
     } = this.props;
     const { suggestions } = this.state;
     const { Suggestions } = this;
@@ -130,6 +131,7 @@ class Mention extends React.Component {
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         onChange={this.onEditorChange}
+        readOnly={readOnly}
         {...editorCoreProps}
       >
         <Suggestions
@@ -163,6 +165,7 @@ Mention.defaultProps = {
   notFoundContent: '无法找到',
   position: 'absolute',
   mentionStyle: {},
+  readOnly: false,
 };
 
 export default Mention;

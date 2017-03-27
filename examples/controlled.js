@@ -14,6 +14,7 @@ const MentionEditor = React.createClass({
       suggestions: originSuggestions,
       defaultValue: toEditorState('hello @afc163'),
       editorState: EditorState.createEmpty(),
+      readOnly: false,
     };
   },
   onSearchChange(value) {
@@ -35,10 +36,16 @@ const MentionEditor = React.createClass({
       editorState: this.state.defaultValue,
     });
   },
+  toggleReadOnly() {
+    this.setState({
+      readOnly: !this.state.readOnly,
+    });
+  },
   render() {
     const { suggestions, editorState } = this.state;
     return (<div>
       <button onClick={this.reset}> reset </button>
+      <button onClick={this.toggleReadOnly}> toggleReadOnly </button>
       <Mention
         style={{ width: 300, height: 200 }}
         ref="mention"
@@ -46,7 +53,9 @@ const MentionEditor = React.createClass({
         defaultValue={this.state.defaultValue}
         value={editorState}
         onChange={this.onChange}
-        suggestions={suggestions} prefix="@"
+        suggestions={suggestions}
+        prefix="@"
+        readOnly={this.state.readOnly}
       /></div>);
   },
 });

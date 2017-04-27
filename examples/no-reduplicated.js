@@ -7,14 +7,12 @@ import Mention, { getMentions } from 'rc-editor-mention';
 
 const originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
 
-const MentionEditor = React.createClass({
-  getInitialState() {
-    return {
-      suggestions: originSuggestions,
-      mentions: [],
-    };
-  },
-  onSearchChange(value) {
+class MentionEditor extends React.Component {
+  state = {
+    suggestions: originSuggestions,
+    mentions: [],
+  };
+  onSearchChange = (value) => {
     const searchValue = value.toLowerCase();
     const { mentions } = this.state;
     console.log('>> onSearchChange', value);
@@ -25,32 +23,35 @@ const MentionEditor = React.createClass({
     this.setState({
       suggestions: filtered,
     });
-  },
-  onSelect(value, suggestion) {
+  }
+  onSelect = (value, suggestion) => {
     console.log('>> onSelect', value, suggestion);
-  },
-  onChange(editorState) {
+  }
+  onChange = (editorState) => {
     const mentions = getMentions(editorState);
     console.log('>> editorOnChange', mentions);
     this.setState({
       mentions,
     });
-  },
+  }
   render() {
     const { suggestions } = this.state;
-    return (<Mention style={{ width: 300 }}
-      onSearchChange={this.onSearchChange}
-      onChange={this.onChange}
-      placeholder=" @ 某人 "
-      suggestions={suggestions}
-      prefix="@"
-      onSelect={this.onSelect}
-      noRedup
-    />);
-  },
-});
+    return (
+      <Mention
+        style={{ width: 300 }}
+        onSearchChange={this.onSearchChange}
+        onChange={this.onChange}
+        placeholder=" @ 某人 "
+        suggestions={suggestions}
+        prefix="@"
+        onSelect={this.onSelect}
+        noRedup
+      />
+    );
+  }
+}
 
 ReactDOM.render(<div>
   <p> you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai</p>
   <MentionEditor />
-  </div>, document.getElementById('__react-content'));
+</div>, document.getElementById('__react-content'));

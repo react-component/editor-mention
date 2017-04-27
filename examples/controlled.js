@@ -8,15 +8,13 @@ import { EditorState } from 'draft-js';
 
 const originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
 
-const MentionEditor = React.createClass({
-  getInitialState() {
-    return {
-      suggestions: originSuggestions,
-      defaultValue: toEditorState('hello @afc163'),
-      editorState: EditorState.createEmpty(),
-    };
-  },
-  onSearchChange(value) {
+class MentionEditor extends React.Component {
+  state = {
+    suggestions: originSuggestions,
+    defaultValue: toEditorState('hello @afc163'),
+    editorState: EditorState.createEmpty(),
+  };
+  onSearchChange = (value) => {
     const searchValue = value.toLowerCase();
     const filtered = originSuggestions.filter(suggestion =>
       suggestion.toLowerCase().indexOf(searchValue) !== -1
@@ -24,32 +22,35 @@ const MentionEditor = React.createClass({
     this.setState({
       suggestions: filtered,
     });
-  },
-  onChange(editorState) {
+  }
+  onChange = (editorState) => {
     this.setState({
       editorState,
     });
-  },
-  reset() {
+  }
+  reset = () => {
     this.setState({
       editorState: this.state.defaultValue,
     });
-  },
+  }
   render() {
     const { suggestions, editorState } = this.state;
-    return (<div>
-      <button onClick={this.reset}> reset </button>
-      <Mention
-        style={{ width: 300, height: 200 }}
-        ref="mention"
-        onSearchChange={this.onSearchChange}
-        defaultValue={this.state.defaultValue}
-        value={editorState}
-        onChange={this.onChange}
-        suggestions={suggestions} prefix="@"
-      /></div>);
-  },
-});
+    return (
+      <div>
+        <button onClick={this.reset}> reset </button>
+        <Mention
+          style={{ width: 300, height: 200 }}
+          ref="mention"
+          onSearchChange={this.onSearchChange}
+          defaultValue={this.state.defaultValue}
+          value={editorState}
+          onChange={this.onChange}
+          suggestions={suggestions} prefix="@"
+        />
+      </div>
+    );
+  }
+}
 
 ReactDOM.render(<div>
   <p> you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai</p>

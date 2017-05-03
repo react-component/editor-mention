@@ -122,12 +122,13 @@ class Mention extends React.Component {
     const {
       prefixCls, style, tag, multiLines,
       suggestionStyle, placeholder, defaultValue, className, notFoundContent,
-      getSuggestionContainer,
+      getSuggestionContainer, readOnly,
     } = this.props;
     const { suggestions } = this.state;
     const { Suggestions } = this;
     const editorClass = classnames(className, {
       [`${prefixCls}-wrapper`]: true,
+      readonly: readOnly,
       multilines: multiLines,
     });
     const editorProps = this.controlledMode ? {value: this.state.value }: {};
@@ -148,6 +149,7 @@ class Mention extends React.Component {
         onBlur={this.onBlur}
         onChange={this.onEditorChange}
         {...editorProps}
+        readOnly={readOnly}
       >
         <Suggestions
           mode={tag ? 'immutable' : 'mutable'}

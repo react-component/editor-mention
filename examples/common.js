@@ -39138,11 +39138,12 @@
 	        className = _props.className,
 	        notFoundContent = _props.notFoundContent,
 	        getSuggestionContainer = _props.getSuggestionContainer,
-	        readOnly = _props.readOnly;
+	        readOnly = _props.readOnly,
+	        disabled = _props.disabled;
 	    var suggestions = this.state.suggestions;
 	    var Suggestions = this.Suggestions;
 	
-	    var editorClass = (0, _classnames3.default)(className, (_classnames = {}, _defineProperty(_classnames, prefixCls + '-wrapper', true), _defineProperty(_classnames, 'readonly', readOnly), _defineProperty(_classnames, 'multilines', multiLines), _classnames));
+	    var editorClass = (0, _classnames3.default)(className, (_classnames = {}, _defineProperty(_classnames, prefixCls + '-wrapper', true), _defineProperty(_classnames, 'readonly', readOnly), _defineProperty(_classnames, 'disabled', disabled), _defineProperty(_classnames, 'multilines', multiLines), _classnames));
 	    var editorProps = this.controlledMode ? { value: this.state.value } : {};
 	    var defaultValueState = defaultValue && _draftJs.EditorState.createWithContent(typeof defaultValue === 'string' ? _draftJs.ContentState.createFromText(defaultValue) : defaultValue, this._decorator);
 	    return _react2.default.createElement(
@@ -39166,7 +39167,7 @@
 	          onBlur: this.onBlur,
 	          onChange: this.onEditorChange
 	        }, editorProps, {
-	          readOnly: readOnly
+	          readOnly: readOnly || disabled
 	        }),
 	        _react2.default.createElement(Suggestions, {
 	          mode: tag ? 'immutable' : 'mutable',

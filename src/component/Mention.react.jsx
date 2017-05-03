@@ -128,7 +128,8 @@ class Mention extends React.Component {
     const { Suggestions } = this;
     const editorClass = classnames(className, {
       [`${prefixCls}-wrapper`]: true,
-      readonly: readOnly || disabled,
+      readonly: readOnly,
+      disabled: disabled,
       multilines: multiLines,
     });
     const editorProps = this.controlledMode ? {value: this.state.value }: {};

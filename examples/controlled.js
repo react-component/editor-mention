@@ -11,8 +11,8 @@ const originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria'
 class MentionEditor extends React.Component {
   state = {
     suggestions: originSuggestions,
-    defaultValue: toEditorState('hello @afc163'),
-    editorState: EditorState.createEmpty(),
+    defaultValue: null,
+    editorState: toEditorState(''),
   };
   onSearchChange = (value) => {
     const searchValue = value.toLowerCase();

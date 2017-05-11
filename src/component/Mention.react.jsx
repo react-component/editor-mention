@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { EditorCore, toEditorState } from 'rc-editor-core';
-import { EditorState } from 'draft-js';
+import { EditorCore } from 'rc-editor-core';
+import { EditorState, SelectionState, ContentState, CompositeDecorator } from 'draft-js';
 
 import createMention from '../utils/createMention';
 import exportContent from '../utils/exportContent';
@@ -37,10 +37,7 @@ class Mention extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      suggestions: props.suggestions,
-      value: props.value,
-    };
+   
 
     this.mention = createMention({
       prefix: this.getPrefix(props),
@@ -48,8 +45,15 @@ class Mention extends React.Component {
       mode: props.mode,
       mentionStyle: props.mentionStyle,
     });
+
     this.Suggestions = this.mention.Suggestions;
     this.plugins = [this.mention];
+
+    this.state = {
+      suggestions: props.suggestions,
+      value: props.value && EditorState.createWithContent(props.value,  new CompositeDecorator(this.mention.decorators)),
+      selection: SelectionState.createEmpty(),
+    };
 
     if (typeof props.defaultValue === 'string') {
       console.warn('The property `defaultValue` now allow `EditorState` only, see http://react-component.github.io/editor-mention/examples/defaultValue.html ');
@@ -60,11 +64,15 @@ class Mention extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     const { suggestions } = nextProps;
+    const { selection } = this.state;
     let value = nextProps.value;
-    if (this._selection) {
+    if (value && selection) {
       value = EditorState.acceptSelection(
-        value,
-        this._selection,
+        EditorState.createWithContent(
+          value, 
+          this._decorator
+        ),
+        selection,
       );
     }
     this.setState({
@@ -73,14 +81,21 @@ class Mention extends React.Component {
     });
   }
   onEditorChange = (editorState) => {
-    this._selection = editorState.getSelection();
-    const decorator = editorState.getDecorator();
+    const selection = editorState.getSelection();
+    this._decorator = editorState.getDecorator();
+    const content = editorState.getCurrentContent();
+
     if (this.props.onChange) {
-      this.props.onChange(
-        EditorState.createWithContent(
-          editorState.getCurrentContent(),
-          decorator
-        ), exportContent(editorState));
+       this.setState({
+          selection,
+        }, () => {
+          this.props.onChange(content, exportContent(content));
+        });
+    } else {
+      this.setState({
+        editorState,
+        selection, 
+      });
     }
   }
   onFocus = (e) => {
@@ -108,17 +123,21 @@ class Mention extends React.Component {
     const {
       prefixCls, style, tag, multiLines,
       suggestionStyle, placeholder, defaultValue, className, notFoundContent,
-      getSuggestionContainer,
+      getSuggestionContainer, readOnly, disabled,
     } = this.props;
     const { suggestions } = this.state;
     const { Suggestions } = this;
     const editorClass = classnames(className, {
       [`${prefixCls}-wrapper`]: true,
+      readonly: readOnly,
+      disabled: disabled,
       multilines: multiLines,
     });
-    const editorCoreProps = this.controlledMode ? { value: this.state.value } : {};
-    const defaultValueState =
-      typeof defaultValue === 'string' ? toEditorState(defaultValue) : defaultValue;
+    const editorProps = this.controlledMode ? {value: this.state.value }: {};
+    const defaultValueState = defaultValue &&
+      EditorState.createWithContent(
+        typeof defaultValue === 'string' ? ContentState.createFromText(defaultValue) : defaultValue
+        ,this._decorator);
     return (<div className={editorClass} style={style} ref={wrapper => this._wrapper = wrapper}>
       <EditorCore
         ref={editor => this._editor = editor}
@@ -131,7 +150,8 @@ class Mention extends React.Component {
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         onChange={this.onEditorChange}
-        {...editorCoreProps}
+        {...editorProps}
+        readOnly={readOnly || disabled}
       >
         <Suggestions
           mode={tag ? 'immutable' : 'mutable'}

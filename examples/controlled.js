@@ -48,6 +48,9 @@ const MentionEditor = React.createClass({
         value={editorState}
         onChange={this.onChange}
         suggestions={suggestions} prefix="@"
+        onFocus={console.log}
+        onBlur={console.log}
+        readOnly
       /></div>);
   },
 });

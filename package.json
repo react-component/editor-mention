@@ -69,7 +69,7 @@
     "draft-js": "~0.10.0",
     "immutable": "^3.8.1",
     "rc-animate": "^2.3.0",
-    "rc-editor-core": "^0.7.0"
+    "rc-editor-core": "~0.7.7"
   },
   "jest": {
     "verbose": true,

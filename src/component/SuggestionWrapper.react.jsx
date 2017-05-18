@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
 export default class SuggestionWrapper extends React.Component {
@@ -25,7 +26,7 @@ export default class SuggestionWrapper extends React.Component {
 }
 
 SuggestionWrapper.propTypes = {
-  children: React.PropTypes.any,
-  renderReady: React.PropTypes.func,
-  container: React.PropTypes.any,
+  children: PropTypes.any,
+  renderReady: PropTypes.func,
+  container: PropTypes.any,
 };

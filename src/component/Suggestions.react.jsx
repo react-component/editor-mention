@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { decode } from 'draft-js/lib/DraftOffsetKey';
 import Animate from 'rc-animate';
@@ -282,20 +283,20 @@ export default class Suggestions extends React.Component {
 }
 
 Suggestions.propTypes = {
-  callbacks: React.PropTypes.object,
-  suggestions: React.PropTypes.array,
-  store: React.PropTypes.object,
-  onSearchChange: React.PropTypes.func,
-  prefix: React.PropTypes.oneOfType(
-    [React.PropTypes.string, React.PropTypes.arrayOf(React.PropTypes.string)]
+  callbacks: PropTypes.object,
+  suggestions: PropTypes.array,
+  store: PropTypes.object,
+  onSearchChange: PropTypes.func,
+  prefix: PropTypes.oneOfType(
+    [PropTypes.string, PropTypes.arrayOf(PropTypes.string)]
   ),
-  prefixCls: React.PropTypes.string,
-  mode: React.PropTypes.string,
-  style: React.PropTypes.object,
-  onSelect: React.PropTypes.func,
-  getSuggestionContainer: React.PropTypes.func,
-  notFoundContent: React.PropTypes.any,
-  getSuggestionStyle: React.PropTypes.func,
-  className: React.PropTypes.string,
-  noRedup: React.PropTypes.bool,
+  prefixCls: PropTypes.string,
+  mode: PropTypes.string,
+  style: PropTypes.object,
+  onSelect: PropTypes.func,
+  getSuggestionContainer: PropTypes.func,
+  notFoundContent: PropTypes.any,
+  getSuggestionStyle: PropTypes.func,
+  className: PropTypes.string,
+  noRedup: PropTypes.bool,
 };

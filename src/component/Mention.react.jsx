@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { EditorCore } from 'rc-editor-core';
 import { EditorState, SelectionState, ContentState, CompositeDecorator } from 'draft-js';
@@ -8,30 +9,30 @@ import exportContent from '../utils/exportContent';
 
 class Mention extends React.Component {
   static propTypes = {
-    value: React.PropTypes.object,
-    suggestions: React.PropTypes.array,
-    prefix: React.PropTypes.oneOfType(
-      [React.PropTypes.string, React.PropTypes.arrayOf(React.PropTypes.string)]
+    value: PropTypes.object,
+    suggestions: PropTypes.array,
+    prefix: PropTypes.oneOfType(
+      [PropTypes.string, PropTypes.arrayOf(PropTypes.string)]
     ),
-    prefixCls: React.PropTypes.string,
-    tag: React.PropTypes.element,
-    style: React.PropTypes.object,
-    className: React.PropTypes.string,
-    onSearchChange: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    mode: React.PropTypes.string,
-    multiLines: React.PropTypes.bool,
-    suggestionStyle: React.PropTypes.object,
-    placeholder: React.PropTypes.string,
-    defaultValue: React.PropTypes.object,
-    notFoundContent: React.PropTypes.any,
-    position: React.PropTypes.string,
-    onFocus: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
-    onSelect: React.PropTypes.func,
-    getSuggestionContainer: React.PropTypes.func,
-    noRedup: React.PropTypes.bool,
-    mentionStyle: React.PropTypes.object,
+    prefixCls: PropTypes.string,
+    tag: PropTypes.element,
+    style: PropTypes.object,
+    className: PropTypes.string,
+    onSearchChange: PropTypes.func,
+    onChange: PropTypes.func,
+    mode: PropTypes.string,
+    multiLines: PropTypes.bool,
+    suggestionStyle: PropTypes.object,
+    placeholder: PropTypes.string,
+    defaultValue: PropTypes.object,
+    notFoundContent: PropTypes.any,
+    position: PropTypes.string,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    onSelect: PropTypes.func,
+    getSuggestionContainer: PropTypes.func,
+    noRedup: PropTypes.bool,
+    mentionStyle: PropTypes.object,
   }
 
   constructor(props) {

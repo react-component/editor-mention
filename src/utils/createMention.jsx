@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Suggestions from '../component/Suggestions.react';
 import SuggestionPortal from '../component/SuggestionPortal.react';
 import MentionContent from '../component/MentionContent.react';
@@ -29,9 +30,9 @@ function noop() {}
 
 class MentionContentComponent extends React.Component {
   static propTypes = {
-    entityKey: React.PropTypes.element,
-    callbacks: React.PropTypes.func,
-    tag: React.PropTypes.element,
+    entityKey: PropTypes.element,
+    callbacks: PropTypes.func,
+    tag: PropTypes.element,
   }
   render() {
     const { entityKey, tag, callbacks } = this.props;

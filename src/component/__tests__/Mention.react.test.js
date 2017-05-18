@@ -2,7 +2,6 @@ import React from 'react';
 import { mount } from 'enzyme';
 import Mention from '../Mention.react';
 
-
 describe('Mention.react', () => {
   describe('Basic rendering', () => {
     it('render correctly', () => {

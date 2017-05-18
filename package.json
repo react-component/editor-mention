@@ -68,6 +68,7 @@
     "dom-scroll-into-view": "^1.2.0",
     "draft-js": "~0.10.0",
     "immutable": "^3.8.1",
+    "prop-types": "^15.5.8",
     "rc-animate": "^2.3.0",
     "rc-editor-core": "^0.7.0"
   },

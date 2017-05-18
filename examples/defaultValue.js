@@ -7,13 +7,11 @@ import Mention, { toEditorState } from 'rc-editor-mention';
 
 const originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
 
-const MentionEditor = React.createClass({
-  getInitialState() {
-    return {
-      suggestions: originSuggestions,
-    };
-  },
-  onSearchChange(value) {
+class MentionEditor extends React.Component {
+  state = {
+    suggestions: originSuggestions,
+  };
+  onSearchChange = (value) => {
     const searchValue = value.toLowerCase();
     const filtered = originSuggestions.filter(suggestion =>
       suggestion.toLowerCase().indexOf(searchValue) !== -1
@@ -21,22 +19,25 @@ const MentionEditor = React.createClass({
     this.setState({
       suggestions: filtered,
     });
-  },
-  reset() {
+  }
+  reset = () => {
     this.refs.mention.reset();
-  },
+  }
   render() {
     const { suggestions } = this.state;
-    return (<div>
-      <button onClick={this.reset}> reset </button>
-      <Mention style={{ width: 300 }}
-        ref="mention"
-        onSearchChange={this.onSearchChange}
-        defaultValue={toEditorState('hello @afc163 ')}
-        suggestions={suggestions} prefix="@"
-      /></div>);
-  },
-});
+    return (
+      <div>
+        <button onClick={this.reset}> reset </button>
+        <Mention style={{ width: 300 }}
+          ref="mention"
+          onSearchChange={this.onSearchChange}
+          defaultValue={toEditorState('hello @afc163 ')}
+          suggestions={suggestions} prefix="@"
+        />
+      </div>
+    );
+  }
+}
 
 ReactDOM.render(<div>
   <p> you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai</p>

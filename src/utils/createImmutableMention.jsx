@@ -1,16 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { EditorState, Modifier } from 'draft-js';
-import MentionContent from '../component/MentionContent.react';
 import Suggestions from '../component/Suggestions.react';
 import mentionStore from '../model/mentionStore';
 import exportContent from '../utils/exportContent';
+
 function noop() {}
 
 class MentionContentComponent extends React.Component {
   static propTypes = {
-    entityKey: React.PropTypes.element,
-    callbacks: React.PropTypes.func,
-    tag: React.PropTypes.element,
+    entityKey: PropTypes.element,
+    callbacks: PropTypes.func,
+    tag: PropTypes.element,
   }
   render() {
     const { entityKey, tag, callbacks } = this.props;

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>multilines.js - example - rc-editor-mention@0.6.11</title>
+  <title>multilines.js - example - rc-editor-mention@0.6.12</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-mention@0.6.11</h1>
+      <h1>rc-editor-mention@0.6.12</h1>
 
       <p>mention ui component for react</p>
     </div>
@@ -288,14 +288,12 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   transition: <span class="hljs-string">'all 0.25s cubic-bezier(.3,1,.2,1)'</span>,
 };
 
-<span class="hljs-keyword">const</span> MentionEditor = React.createClass({
-  getInitialState() {
-    <span class="hljs-keyword">return</span> {
-      suggestions: originSuggestions,
-      suggestionStyle: activeStyle,
-    };
-  },
-  onSearchChange(value) {
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MentionEditor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  state = {
+    suggestions: originSuggestions,
+    suggestionStyle: activeStyle,
+  };
+  onSearchChange = (value) =&gt; {
     <span class="hljs-keyword">const</span> searchValue = value.toLowerCase();
     <span class="hljs-keyword">const</span> filtered = originSuggestions.filter(suggestion =&gt;
       suggestion.toLowerCase().indexOf(searchValue) !== -<span class="hljs-number">1</span>
@@ -304,28 +302,29 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
       suggestions: filtered,
       suggestionStyle: filtered.length ? activeStyle : disableStyle,
     });
-  },
-
+  }
   render() {
     <span class="hljs-keyword">const</span> { suggestions, suggestionStyle } = <span class="hljs-keyword">this</span>.state;
     <span class="hljs-keyword">const</span> multiLines = <span class="hljs-literal">true</span>;
-    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Mention</span>
-      <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">width:</span> <span class="hljs-attribute">300</span> }}
-      <span class="hljs-attribute">multiLines</span>=<span class="hljs-value">{multiLines}</span>
-      <span class="hljs-attribute">onSearchChange</span>=<span class="hljs-value">{this.onSearchChange}</span>
-      <span class="hljs-attribute">suggestions</span>=<span class="hljs-value">{suggestions}</span>
-      <span class="hljs-attribute">suggestionStyle</span>=<span class="hljs-value">{suggestionStyle}</span>
-      <span class="hljs-attribute">prefixCls</span>=<span class="hljs-value">"rc-editor-mention"</span>
-      <span class="hljs-attribute">prefix</span>=<span class="hljs-value">"@"</span>
-    /&gt;</span>)</span>;
-  },
-});
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Mention</span>
+        <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">width:</span> <span class="hljs-attribute">300</span> }}
+        <span class="hljs-attribute">multiLines</span>=<span class="hljs-value">{multiLines}</span>
+        <span class="hljs-attribute">onSearchChange</span>=<span class="hljs-value">{this.onSearchChange}</span>
+        <span class="hljs-attribute">suggestions</span>=<span class="hljs-value">{suggestions}</span>
+        <span class="hljs-attribute">suggestionStyle</span>=<span class="hljs-value">{suggestionStyle}</span>
+        <span class="hljs-attribute">prefixCls</span>=<span class="hljs-value">"rc-editor-mention"</span>
+        <span class="hljs-attribute">prefix</span>=<span class="hljs-value">"@"</span>
+      /&gt;</span>
+    )</span>;
+  }
+}
 
 ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span> you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span> multilines mode <span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">MentionEditor</span> /&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>, document.getElementById('__react-content'));
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>, document.getElementById('__react-content'));
 </span></code></pre></div>
   </div>
   <a href="https://github.com/react-component/mention">

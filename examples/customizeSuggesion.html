@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>customizeSuggesion.js - example - rc-editor-mention@0.6.11</title>
+  <title>customizeSuggesion.js - example - rc-editor-mention@0.6.12</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-mention@0.6.11</h1>
+      <h1>rc-editor-mention@0.6.12</h1>
 
       <p>mention ui component for react</p>
     </div>
@@ -283,36 +283,34 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 123 &lt;br /&gt;
 `</span>;
 
-<span class="hljs-keyword">const</span> MentionEditor = React.createClass({
-  getInitialState() {
-    <span class="hljs-keyword">return</span> {
-      contributors: [],
-      suggestions: [],
-    };
-  },
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MentionEditor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  state = {
+    contributors: [],
+    suggestions: [],
+  };
   componentDidMount() {
     fetch(<span class="hljs-string">'./contributors.json'</span>)
       .then(resp =&gt; resp.json())
       .then(contributors =&gt; <span class="hljs-keyword">this</span>.setState({ contributors }));
-  },
-  onSearchChange(value) {
+  }
+  onSearchChange = (value) =&gt; {
     <span class="hljs-keyword">const</span> searchValue = value.toLowerCase();
     <span class="hljs-keyword">const</span> filtered = <span class="hljs-keyword">this</span>.state.contributors.filter(contributor =&gt;
       contributor.login.toLowerCase().indexOf(searchValue) !== -<span class="hljs-number">1</span>
     );
     <span class="hljs-keyword">const</span> suggestions = filtered.map(suggestion =&gt;
       <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Nav</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">height:</span> <span class="hljs-attribute">34</span> }} <span class="hljs-attribute">value</span>=<span class="hljs-value">{suggestion.login}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">{suggestion.login}</span> &gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">{suggestion.avatar_url}</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"avatar"</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">{suggestion.avatar_url}</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"avatar"</span> /&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"meta"</span>&gt;</span>{suggestion.login}<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">float:</span> '<span class="hljs-attribute">right</span>', <span class="hljs-attribute">color:</span> '<span class="hljs-attribute">green</span>' }}&gt;</span>{suggestion.contributions}<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
       <span class="hljs-tag">&lt;/<span class="hljs-title">Nav</span>&gt;</span>)</span>;
     <span class="hljs-keyword">this</span>.setState({
       suggestions,
     });
-  },
-  onChange(editorState) {
+  }
+  onChange = (editorState) =&gt; {
     <span class="hljs-built_in">console</span>.log(toString(editorState, { encode: <span class="hljs-literal">true</span> }));
-  },
+  }
   render() {
     <span class="hljs-keyword">const</span> { suggestions } = <span class="hljs-keyword">this</span>.state;
     <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">position:</span> '<span class="hljs-attribute">relative</span>', <span class="hljs-attribute">left:</span> <span class="hljs-attribute">150</span> }}&gt;</span>
@@ -325,8 +323,8 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
         <span class="hljs-attribute">multiLines</span>
       /&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>)</span>;
-  },
-});
+  }
+}
 
 ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span> you can mention one of ant-design <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"https://github.com/ant-design/ant-design/graphs/contributors"</span> <span class="hljs-attribute">target</span>=<span class="hljs-value">"blank"</span>&gt;</span>contributors<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>

@@ -39005,11 +39005,15 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _classnames2 = __webpack_require__(313);
+	var _propTypes = __webpack_require__(313);
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
+	var _classnames2 = __webpack_require__(321);
 	
 	var _classnames3 = _interopRequireDefault(_classnames2);
 	
-	var _rcEditorCore = __webpack_require__(314);
+	var _rcEditorCore = __webpack_require__(322);
 	
 	var _draftJs = __webpack_require__(182);
 	
@@ -39191,28 +39195,28 @@
 	}(_react2.default.Component);
 	
 	Mention.propTypes = {
-	  value: _react2.default.PropTypes.object,
-	  suggestions: _react2.default.PropTypes.array,
-	  prefix: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string)]),
-	  prefixCls: _react2.default.PropTypes.string,
-	  tag: _react2.default.PropTypes.element,
-	  style: _react2.default.PropTypes.object,
-	  className: _react2.default.PropTypes.string,
-	  onSearchChange: _react2.default.PropTypes.func,
-	  onChange: _react2.default.PropTypes.func,
-	  mode: _react2.default.PropTypes.string,
-	  multiLines: _react2.default.PropTypes.bool,
-	  suggestionStyle: _react2.default.PropTypes.object,
-	  placeholder: _react2.default.PropTypes.string,
-	  defaultValue: _react2.default.PropTypes.object,
-	  notFoundContent: _react2.default.PropTypes.any,
-	  position: _react2.default.PropTypes.string,
-	  onFocus: _react2.default.PropTypes.func,
-	  onBlur: _react2.default.PropTypes.func,
-	  onSelect: _react2.default.PropTypes.func,
-	  getSuggestionContainer: _react2.default.PropTypes.func,
-	  noRedup: _react2.default.PropTypes.bool,
-	  mentionStyle: _react2.default.PropTypes.object
+	  value: _propTypes2.default.object,
+	  suggestions: _propTypes2.default.array,
+	  prefix: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.arrayOf(_propTypes2.default.string)]),
+	  prefixCls: _propTypes2.default.string,
+	  tag: _propTypes2.default.element,
+	  style: _propTypes2.default.object,
+	  className: _propTypes2.default.string,
+	  onSearchChange: _propTypes2.default.func,
+	  onChange: _propTypes2.default.func,
+	  mode: _propTypes2.default.string,
+	  multiLines: _propTypes2.default.bool,
+	  suggestionStyle: _propTypes2.default.object,
+	  placeholder: _propTypes2.default.string,
+	  defaultValue: _propTypes2.default.object,
+	  notFoundContent: _propTypes2.default.any,
+	  position: _propTypes2.default.string,
+	  onFocus: _propTypes2.default.func,
+	  onBlur: _propTypes2.default.func,
+	  onSelect: _propTypes2.default.func,
+	  getSuggestionContainer: _propTypes2.default.func,
+	  noRedup: _propTypes2.default.bool,
+	  mentionStyle: _propTypes2.default.object
 	};
 	Mention.controlledMode = false;
 	
@@ -39235,647 +39239,6 @@
 
 /***/ },
 /* 313 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	  Copyright (c) 2016 Jed Watson.
-	  Licensed under the MIT License (MIT), see
-	  http://jedwatson.github.io/classnames
-	*/
-	/* global define */
-	
-	(function () {
-		'use strict';
-	
-		var hasOwn = {}.hasOwnProperty;
-	
-		function classNames () {
-			var classes = [];
-	
-			for (var i = 0; i < arguments.length; i++) {
-				var arg = arguments[i];
-				if (!arg) continue;
-	
-				var argType = typeof arg;
-	
-				if (argType === 'string' || argType === 'number') {
-					classes.push(arg);
-				} else if (Array.isArray(arg)) {
-					classes.push(classNames.apply(null, arg));
-				} else if (argType === 'object') {
-					for (var key in arg) {
-						if (hasOwn.call(arg, key) && arg[key]) {
-							classes.push(key);
-						}
-					}
-				}
-			}
-	
-			return classes.join(' ');
-		}
-	
-		if (typeof module !== 'undefined' && module.exports) {
-			module.exports = classNames;
-		} else if (true) {
-			// register as 'classnames', consistent with npm package name
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
-				return classNames;
-			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-		} else {
-			window.classNames = classNames;
-		}
-	}());
-
-
-/***/ },
-/* 314 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _EditorCore = __webpack_require__(315);
-	
-	var _EditorCore2 = _interopRequireDefault(_EditorCore);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-	
-	var EditorCorePublic = {
-	    EditorCore: _EditorCore2["default"],
-	    GetText: _EditorCore2["default"].GetText,
-	    GetHTML: _EditorCore2["default"].GetHTML,
-	    toEditorState: _EditorCore2["default"].ToEditorState
-	};
-	exports["default"] = EditorCorePublic;
-	module.exports = exports['default'];
-
-/***/ },
-/* 315 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(clearImmediate, setImmediate) {'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _react = __webpack_require__(3);
-	
-	var React = _interopRequireWildcard(_react);
-	
-	var _propTypes = __webpack_require__(317);
-	
-	var PropTypes = _interopRequireWildcard(_propTypes);
-	
-	var _draftJs = __webpack_require__(182);
-	
-	var _immutable = __webpack_require__(325);
-	
-	__webpack_require__(258);
-	
-	var _Toolbar = __webpack_require__(326);
-	
-	var _ConfigStore = __webpack_require__(329);
-	
-	var _ConfigStore2 = _interopRequireDefault(_ConfigStore);
-	
-	var _getHTML = __webpack_require__(330);
-	
-	var _getHTML2 = _interopRequireDefault(_getHTML);
-	
-	var _exportText = __webpack_require__(332);
-	
-	var _exportText2 = _interopRequireDefault(_exportText);
-	
-	var _customHTML2Content = __webpack_require__(333);
-	
-	var _customHTML2Content2 = _interopRequireDefault(_customHTML2Content);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
-	
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-	
-	var __assign = undefined && undefined.__assign || Object.assign || function (t) {
-	    for (var s, i = 1, n = arguments.length; i < n; i++) {
-	        s = arguments[i];
-	        for (var p in s) {
-	            if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-	        }
-	    }
-	    return t;
-	};
-	var hasCommandModifier = _draftJs.KeyBindingUtil.hasCommandModifier;
-	
-	function noop() {}
-	;
-	var defaultPluginConfig = {};
-	var toolbar = (0, _Toolbar.createToolbar)();
-	var configStore = new _ConfigStore2["default"]();
-	
-	var EditorCore = function (_React$Component) {
-	    _inherits(EditorCore, _React$Component);
-	
-	    function EditorCore(props) {
-	        _classCallCheck(this, EditorCore);
-	
-	        var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
-	
-	        _this.cancelForceUpdateImmediate = function () {
-	            clearImmediate(_this.forceUpdateImmediate);
-	            _this.forceUpdateImmediate = null;
-	        };
-	        _this.handlePastedText = function (text, html) {
-	            var editorState = _this.state.editorState;
-	
-	            if (html) {
-	                var contentState = editorState.getCurrentContent();
-	                var selection = editorState.getSelection();
-	                var fragment = (0, _customHTML2Content2["default"])(html, contentState);
-	                var pastedContent = _draftJs.Modifier.replaceWithFragment(contentState, selection, fragment);
-	                var newContent = pastedContent.merge({
-	                    selectionBefore: selection,
-	                    selectionAfter: pastedContent.getSelectionAfter().set('hasFocus', true)
-	                });
-	                _this.setEditorState(_draftJs.EditorState.push(editorState, newContent, 'insert-fragment'), true);
-	                return 'handled';
-	            }
-	            return 'not-handled';
-	        };
-	        _this.plugins = (0, _immutable.List)((0, _immutable.List)(props.plugins).flatten(true));
-	        var editorState = void 0;
-	        if (props.value !== undefined) {
-	            if (props.value instanceof _draftJs.EditorState) {
-	                editorState = props.value || _draftJs.EditorState.createEmpty();
-	            } else {
-	                editorState = _draftJs.EditorState.createEmpty();
-	            }
-	        } else {
-	            editorState = _draftJs.EditorState.createEmpty();
-	        }
-	        editorState = _this.generatorDefaultValue(editorState);
-	        _this.state = {
-	            plugins: _this.reloadPlugins(),
-	            editorState: editorState,
-	            customStyleMap: {},
-	            customBlockStyleMap: {},
-	            compositeDecorator: null
-	        };
-	        if (props.value !== undefined) {
-	            _this.controlledMode = true;
-	            console.warn('this component is in controllred mode');
-	        }
-	        return _this;
-	    }
-	
-	    EditorCore.ToEditorState = function ToEditorState(text) {
-	        var createEmptyContentState = _draftJs.ContentState.createFromText((0, _exportText.decodeContent)(text) || '');
-	        var editorState = _draftJs.EditorState.createWithContent(createEmptyContentState);
-	        return _draftJs.EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter());
-	    };
-	
-	    EditorCore.prototype.Reset = function Reset() {
-	        var defaultValue = this.props.defaultValue;
-	
-	        var contentState = defaultValue ? defaultValue.getCurrentContent() : _draftJs.ContentState.createFromText('');
-	        var updatedEditorState = _draftJs.EditorState.push(this.state.editorState, contentState, 'remove-range');
-	        this.setEditorState(_draftJs.EditorState.forceSelection(updatedEditorState, contentState.getSelectionBefore()));
-	    };
-	
-	    EditorCore.prototype.SetText = function SetText(text) {
-	        var createTextContentState = _draftJs.ContentState.createFromText(text || '');
-	        var editorState = _draftJs.EditorState.push(this.state.editorState, createTextContentState, 'change-block-data');
-	        this.setEditorState(_draftJs.EditorState.moveFocusToEnd(editorState), true);
-	    };
-	
-	    EditorCore.prototype.getChildContext = function getChildContext() {
-	        return {
-	            getEditorState: this.getEditorState,
-	            setEditorState: this.setEditorState
-	        };
-	    };
-	
-	    EditorCore.prototype.reloadPlugins = function reloadPlugins() {
-	        var _this2 = this;
-	
-	        return this.plugins && this.plugins.size ? this.plugins.map(function (plugin) {
-	            if (plugin.callbacks) {
-	                return plugin;
-	            }
-	            if (plugin.hasOwnProperty('constructor')) {
-	                var pluginConfig = Object.assign(_this2.props.pluginConfig, plugin.config || {}, defaultPluginConfig);
-	                return plugin.constructor(pluginConfig);
-	            }
-	            console.warn('>> 插件: [', plugin.name, '] 无效。插件或许已经过期。');
-	            return false;
-	        }).filter(function (plugin) {
-	            return plugin;
-	        }).toArray() : [];
-	    };
-	
-	    EditorCore.prototype.componentWillMount = function componentWillMount() {
-	        var plugins = this.initPlugins().concat([toolbar]);
-	        var customStyleMap = {};
-	        var customBlockStyleMap = {};
-	        var customBlockRenderMap = (0, _immutable.Map)(_draftJs.DefaultDraftBlockRenderMap);
-	        var toHTMLList = (0, _immutable.List)([]);
-	        var compositeDecorator = new _draftJs.CompositeDecorator(plugins.filter(function (plugin) {
-	            return plugin.decorators !== undefined;
-	        }).map(function (plugin) {
-	            return plugin.decorators;
-	        }).reduce(function (prev, curr) {
-	            return prev.concat(curr);
-	        }, []));
-	        var toolbarPlugins = (0, _immutable.List)(plugins.filter(function (plugin) {
-	            return !!plugin.component && plugin.name !== 'toolbar';
-	        }));
-	        plugins.forEach(function (plugin) {
-	            var styleMap = plugin.styleMap,
-	                blockStyleMap = plugin.blockStyleMap,
-	                blockRenderMap = plugin.blockRenderMap,
-	                toHtml = plugin.toHtml;
-	
-	            if (styleMap) {
-	                for (var key in styleMap) {
-	                    if (styleMap.hasOwnProperty(key)) {
-	                        customStyleMap[key] = styleMap[key];
-	                    }
-	                }
-	            }
-	            if (blockStyleMap) {
-	                for (var _key in blockStyleMap) {
-	                    if (blockStyleMap.hasOwnProperty(_key)) {
-	                        customBlockStyleMap[_key] = blockStyleMap[_key];
-	                        customBlockRenderMap = customBlockRenderMap.set(_key, {
-	                            element: null
-	                        });
-	                    }
-	                }
-	            }
-	            if (toHtml) {
-	                toHTMLList = toHTMLList.push(toHtml);
-	            }
-	            if (blockRenderMap) {
-	                for (var _key2 in blockRenderMap) {
-	                    if (blockRenderMap.hasOwnProperty(_key2)) {
-	                        customBlockRenderMap = customBlockRenderMap.set(_key2, blockRenderMap[_key2]);
-	                    }
-	                }
-	            }
-	        });
-	        configStore.set('customStyleMap', customStyleMap);
-	        configStore.set('customBlockStyleMap', customBlockStyleMap);
-	        configStore.set('blockRenderMap', customBlockRenderMap);
-	        configStore.set('customStyleFn', this.customStyleFn.bind(this));
-	        configStore.set('toHTMLList', toHTMLList);
-	        this.setState({
-	            toolbarPlugins: toolbarPlugins,
-	            compositeDecorator: compositeDecorator
-	        });
-	        this.setEditorState(_draftJs.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
-	    };
-	
-	    EditorCore.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-	        if (this.forceUpdateImmediate) {
-	            this.cancelForceUpdateImmediate();
-	        }
-	        if (this.controlledMode) {
-	            var decorators = nextProps.value.getDecorator();
-	            var editorState = decorators ? nextProps.value : _draftJs.EditorState.set(nextProps.value, { decorator: this.state.compositeDecorator });
-	            this.setState({
-	                editorState: editorState
-	            });
-	        }
-	    };
-	
-	    EditorCore.prototype.componentWillUnmount = function componentWillUnmount() {
-	        this.cancelForceUpdateImmediate();
-	    };
-	
-	    EditorCore.prototype.generatorDefaultValue = function generatorDefaultValue(editorState) {
-	        var defaultValue = this.props.defaultValue;
-	
-	        if (defaultValue) {
-	            return defaultValue;
-	        }
-	        return editorState;
-	    };
-	
-	    EditorCore.prototype.getStyleMap = function getStyleMap() {
-	        return configStore.get('customStyleMap');
-	    };
-	
-	    EditorCore.prototype.setStyleMap = function setStyleMap(customStyleMap) {
-	        configStore.set('customStyleMap', customStyleMap);
-	        this.render();
-	    };
-	
-	    EditorCore.prototype.initPlugins = function initPlugins() {
-	        var _this3 = this;
-	
-	        var enableCallbacks = ['focus', 'getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap'];
-	        return this.getPlugins().map(function (plugin) {
-	            enableCallbacks.forEach(function (callbackName) {
-	                if (plugin.callbacks.hasOwnProperty(callbackName)) {
-	                    plugin.callbacks[callbackName] = _this3[callbackName].bind(_this3);
-	                }
-	            });
-	            return plugin;
-	        });
-	    };
-	
-	    EditorCore.prototype.focusEditor = function focusEditor(ev) {
-	        this.refs.editor.focus(ev);
-	        if (this.props.onFocus) {
-	            this.props.onFocus(ev);
-	        }
-	    };
-	
-	    EditorCore.prototype.focus = function focus(ev) {
-	        var _this4 = this;
-	
-	        var target = ev.target;
-	        if (target === this._editorWrapper) {
-	            var editorState = this.state.editorState;
-	
-	            var selection = editorState.getSelection();
-	            if (!selection.getHasFocus()) {
-	                if (selection.isCollapsed()) {
-	                    return this.setState({
-	                        editorState: _draftJs.EditorState.moveFocusToEnd(editorState)
-	                    }, function () {
-	                        _this4.focusEditor(ev);
-	                    });
-	                }
-	            }
-	        }
-	        this.focusEditor(ev);
-	    };
-	
-	    EditorCore.prototype.getPlugins = function getPlugins() {
-	        return this.state.plugins.slice();
-	    };
-	
-	    EditorCore.prototype.getEventHandler = function getEventHandler() {
-	        var _this5 = this;
-	
-	        var enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn', 'onFocus', 'onBlur', 'onTab', 'handlePastedText'];
-	        var eventHandler = {};
-	        enabledEvents.forEach(function (event) {
-	            eventHandler[event] = _this5.generatorEventHandler(event);
-	        });
-	        return eventHandler;
-	    };
-	
-	    EditorCore.prototype.getEditorState = function getEditorState() {
-	        var needFocus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-	
-	        if (needFocus) {
-	            this.refs.editor.focus();
-	        }
-	        return this.state.editorState;
-	    };
-	
-	    EditorCore.prototype.setEditorState = function setEditorState(editorState) {
-	        var _this6 = this;
-	
-	        var focusEditor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-	
-	        var newEditorState = editorState;
-	        this.getPlugins().forEach(function (plugin) {
-	            if (plugin.onChange) {
-	                var updatedEditorState = plugin.onChange(newEditorState);
-	                if (updatedEditorState) {
-	                    newEditorState = updatedEditorState;
-	                }
-	            }
-	        });
-	        if (this.props.onChange) {
-	            this.props.onChange(newEditorState);
-	            if (this.controlledMode) {
-	                this.forceUpdateImmediate = setImmediate(function () {
-	                    return _this6.setState({
-	                        editorState: new _draftJs.EditorState(_this6.state.editorState.getImmutable())
-	                    });
-	                });
-	            }
-	        }
-	        if (!this.controlledMode) {
-	            this.setState({ editorState: newEditorState }, focusEditor ? function () {
-	                return setImmediate(function () {
-	                    return _this6.refs.editor.focus();
-	                });
-	            } : noop);
-	        }
-	    };
-	
-	    EditorCore.prototype.handleKeyBinding = function handleKeyBinding(ev) {
-	        if (this.props.onKeyDown) {
-	            ev.ctrlKey = hasCommandModifier(ev);
-	            var keyDownResult = this.props.onKeyDown(ev);
-	            if (keyDownResult) {
-	                return keyDownResult;
-	            }
-	            return (0, _draftJs.getDefaultKeyBinding)(ev);
-	        }
-	        return (0, _draftJs.getDefaultKeyBinding)(ev);
-	    };
-	
-	    EditorCore.prototype.handleKeyCommand = function handleKeyCommand(command) {
-	        if (this.props.multiLines) {
-	            return this.eventHandle('handleKeyBinding', command);
-	        }
-	        return command === 'split-block' ? 'handled' : 'not-handled';
-	    };
-	
-	    EditorCore.prototype.getBlockStyle = function getBlockStyle(contentBlock) {
-	        var customBlockStyleMap = configStore.get('customBlockStyleMap');
-	        var type = contentBlock.getType();
-	        if (customBlockStyleMap.hasOwnProperty(type)) {
-	            return customBlockStyleMap[type];
-	        }
-	    };
-	
-	    EditorCore.prototype.blockRendererFn = function blockRendererFn(contentBlock) {
-	        var blockRenderResult = null;
-	        this.getPlugins().forEach(function (plugin) {
-	            if (plugin.blockRendererFn) {
-	                var result = plugin.blockRendererFn(contentBlock);
-	                if (result) {
-	                    blockRenderResult = result;
-	                }
-	            }
-	        });
-	        return blockRenderResult;
-	    };
-	
-	    EditorCore.prototype.eventHandle = function eventHandle(eventName) {
-	        var _props;
-	
-	        var plugins = this.getPlugins();
-	
-	        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key3 = 1; _key3 < _len; _key3++) {
-	            args[_key3 - 1] = arguments[_key3];
-	        }
-	
-	        for (var i = 0; i < plugins.length; i++) {
-	            var plugin = plugins[i];
-	            if (plugin.callbacks[eventName] && typeof plugin.callbacks[eventName] === 'function') {
-	                var _plugin$callbacks;
-	
-	                var result = (_plugin$callbacks = plugin.callbacks)[eventName].apply(_plugin$callbacks, args);
-	                if (result === true) {
-	                    return 'handled';
-	                }
-	            }
-	        }
-	        return this.props.hasOwnProperty(eventName) && (_props = this.props)[eventName].apply(_props, args) === true ? 'handled' : 'not-handled';
-	    };
-	
-	    EditorCore.prototype.generatorEventHandler = function generatorEventHandler(eventName) {
-	        var _this7 = this;
-	
-	        return function () {
-	            for (var _len2 = arguments.length, args = Array(_len2), _key4 = 0; _key4 < _len2; _key4++) {
-	                args[_key4] = arguments[_key4];
-	            }
-	
-	            return _this7.eventHandle.apply(_this7, [eventName].concat(args));
-	        };
-	    };
-	
-	    EditorCore.prototype.customStyleFn = function customStyleFn(styleSet) {
-	        if (styleSet.size === 0) {
-	            return {};
-	        }
-	        var plugins = this.getPlugins();
-	        var resultStyle = {};
-	        for (var i = 0; i < plugins.length; i++) {
-	            if (plugins[i].customStyleFn) {
-	                var styled = plugins[i].customStyleFn(styleSet);
-	                if (styled) {
-	                    Object.assign(resultStyle, styled);
-	                }
-	            }
-	        }
-	        return resultStyle;
-	    };
-	
-	    EditorCore.prototype.render = function render() {
-	        var _this8 = this;
-	
-	        var _props2 = this.props,
-	            prefixCls = _props2.prefixCls,
-	            toolbars = _props2.toolbars,
-	            style = _props2.style,
-	            readOnly = _props2.readOnly;
-	        var _state = this.state,
-	            editorState = _state.editorState,
-	            toolbarPlugins = _state.toolbarPlugins;
-	
-	        var customStyleMap = configStore.get('customStyleMap');
-	        var blockRenderMap = configStore.get('blockRenderMap');
-	        var eventHandler = this.getEventHandler();
-	        var Toolbar = toolbar.component;
-	        return React.createElement("div", { style: style, className: prefixCls + '-editor ' + (readOnly ? 'readonly' : ''), onClick: this.focus.bind(this) }, React.createElement(Toolbar, { editorState: editorState, prefixCls: prefixCls, className: prefixCls + '-toolbar', plugins: toolbarPlugins, toolbars: toolbars }), React.createElement("div", { className: prefixCls + '-editor-wrapper', ref: function ref(ele) {
-	                return _this8._editorWrapper = ele;
-	            }, style: style, onClick: function onClick(ev) {
-	                return ev.preventDefault();
-	            } }, React.createElement(_draftJs.Editor, __assign({}, this.props, eventHandler, { ref: "editor", customStyleMap: customStyleMap, customStyleFn: this.customStyleFn.bind(this), editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.setEditorState.bind(this), blockStyleFn: this.getBlockStyle.bind(this), blockRenderMap: blockRenderMap, handlePastedText: this.handlePastedText, blockRendererFn: this.blockRendererFn.bind(this) })), this.props.children));
-	    };
-	
-	    return EditorCore;
-	}(React.Component);
-	
-	EditorCore.GetText = _exportText2["default"];
-	EditorCore.GetHTML = (0, _getHTML2["default"])(configStore);
-	EditorCore.defaultProps = {
-	    multiLines: true,
-	    plugins: [],
-	    prefixCls: 'rc-editor-core',
-	    pluginConfig: {},
-	    toolbars: [],
-	    spilitLine: 'enter'
-	};
-	EditorCore.childContextTypes = {
-	    getEditorState: PropTypes.func,
-	    setEditorState: PropTypes.func
-	};
-	exports["default"] = EditorCore;
-	module.exports = exports['default'];
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(316).clearImmediate, __webpack_require__(316).setImmediate))
-
-/***/ },
-/* 316 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var apply = Function.prototype.apply;
-	
-	// DOM APIs, for completeness
-	
-	exports.setTimeout = function() {
-	  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
-	};
-	exports.setInterval = function() {
-	  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
-	};
-	exports.clearTimeout =
-	exports.clearInterval = function(timeout) {
-	  if (timeout) {
-	    timeout.close();
-	  }
-	};
-	
-	function Timeout(id, clearFn) {
-	  this._id = id;
-	  this._clearFn = clearFn;
-	}
-	Timeout.prototype.unref = Timeout.prototype.ref = function() {};
-	Timeout.prototype.close = function() {
-	  this._clearFn.call(window, this._id);
-	};
-	
-	// Does not start the time, just sets up the members needed.
-	exports.enroll = function(item, msecs) {
-	  clearTimeout(item._idleTimeoutId);
-	  item._idleTimeout = msecs;
-	};
-	
-	exports.unenroll = function(item) {
-	  clearTimeout(item._idleTimeoutId);
-	  item._idleTimeout = -1;
-	};
-	
-	exports._unrefActive = exports.active = function(item) {
-	  clearTimeout(item._idleTimeoutId);
-	
-	  var msecs = item._idleTimeout;
-	  if (msecs >= 0) {
-	    item._idleTimeoutId = setTimeout(function onTimeout() {
-	      if (item._onTimeout)
-	        item._onTimeout();
-	    }, msecs);
-	  }
-	};
-	
-	// setimmediate attaches itself to the global object
-	__webpack_require__(258);
-	exports.setImmediate = setImmediate;
-	exports.clearImmediate = clearImmediate;
-
-
-/***/ },
-/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -39902,17 +39265,17 @@
 	  // By explicitly using `prop-types` you are opting into new development behavior.
 	  // http://fb.me/prop-types-in-prod
 	  var throwOnDirectAccess = true;
-	  module.exports = __webpack_require__(318)(isValidElement, throwOnDirectAccess);
+	  module.exports = __webpack_require__(314)(isValidElement, throwOnDirectAccess);
 	} else {
 	  // By explicitly using `prop-types` you are opting into new production behavior.
 	  // http://fb.me/prop-types-in-prod
-	  module.exports = __webpack_require__(324)();
+	  module.exports = __webpack_require__(320)();
 	}
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 318 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -39926,12 +39289,12 @@
 	
 	'use strict';
 	
-	var emptyFunction = __webpack_require__(319);
-	var invariant = __webpack_require__(320);
-	var warning = __webpack_require__(321);
+	var emptyFunction = __webpack_require__(315);
+	var invariant = __webpack_require__(316);
+	var warning = __webpack_require__(317);
 	
-	var ReactPropTypesSecret = __webpack_require__(322);
-	var checkPropTypes = __webpack_require__(323);
+	var ReactPropTypesSecret = __webpack_require__(318);
+	var checkPropTypes = __webpack_require__(319);
 	
 	module.exports = function(isValidElement, throwOnDirectAccess) {
 	  /* global Symbol */
@@ -40397,13 +39760,13 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 319 */
+/* 315 */
 14,
-/* 320 */
+/* 316 */
 10,
-/* 321 */
-[495, 319],
-/* 322 */
+/* 317 */
+[495, 315],
+/* 318 */
 /***/ function(module, exports) {
 
 	/**
@@ -40423,7 +39786,7 @@
 
 
 /***/ },
-/* 323 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -40438,9 +39801,9 @@
 	'use strict';
 	
 	if (process.env.NODE_ENV !== 'production') {
-	  var invariant = __webpack_require__(320);
-	  var warning = __webpack_require__(321);
-	  var ReactPropTypesSecret = __webpack_require__(322);
+	  var invariant = __webpack_require__(316);
+	  var warning = __webpack_require__(317);
+	  var ReactPropTypesSecret = __webpack_require__(318);
 	  var loggedTypeFailures = {};
 	}
 	
@@ -40491,7 +39854,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 324 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -40505,8 +39868,8 @@
 	
 	'use strict';
 	
-	var emptyFunction = __webpack_require__(319);
-	var invariant = __webpack_require__(320);
+	var emptyFunction = __webpack_require__(315);
+	var invariant = __webpack_require__(316);
 	
 	module.exports = function() {
 	  // Important!
@@ -40548,6 +39911,660 @@
 	
 	  return ReactPropTypes;
 	};
+
+
+/***/ },
+/* 321 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2016 Jed Watson.
+	  Licensed under the MIT License (MIT), see
+	  http://jedwatson.github.io/classnames
+	*/
+	/* global define */
+	
+	(function () {
+		'use strict';
+	
+		var hasOwn = {}.hasOwnProperty;
+	
+		function classNames () {
+			var classes = [];
+	
+			for (var i = 0; i < arguments.length; i++) {
+				var arg = arguments[i];
+				if (!arg) continue;
+	
+				var argType = typeof arg;
+	
+				if (argType === 'string' || argType === 'number') {
+					classes.push(arg);
+				} else if (Array.isArray(arg)) {
+					classes.push(classNames.apply(null, arg));
+				} else if (argType === 'object') {
+					for (var key in arg) {
+						if (hasOwn.call(arg, key) && arg[key]) {
+							classes.push(key);
+						}
+					}
+				}
+			}
+	
+			return classes.join(' ');
+		}
+	
+		if (typeof module !== 'undefined' && module.exports) {
+			module.exports = classNames;
+		} else if (true) {
+			// register as 'classnames', consistent with npm package name
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return classNames;
+			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else {
+			window.classNames = classNames;
+		}
+	}());
+
+
+/***/ },
+/* 322 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _EditorCore = __webpack_require__(323);
+	
+	var _EditorCore2 = _interopRequireDefault(_EditorCore);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
+	var EditorCorePublic = {
+	    EditorCore: _EditorCore2["default"],
+	    GetText: _EditorCore2["default"].GetText,
+	    GetHTML: _EditorCore2["default"].GetHTML,
+	    toEditorState: _EditorCore2["default"].ToEditorState
+	};
+	exports["default"] = EditorCorePublic;
+	module.exports = exports['default'];
+
+/***/ },
+/* 323 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(clearImmediate, setImmediate) {'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(3);
+	
+	var React = _interopRequireWildcard(_react);
+	
+	var _propTypes = __webpack_require__(313);
+	
+	var PropTypes = _interopRequireWildcard(_propTypes);
+	
+	var _draftJs = __webpack_require__(182);
+	
+	var _immutable = __webpack_require__(325);
+	
+	__webpack_require__(258);
+	
+	var _Toolbar = __webpack_require__(326);
+	
+	var _ConfigStore = __webpack_require__(329);
+	
+	var _ConfigStore2 = _interopRequireDefault(_ConfigStore);
+	
+	var _getHTML = __webpack_require__(330);
+	
+	var _getHTML2 = _interopRequireDefault(_getHTML);
+	
+	var _exportText = __webpack_require__(332);
+	
+	var _exportText2 = _interopRequireDefault(_exportText);
+	
+	var _customHTML2Content = __webpack_require__(333);
+	
+	var _customHTML2Content2 = _interopRequireDefault(_customHTML2Content);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
+	
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+	
+	var __assign = undefined && undefined.__assign || Object.assign || function (t) {
+	    for (var s, i = 1, n = arguments.length; i < n; i++) {
+	        s = arguments[i];
+	        for (var p in s) {
+	            if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+	        }
+	    }
+	    return t;
+	};
+	var hasCommandModifier = _draftJs.KeyBindingUtil.hasCommandModifier;
+	
+	function noop() {}
+	;
+	var defaultPluginConfig = {};
+	var focusDummyStyle = {
+	    width: 0,
+	    opacity: 0,
+	    border: 0,
+	    position: 'absolute',
+	    left: -999,
+	    top: -999
+	};
+	var toolbar = (0, _Toolbar.createToolbar)();
+	var configStore = new _ConfigStore2["default"]();
+	
+	var EditorCore = function (_React$Component) {
+	    _inherits(EditorCore, _React$Component);
+	
+	    function EditorCore(props) {
+	        _classCallCheck(this, EditorCore);
+	
+	        var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
+	
+	        _this.cancelForceUpdateImmediate = function () {
+	            clearImmediate(_this.forceUpdateImmediate);
+	            _this.forceUpdateImmediate = null;
+	        };
+	        _this.handlePastedText = function (text, html) {
+	            var editorState = _this.state.editorState;
+	
+	            if (html) {
+	                var contentState = editorState.getCurrentContent();
+	                var selection = editorState.getSelection();
+	                var fragment = (0, _customHTML2Content2["default"])(html, contentState);
+	                var pastedContent = _draftJs.Modifier.replaceWithFragment(contentState, selection, fragment);
+	                var newContent = pastedContent.merge({
+	                    selectionBefore: selection,
+	                    selectionAfter: pastedContent.getSelectionAfter().set('hasFocus', true)
+	                });
+	                _this.setEditorState(_draftJs.EditorState.push(editorState, newContent, 'insert-fragment'), true);
+	                return 'handled';
+	            }
+	            return 'not-handled';
+	        };
+	        _this.plugins = (0, _immutable.List)((0, _immutable.List)(props.plugins).flatten(true));
+	        var editorState = void 0;
+	        if (props.value !== undefined) {
+	            if (props.value instanceof _draftJs.EditorState) {
+	                editorState = props.value || _draftJs.EditorState.createEmpty();
+	            } else {
+	                editorState = _draftJs.EditorState.createEmpty();
+	            }
+	        } else {
+	            editorState = _draftJs.EditorState.createEmpty();
+	        }
+	        editorState = _this.generatorDefaultValue(editorState);
+	        _this.state = {
+	            plugins: _this.reloadPlugins(),
+	            editorState: editorState,
+	            customStyleMap: {},
+	            customBlockStyleMap: {},
+	            compositeDecorator: null
+	        };
+	        if (props.value !== undefined) {
+	            _this.controlledMode = true;
+	            console.warn('this component is in controllred mode');
+	        }
+	        return _this;
+	    }
+	
+	    EditorCore.ToEditorState = function ToEditorState(text) {
+	        var createEmptyContentState = _draftJs.ContentState.createFromText((0, _exportText.decodeContent)(text) || '');
+	        var editorState = _draftJs.EditorState.createWithContent(createEmptyContentState);
+	        return _draftJs.EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter());
+	    };
+	
+	    EditorCore.prototype.Reset = function Reset() {
+	        var defaultValue = this.props.defaultValue;
+	
+	        var contentState = defaultValue ? defaultValue.getCurrentContent() : _draftJs.ContentState.createFromText('');
+	        var updatedEditorState = _draftJs.EditorState.push(this.state.editorState, contentState, 'remove-range');
+	        this.setEditorState(_draftJs.EditorState.forceSelection(updatedEditorState, contentState.getSelectionBefore()));
+	    };
+	
+	    EditorCore.prototype.SetText = function SetText(text) {
+	        var createTextContentState = _draftJs.ContentState.createFromText(text || '');
+	        var editorState = _draftJs.EditorState.push(this.state.editorState, createTextContentState, 'change-block-data');
+	        this.setEditorState(_draftJs.EditorState.moveFocusToEnd(editorState), true);
+	    };
+	
+	    EditorCore.prototype.getChildContext = function getChildContext() {
+	        return {
+	            getEditorState: this.getEditorState,
+	            setEditorState: this.setEditorState
+	        };
+	    };
+	
+	    EditorCore.prototype.reloadPlugins = function reloadPlugins() {
+	        var _this2 = this;
+	
+	        return this.plugins && this.plugins.size ? this.plugins.map(function (plugin) {
+	            if (plugin.callbacks) {
+	                return plugin;
+	            }
+	            if (plugin.hasOwnProperty('constructor')) {
+	                var pluginConfig = Object.assign(_this2.props.pluginConfig, plugin.config || {}, defaultPluginConfig);
+	                return plugin.constructor(pluginConfig);
+	            }
+	            console.warn('>> 插件: [', plugin.name, '] 无效。插件或许已经过期。');
+	            return false;
+	        }).filter(function (plugin) {
+	            return plugin;
+	        }).toArray() : [];
+	    };
+	
+	    EditorCore.prototype.componentWillMount = function componentWillMount() {
+	        var plugins = this.initPlugins().concat([toolbar]);
+	        var customStyleMap = {};
+	        var customBlockStyleMap = {};
+	        var customBlockRenderMap = (0, _immutable.Map)(_draftJs.DefaultDraftBlockRenderMap);
+	        var toHTMLList = (0, _immutable.List)([]);
+	        var compositeDecorator = new _draftJs.CompositeDecorator(plugins.filter(function (plugin) {
+	            return plugin.decorators !== undefined;
+	        }).map(function (plugin) {
+	            return plugin.decorators;
+	        }).reduce(function (prev, curr) {
+	            return prev.concat(curr);
+	        }, []));
+	        var toolbarPlugins = (0, _immutable.List)(plugins.filter(function (plugin) {
+	            return !!plugin.component && plugin.name !== 'toolbar';
+	        }));
+	        plugins.forEach(function (plugin) {
+	            var styleMap = plugin.styleMap,
+	                blockStyleMap = plugin.blockStyleMap,
+	                blockRenderMap = plugin.blockRenderMap,
+	                toHtml = plugin.toHtml;
+	
+	            if (styleMap) {
+	                for (var key in styleMap) {
+	                    if (styleMap.hasOwnProperty(key)) {
+	                        customStyleMap[key] = styleMap[key];
+	                    }
+	                }
+	            }
+	            if (blockStyleMap) {
+	                for (var _key in blockStyleMap) {
+	                    if (blockStyleMap.hasOwnProperty(_key)) {
+	                        customBlockStyleMap[_key] = blockStyleMap[_key];
+	                        customBlockRenderMap = customBlockRenderMap.set(_key, {
+	                            element: null
+	                        });
+	                    }
+	                }
+	            }
+	            if (toHtml) {
+	                toHTMLList = toHTMLList.push(toHtml);
+	            }
+	            if (blockRenderMap) {
+	                for (var _key2 in blockRenderMap) {
+	                    if (blockRenderMap.hasOwnProperty(_key2)) {
+	                        customBlockRenderMap = customBlockRenderMap.set(_key2, blockRenderMap[_key2]);
+	                    }
+	                }
+	            }
+	        });
+	        configStore.set('customStyleMap', customStyleMap);
+	        configStore.set('customBlockStyleMap', customBlockStyleMap);
+	        configStore.set('blockRenderMap', customBlockRenderMap);
+	        configStore.set('customStyleFn', this.customStyleFn.bind(this));
+	        configStore.set('toHTMLList', toHTMLList);
+	        this.setState({
+	            toolbarPlugins: toolbarPlugins,
+	            compositeDecorator: compositeDecorator
+	        });
+	        this.setEditorState(_draftJs.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
+	    };
+	
+	    EditorCore.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	        if (this.forceUpdateImmediate) {
+	            this.cancelForceUpdateImmediate();
+	        }
+	        if (this.controlledMode) {
+	            var decorators = nextProps.value.getDecorator();
+	            var editorState = decorators ? nextProps.value : _draftJs.EditorState.set(nextProps.value, { decorator: this.state.compositeDecorator });
+	            this.setState({
+	                editorState: editorState
+	            });
+	        }
+	    };
+	
+	    EditorCore.prototype.componentWillUnmount = function componentWillUnmount() {
+	        this.cancelForceUpdateImmediate();
+	    };
+	
+	    EditorCore.prototype.generatorDefaultValue = function generatorDefaultValue(editorState) {
+	        var defaultValue = this.props.defaultValue;
+	
+	        if (defaultValue) {
+	            return defaultValue;
+	        }
+	        return editorState;
+	    };
+	
+	    EditorCore.prototype.getStyleMap = function getStyleMap() {
+	        return configStore.get('customStyleMap');
+	    };
+	
+	    EditorCore.prototype.setStyleMap = function setStyleMap(customStyleMap) {
+	        configStore.set('customStyleMap', customStyleMap);
+	        this.render();
+	    };
+	
+	    EditorCore.prototype.initPlugins = function initPlugins() {
+	        var _this3 = this;
+	
+	        var enableCallbacks = ['focus', 'getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap'];
+	        return this.getPlugins().map(function (plugin) {
+	            enableCallbacks.forEach(function (callbackName) {
+	                if (plugin.callbacks.hasOwnProperty(callbackName)) {
+	                    plugin.callbacks[callbackName] = _this3[callbackName].bind(_this3);
+	                }
+	            });
+	            return plugin;
+	        });
+	    };
+	
+	    EditorCore.prototype.focusEditor = function focusEditor(ev) {
+	        this.refs.editor.focus(ev);
+	        if (this.props.readOnly) {
+	            this._focusDummy.focus();
+	        }
+	        if (this.props.onFocus) {
+	            this.props.onFocus(ev);
+	        }
+	    };
+	
+	    EditorCore.prototype.focus = function focus(ev) {
+	        var _this4 = this;
+	
+	        var target = ev.target;
+	        if (target === this._editorWrapper) {
+	            var editorState = this.state.editorState;
+	
+	            var selection = editorState.getSelection();
+	            if (!selection.getHasFocus()) {
+	                if (selection.isCollapsed()) {
+	                    return this.setState({
+	                        editorState: _draftJs.EditorState.moveFocusToEnd(editorState)
+	                    }, function () {
+	                        _this4.focusEditor(ev);
+	                    });
+	                }
+	            }
+	        }
+	        this.focusEditor(ev);
+	    };
+	
+	    EditorCore.prototype.getPlugins = function getPlugins() {
+	        return this.state.plugins.slice();
+	    };
+	
+	    EditorCore.prototype.getEventHandler = function getEventHandler() {
+	        var _this5 = this;
+	
+	        var enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn', 'onFocus', 'onBlur', 'onTab', 'handlePastedText'];
+	        var eventHandler = {};
+	        enabledEvents.forEach(function (event) {
+	            eventHandler[event] = _this5.generatorEventHandler(event);
+	        });
+	        return eventHandler;
+	    };
+	
+	    EditorCore.prototype.getEditorState = function getEditorState() {
+	        var needFocus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+	
+	        if (needFocus) {
+	            this.refs.editor.focus();
+	        }
+	        return this.state.editorState;
+	    };
+	
+	    EditorCore.prototype.setEditorState = function setEditorState(editorState) {
+	        var _this6 = this;
+	
+	        var focusEditor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+	
+	        var newEditorState = editorState;
+	        this.getPlugins().forEach(function (plugin) {
+	            if (plugin.onChange) {
+	                var updatedEditorState = plugin.onChange(newEditorState);
+	                if (updatedEditorState) {
+	                    newEditorState = updatedEditorState;
+	                }
+	            }
+	        });
+	        if (this.props.onChange) {
+	            this.props.onChange(newEditorState);
+	            if (this.controlledMode) {
+	                this.forceUpdateImmediate = setImmediate(function () {
+	                    return _this6.setState({
+	                        editorState: new _draftJs.EditorState(_this6.state.editorState.getImmutable())
+	                    });
+	                });
+	            }
+	        }
+	        if (!this.controlledMode) {
+	            this.setState({ editorState: newEditorState }, focusEditor ? function () {
+	                return setImmediate(function () {
+	                    return _this6.refs.editor.focus();
+	                });
+	            } : noop);
+	        }
+	    };
+	
+	    EditorCore.prototype.handleKeyBinding = function handleKeyBinding(ev) {
+	        if (this.props.onKeyDown) {
+	            ev.ctrlKey = hasCommandModifier(ev);
+	            var keyDownResult = this.props.onKeyDown(ev);
+	            if (keyDownResult) {
+	                return keyDownResult;
+	            }
+	            return (0, _draftJs.getDefaultKeyBinding)(ev);
+	        }
+	        return (0, _draftJs.getDefaultKeyBinding)(ev);
+	    };
+	
+	    EditorCore.prototype.handleKeyCommand = function handleKeyCommand(command) {
+	        if (this.props.multiLines) {
+	            return this.eventHandle('handleKeyBinding', command);
+	        }
+	        return command === 'split-block' ? 'handled' : 'not-handled';
+	    };
+	
+	    EditorCore.prototype.getBlockStyle = function getBlockStyle(contentBlock) {
+	        var customBlockStyleMap = configStore.get('customBlockStyleMap');
+	        var type = contentBlock.getType();
+	        if (customBlockStyleMap.hasOwnProperty(type)) {
+	            return customBlockStyleMap[type];
+	        }
+	    };
+	
+	    EditorCore.prototype.blockRendererFn = function blockRendererFn(contentBlock) {
+	        var blockRenderResult = null;
+	        this.getPlugins().forEach(function (plugin) {
+	            if (plugin.blockRendererFn) {
+	                var result = plugin.blockRendererFn(contentBlock);
+	                if (result) {
+	                    blockRenderResult = result;
+	                }
+	            }
+	        });
+	        return blockRenderResult;
+	    };
+	
+	    EditorCore.prototype.eventHandle = function eventHandle(eventName) {
+	        var _props;
+	
+	        var plugins = this.getPlugins();
+	
+	        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key3 = 1; _key3 < _len; _key3++) {
+	            args[_key3 - 1] = arguments[_key3];
+	        }
+	
+	        for (var i = 0; i < plugins.length; i++) {
+	            var plugin = plugins[i];
+	            if (plugin.callbacks[eventName] && typeof plugin.callbacks[eventName] === 'function') {
+	                var _plugin$callbacks;
+	
+	                var result = (_plugin$callbacks = plugin.callbacks)[eventName].apply(_plugin$callbacks, args);
+	                if (result === true) {
+	                    return 'handled';
+	                }
+	            }
+	        }
+	        return this.props.hasOwnProperty(eventName) && (_props = this.props)[eventName].apply(_props, args) === true ? 'handled' : 'not-handled';
+	    };
+	
+	    EditorCore.prototype.generatorEventHandler = function generatorEventHandler(eventName) {
+	        var _this7 = this;
+	
+	        return function () {
+	            for (var _len2 = arguments.length, args = Array(_len2), _key4 = 0; _key4 < _len2; _key4++) {
+	                args[_key4] = arguments[_key4];
+	            }
+	
+	            return _this7.eventHandle.apply(_this7, [eventName].concat(args));
+	        };
+	    };
+	
+	    EditorCore.prototype.customStyleFn = function customStyleFn(styleSet) {
+	        if (styleSet.size === 0) {
+	            return {};
+	        }
+	        var plugins = this.getPlugins();
+	        var resultStyle = {};
+	        for (var i = 0; i < plugins.length; i++) {
+	            if (plugins[i].customStyleFn) {
+	                var styled = plugins[i].customStyleFn(styleSet);
+	                if (styled) {
+	                    Object.assign(resultStyle, styled);
+	                }
+	            }
+	        }
+	        return resultStyle;
+	    };
+	
+	    EditorCore.prototype.render = function render() {
+	        var _this8 = this;
+	
+	        var _props2 = this.props,
+	            prefixCls = _props2.prefixCls,
+	            toolbars = _props2.toolbars,
+	            style = _props2.style,
+	            readOnly = _props2.readOnly;
+	        var _state = this.state,
+	            editorState = _state.editorState,
+	            toolbarPlugins = _state.toolbarPlugins;
+	
+	        var customStyleMap = configStore.get('customStyleMap');
+	        var blockRenderMap = configStore.get('blockRenderMap');
+	        var eventHandler = this.getEventHandler();
+	        var Toolbar = toolbar.component;
+	        return React.createElement("div", { style: style, className: prefixCls + '-editor ' + (readOnly ? 'readonly' : ''), onClick: this.focus.bind(this) }, React.createElement(Toolbar, { editorState: editorState, prefixCls: prefixCls, className: prefixCls + '-toolbar', plugins: toolbarPlugins, toolbars: toolbars }), React.createElement("div", { className: prefixCls + '-editor-wrapper', ref: function ref(ele) {
+	                return _this8._editorWrapper = ele;
+	            }, style: style, onClick: function onClick(ev) {
+	                return ev.preventDefault();
+	            } }, React.createElement(_draftJs.Editor, __assign({}, this.props, eventHandler, { ref: "editor", customStyleMap: customStyleMap, customStyleFn: this.customStyleFn.bind(this), editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.setEditorState.bind(this), blockStyleFn: this.getBlockStyle.bind(this), blockRenderMap: blockRenderMap, handlePastedText: this.handlePastedText, blockRendererFn: this.blockRendererFn.bind(this) })), readOnly ? React.createElement("input", { style: focusDummyStyle, ref: function ref(ele) {
+	                return _this8._focusDummy = ele;
+	            }, onBlur: eventHandler.onBlur }) : null, this.props.children));
+	    };
+	
+	    return EditorCore;
+	}(React.Component);
+	
+	EditorCore.GetText = _exportText2["default"];
+	EditorCore.GetHTML = (0, _getHTML2["default"])(configStore);
+	EditorCore.defaultProps = {
+	    multiLines: true,
+	    plugins: [],
+	    prefixCls: 'rc-editor-core',
+	    pluginConfig: {},
+	    toolbars: [],
+	    spilitLine: 'enter'
+	};
+	EditorCore.childContextTypes = {
+	    getEditorState: PropTypes.func,
+	    setEditorState: PropTypes.func
+	};
+	exports["default"] = EditorCore;
+	module.exports = exports['default'];
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(324).clearImmediate, __webpack_require__(324).setImmediate))
+
+/***/ },
+/* 324 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var apply = Function.prototype.apply;
+	
+	// DOM APIs, for completeness
+	
+	exports.setTimeout = function() {
+	  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+	};
+	exports.setInterval = function() {
+	  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+	};
+	exports.clearTimeout =
+	exports.clearInterval = function(timeout) {
+	  if (timeout) {
+	    timeout.close();
+	  }
+	};
+	
+	function Timeout(id, clearFn) {
+	  this._id = id;
+	  this._clearFn = clearFn;
+	}
+	Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+	Timeout.prototype.close = function() {
+	  this._clearFn.call(window, this._id);
+	};
+	
+	// Does not start the time, just sets up the members needed.
+	exports.enroll = function(item, msecs) {
+	  clearTimeout(item._idleTimeoutId);
+	  item._idleTimeout = msecs;
+	};
+	
+	exports.unenroll = function(item) {
+	  clearTimeout(item._idleTimeoutId);
+	  item._idleTimeout = -1;
+	};
+	
+	exports._unrefActive = exports.active = function(item) {
+	  clearTimeout(item._idleTimeoutId);
+	
+	  var msecs = item._idleTimeout;
+	  if (msecs >= 0) {
+	    item._idleTimeoutId = setTimeout(function onTimeout() {
+	      if (item._onTimeout)
+	        item._onTimeout();
+	    }, msecs);
+	  }
+	};
+	
+	// setimmediate attaches itself to the global object
+	__webpack_require__(258);
+	exports.setImmediate = setImmediate;
+	exports.clearImmediate = clearImmediate;
 
 
 /***/ },
@@ -63300,6 +63317,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _propTypes = __webpack_require__(313);
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
 	var _Suggestions2 = __webpack_require__(337);
 	
 	var _Suggestions3 = _interopRequireDefault(_Suggestions2);
@@ -63380,9 +63401,9 @@
 	}(_react2.default.Component);
 	
 	MentionContentComponent.propTypes = {
-	  entityKey: _react2.default.PropTypes.element,
-	  callbacks: _react2.default.PropTypes.func,
-	  tag: _react2.default.PropTypes.element
+	  entityKey: _propTypes2.default.element,
+	  callbacks: _propTypes2.default.func,
+	  tag: _propTypes2.default.element
 	};
 	function createMention() {
 	  var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -63456,6 +63477,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _propTypes = __webpack_require__(313);
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
 	var _reactDom = __webpack_require__(34);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
@@ -63466,7 +63491,7 @@
 	
 	var _rcAnimate2 = _interopRequireDefault(_rcAnimate);
 	
-	var _classnames = __webpack_require__(313);
+	var _classnames = __webpack_require__(321);
 	
 	var _classnames2 = _interopRequireDefault(_classnames);
 	
@@ -63824,20 +63849,20 @@
 	
 	
 	Suggestions.propTypes = {
-	  callbacks: _react2.default.PropTypes.object,
-	  suggestions: _react2.default.PropTypes.array,
-	  store: _react2.default.PropTypes.object,
-	  onSearchChange: _react2.default.PropTypes.func,
-	  prefix: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string)]),
-	  prefixCls: _react2.default.PropTypes.string,
-	  mode: _react2.default.PropTypes.string,
-	  style: _react2.default.PropTypes.object,
-	  onSelect: _react2.default.PropTypes.func,
-	  getSuggestionContainer: _react2.default.PropTypes.func,
-	  notFoundContent: _react2.default.PropTypes.any,
-	  getSuggestionStyle: _react2.default.PropTypes.func,
-	  className: _react2.default.PropTypes.string,
-	  noRedup: _react2.default.PropTypes.bool
+	  callbacks: _propTypes2.default.object,
+	  suggestions: _propTypes2.default.array,
+	  store: _propTypes2.default.object,
+	  onSearchChange: _propTypes2.default.func,
+	  prefix: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.arrayOf(_propTypes2.default.string)]),
+	  prefixCls: _propTypes2.default.string,
+	  mode: _propTypes2.default.string,
+	  style: _propTypes2.default.object,
+	  onSelect: _propTypes2.default.func,
+	  getSuggestionContainer: _propTypes2.default.func,
+	  notFoundContent: _propTypes2.default.any,
+	  getSuggestionStyle: _propTypes2.default.func,
+	  className: _propTypes2.default.string,
+	  noRedup: _propTypes2.default.bool
 	};
 	module.exports = exports['default'];
 
@@ -65544,6 +65569,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _propTypes = __webpack_require__(313);
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
@@ -65575,7 +65604,7 @@
 	}(_react2.default.Component);
 	
 	Nav.propTypes = {
-	  children: _react2.default.PropTypes.any
+	  children: _propTypes2.default.any
 	};
 	exports.default = Nav;
 	module.exports = exports['default'];
@@ -65593,6 +65622,10 @@
 	var _react = __webpack_require__(3);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _propTypes = __webpack_require__(313);
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
 	
 	var _reactDom = __webpack_require__(34);
 	
@@ -65646,9 +65679,9 @@
 	
 	
 	SuggestionWrapper.propTypes = {
-	  children: _react2.default.PropTypes.any,
-	  renderReady: _react2.default.PropTypes.func,
-	  container: _react2.default.PropTypes.any
+	  children: _propTypes2.default.any,
+	  renderReady: _propTypes2.default.func,
+	  container: _propTypes2.default.any
 	};
 	module.exports = exports['default'];
 
@@ -65871,6 +65904,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _propTypes = __webpack_require__(313);
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
 	var _getOffset = __webpack_require__(355);
 	
 	var _getOffset2 = _interopRequireDefault(_getOffset);
@@ -65952,12 +65989,12 @@
 	}(_react2.default.Component);
 	
 	SuggestionPortal.propTypes = {
-	  offsetKey: _react2.default.PropTypes.any,
-	  mentionStore: _react2.default.PropTypes.object,
-	  decoratedText: _react2.default.PropTypes.string,
-	  children: _react2.default.PropTypes.any,
-	  callbacks: _react2.default.PropTypes.any,
-	  suggestionRegex: _react2.default.PropTypes.any
+	  offsetKey: _propTypes2.default.any,
+	  mentionStore: _propTypes2.default.object,
+	  decoratedText: _propTypes2.default.string,
+	  children: _propTypes2.default.any,
+	  callbacks: _propTypes2.default.any,
+	  suggestionRegex: _propTypes2.default.any
 	};
 	exports.default = SuggestionPortal;
 	module.exports = exports['default'];
@@ -65975,6 +66012,10 @@
 	var _react = __webpack_require__(3);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _propTypes = __webpack_require__(313);
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -66007,7 +66048,7 @@
 	}(_react2.default.Component);
 	
 	MentionContent.propTypes = {
-	  children: _react2.default.PropTypes.any
+	  children: _propTypes2.default.any
 	};
 	exports.default = MentionContent;
 	module.exports = exports['default'];

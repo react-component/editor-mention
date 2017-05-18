@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>multiple-trigger.js - example - rc-editor-mention@0.6.11</title>
+  <title>multiple-trigger.js - example - rc-editor-mention@0.6.12</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-mention@0.6.11</h1>
+      <h1>rc-editor-mention@0.6.12</h1>
 
       <p>mention ui component for react</p>
     </div>
@@ -278,13 +278,11 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 
 <span class="hljs-keyword">const</span> originSuggestions = [<span class="hljs-string">'afc163'</span>, <span class="hljs-string">'benjycui'</span>, <span class="hljs-string">'yiminghe'</span>, <span class="hljs-string">'jljsj33'</span>, <span class="hljs-string">'dqaria'</span>, <span class="hljs-string">'RaoHai'</span>];
 
-<span class="hljs-keyword">const</span> MentionEditor = React.createClass({
-  getInitialState() {
-    <span class="hljs-keyword">return</span> {
-      suggestions: originSuggestions,
-    };
-  },
-  onSearchChange(value, type) {
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MentionEditor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  state = {
+    suggestions: originSuggestions,
+  };
+  onSearchChange = (value, type) =&gt; {
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; onSearchChange'</span>, value, type);
     <span class="hljs-keyword">const</span> searchValue = value.toLowerCase();
     <span class="hljs-keyword">const</span> filtered = originSuggestions.filter(suggestion =&gt;
@@ -293,35 +291,38 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     <span class="hljs-keyword">this</span>.setState({
       suggestions: filtered,
     });
-  },
-  onSelect(value, suggestion) {
+  }
+  onSelect = (value, suggestion) =&gt; {
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; onSelect'</span>, value, suggestion);
-  },
-  onChange(editorState) {
+  }
+  onChange = (editorState) =&gt; {
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; mentionChange'</span>,
       toString(editorState, { encode: <span class="hljs-literal">true</span> }),
       getMentions(editorState, [<span class="hljs-string">'@'</span>, <span class="hljs-string">'#'</span>])
     );
-  },
+  }
   render() {
     <span class="hljs-keyword">const</span> { suggestions } = <span class="hljs-keyword">this</span>.state;
-    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Mention</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">width:</span> <span class="hljs-attribute">300</span> }}
-      <span class="hljs-attribute">onSearchChange</span>=<span class="hljs-value">{this.onSearchChange}</span>
-      <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.onChange}</span>
-      <span class="hljs-attribute">placeholder</span>=<span class="hljs-value">" @ 某人 "</span>
-      <span class="hljs-attribute">onFocus</span>=<span class="hljs-value">{(e)</span> =&gt;</span> console.log('focus', e)}
-      onBlur={(e) =&gt; console.log('blur', e)}
-      suggestions={suggestions}
-      prefix={['@', '#']}
-      onSelect={this.onSelect}
-    /&gt;)</span>;
-  },
-});
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Mention</span>
+        <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">width:</span> <span class="hljs-attribute">300</span> }}
+        <span class="hljs-attribute">onSearchChange</span>=<span class="hljs-value">{this.onSearchChange}</span>
+        <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.onChange}</span>
+        <span class="hljs-attribute">placeholder</span>=<span class="hljs-value">" @ 某人 "</span>
+        <span class="hljs-attribute">onFocus</span>=<span class="hljs-value">{(e)</span> =&gt;</span> console.log('focus', e)}
+        onBlur={(e) =&gt; console.log('blur', e)}
+        suggestions={suggestions}
+        prefix={['@', '#']}
+        onSelect={this.onSelect}
+      /&gt;
+    )</span>;
+  }
+}
 
 ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span> you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">MentionEditor</span> /&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>, document.getElementById('__react-content'));
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>, document.getElementById('__react-content'));
 </span></code></pre></div>
   </div>
   <a href="https://github.com/react-component/mention">

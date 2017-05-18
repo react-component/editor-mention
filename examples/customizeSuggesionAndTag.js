@@ -23,15 +23,17 @@ webpackJsonp([2],{
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
+	var _propTypes = __webpack_require__(313);
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
 	var _rcEditorMention = __webpack_require__(180);
 	
 	var _rcEditorMention2 = _interopRequireDefault(_rcEditorMention);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// use jsx to render html, do not modify simple.html
-	
-	var Nav = _rcEditorMention2.default.Nav;
+	var Nav = _rcEditorMention2.default.Nav; // use jsx to render html, do not modify simple.html
 	
 	var Tag = function Tag(props) {
 	  var data = props.data;
@@ -45,8 +47,8 @@ webpackJsonp([2],{
 	};
 	
 	Tag.propTypes = {
-	  data: _react2.default.PropTypes.object,
-	  children: _react2.default.PropTypes.any
+	  data: _propTypes2.default.object,
+	  children: _propTypes2.default.any
 	};
 	
 	var MentionEditor = _react2.default.createClass({

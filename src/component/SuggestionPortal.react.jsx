@@ -31,7 +31,7 @@ export default class SuggestionPortal extends React.Component {
       offsetKey,
       trigger: this.trigger,
       position: () => {
-        const element = this.refs.searchPortal;
+        const element = this.searchPortal;
         const rect = getOffset(element);
         return {
           left: rect.left,
@@ -43,6 +43,10 @@ export default class SuggestionPortal extends React.Component {
     });
   }
   render() {
-    return <span ref="searchPortal" style={this.props.style}>{this.props.children}</span>;
+    return (
+      <span ref={(node) => { this.searchPortal = node; }} style={this.props.style}>
+        {this.props.children}
+      </span>
+    );
   }
 }

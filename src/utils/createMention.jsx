@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Suggestions from '../component/Suggestions.react';
 import SuggestionPortal from '../component/SuggestionPortal.react';
 import MentionContent from '../component/MentionContent.react';
@@ -20,7 +19,7 @@ function findWithRegex(regex, contentBlock, callback) {
 }
 
 function mentionContentStrategy(contentBlock, callback, contentState) {
-  contentBlock.findEntityRanges(character => {
+  contentBlock.findEntityRanges((character) => {
     const entityKey = character.getEntity();
     return entityKey && contentState.getEntity(entityKey).getType() === 'mention';
   }, callback);
@@ -28,19 +27,12 @@ function mentionContentStrategy(contentBlock, callback, contentState) {
 
 function noop() {}
 
-class MentionContentComponent extends React.Component {
-  static propTypes = {
-    entityKey: PropTypes.element,
-    callbacks: PropTypes.func,
-    tag: PropTypes.element,
-  }
-  render() {
-    const { entityKey, tag, callbacks } = this.props;
-    const contentState = callbacks.getEditorState().getCurrentContent();
-    const data = contentState.getEntity(entityKey).getData();
-    return React.createElement(tag, { ...this.props, data });
-  }
-}
+const MentionContentComponent = (props) => {
+  const { entityKey, tag, callbacks } = props;
+  const contentState = callbacks.getEditorState().getCurrentContent();
+  const data = contentState.getEntity(entityKey).getData();
+  return React.createElement(tag, { ...props, data });
+};
 
 export default function createMention(config = {}) {
   const callbacks = {
@@ -63,25 +55,26 @@ export default function createMention(config = {}) {
     strategy: (contentBlock, callback) => {
       findWithRegex(suggestionRegex, contentBlock, callback);
     },
-    component: (props) => <SuggestionPortal
+    component: props => (<SuggestionPortal
       {...props}
       {...componentProps}
       style={config.mentionStyle}
       suggestionRegex={getRegExp(config.prefix)}
-    />,
+    />),
   }];
   if (config.mode !== 'immutable') {
     decorators.unshift({
       strategy: mentionContentStrategy,
-      component: (props) => <MentionContentComponent tag={tag} {...props} callbacks={callbacks} />,
+      component: props => <MentionContentComponent tag={tag} {...props} callbacks={callbacks} />,
     });
   }
 
   return {
     name: 'mention',
-    Suggestions: (props) => <Suggestions {...props} {...componentProps}
+    Suggestions: props => (<Suggestions {...props}
+      {...componentProps}
       store={mentionStore}
-    />,
+    />),
     decorators,
     onChange: (editorState) => {
       return callbacks.onChange ? callbacks.onChange(editorState) : editorState;

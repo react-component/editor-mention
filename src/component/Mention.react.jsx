@@ -37,7 +37,6 @@ class Mention extends React.Component {
 
   constructor(props) {
     super(props);
-   
 
     this.mention = createMention({
       prefix: this.getPrefix(props),
@@ -51,11 +50,12 @@ class Mention extends React.Component {
 
     this.state = {
       suggestions: props.suggestions,
-      value: props.value && EditorState.createWithContent(props.value,  new CompositeDecorator(this.mention.decorators)),
+      value: props.value && EditorState.createWithContent(props.value, new CompositeDecorator(this.mention.decorators)),
       selection: SelectionState.createEmpty(),
     };
 
     if (typeof props.defaultValue === 'string') {
+      // eslint-disable-next-line
       console.warn('The property `defaultValue` now allow `EditorState` only, see http://react-component.github.io/editor-mention/examples/defaultValue.html ');
     }
     if (props.value !== undefined) {
@@ -69,7 +69,7 @@ class Mention extends React.Component {
     if (value && selection) {
       value = EditorState.acceptSelection(
         EditorState.createWithContent(
-          value, 
+          value,
           this._decorator
         ),
         selection,
@@ -86,15 +86,15 @@ class Mention extends React.Component {
     const content = editorState.getCurrentContent();
 
     if (this.props.onChange) {
-       this.setState({
-          selection,
-        }, () => {
-          this.props.onChange(content, exportContent(content));
-        });
+      this.setState({
+        selection,
+      }, () => {
+        this.props.onChange(content, exportContent(content));
+      });
     } else {
       this.setState({
         editorState,
-        selection, 
+        selection,
       });
     }
   }
@@ -130,14 +130,14 @@ class Mention extends React.Component {
     const editorClass = classnames(className, {
       [`${prefixCls}-wrapper`]: true,
       readonly: readOnly,
-      disabled: disabled,
+      disabled,
       multilines: multiLines,
     });
-    const editorProps = this.controlledMode ? {value: this.state.value }: {};
+    const editorProps = this.controlledMode ? { value: this.state.value } : {};
     const defaultValueState = defaultValue &&
       EditorState.createWithContent(
         typeof defaultValue === 'string' ? ContentState.createFromText(defaultValue) : defaultValue
-        ,this._decorator);
+        , this._decorator);
     return (<div className={editorClass} style={style} ref={wrapper => this._wrapper = wrapper}>
       <EditorCore
         ref={editor => this._editor = editor}

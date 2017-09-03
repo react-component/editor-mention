@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { EditorState, Modifier } from 'draft-js';
 import Suggestions from '../component/Suggestions.react';
 import mentionStore from '../model/mentionStore';
@@ -7,35 +6,28 @@ import exportContent from '../utils/exportContent';
 
 function noop() {}
 
-class MentionContentComponent extends React.Component {
-  static propTypes = {
-    entityKey: PropTypes.element,
-    callbacks: PropTypes.func,
-    tag: PropTypes.element,
-  }
-  render() {
-    const { entityKey, tag, callbacks } = this.props;
-    const contentState = callbacks.getEditorState().getCurrentContent();
-    const data = contentState.getEntity(entityKey).getData();
-    return React.createElement(tag, { ...this.props, data });
-  }
-}
+const MentionContentComponent = (props) => {
+  const { entityKey, tag, callbacks } = props;
+  const contentState = callbacks.getEditorState().getCurrentContent();
+  const data = contentState.getEntity(entityKey).getData();
+  return React.createElement(tag, { ...props, data });
+};
 
 function mentionContentStrategy(contentBlock, callback, contentState) {
-  contentBlock.findEntityRanges(character => {
+  contentBlock.findEntityRanges((character) => {
     const entityKey = character.getEntity();
     return entityKey && contentState.getEntity(entityKey).getType() === 'mention';
   }, callback);
 }
 
 function mentionTriggerStrategy(contentBlock, callback, contentState) {
-  contentBlock.findEntityRanges(character => {
+  contentBlock.findEntityRanges((character) => {
     const entityKey = character.getEntity();
     return entityKey && contentState.getEntity(entityKey).getType() === 'trigger';
   }, callback);
 }
 
-export default function createImmutableMention(config = {}) {
+export default function createImmutableMention() {
   const callbacks = {
     onChange: noop,
     onUpArrow: noop,
@@ -52,7 +44,6 @@ export default function createImmutableMention(config = {}) {
     const anchorKey = selectionState.getAnchorKey();
     const currentContentBlock = currentContent.getBlockForKey(anchorKey);
 
-    console.log('>> entity', currentContentBlock.getEntityAt(anchorKey));
     if (selectionState.isCollapsed()) {
       currentContent.createEntity('trigger', 'MUTABLE');
 
@@ -83,15 +74,19 @@ export default function createImmutableMention(config = {}) {
   };
   return {
     name: 'mention',
-    Suggestions: (props) => <Suggestions {...props} {...componentProps}
-      store={mentionStore}
-    />,
-    decorators:[{
+    Suggestions: props => (
+      <Suggestions
+        {...props}
+        {...componentProps}
+        store={mentionStore}
+      />
+    ),
+    decorators: [{
       strategy: mentionTriggerStrategy,
-      component: (props) => <span {...props} style={{color: 'red'}}/>
-    },{
+      component: props => <span {...props} style={{ color: 'red' }} />,
+    }, {
       strategy: mentionContentStrategy,
-      component: (props) => <MentionContentComponent tag={tag} {...props} callbacks={callbacks} />,
+      component: props => <MentionContentComponent {...props} callbacks={callbacks} />,
     }],
     onChange: (editorState) => {
       const updatedEditorState = onChange(editorState);

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 import { decode } from 'draft-js/lib/DraftOffsetKey';
 import Animate from 'rc-animate';
 
@@ -16,7 +15,8 @@ import getOffset from '../utils/getOffset';
 import getMentions from '../utils/getMentions';
 import getSearchWord from '../utils/getSearchWord';
 
-const isNotFalse = (i) => i !== false;
+const isNotFalse = i => i !== false;
+
 export default class Suggestions extends React.Component {
   constructor() {
     super();
@@ -112,6 +112,7 @@ export default class Suggestions extends React.Component {
     if (this.props.noRedup) {
       const mentions = getMentions(editorState, trigger);
       if (mentions.indexOf(`${trigger}${mention}`) !== -1) {
+        // eslint-disable-next-line
         console.warn('you have specified `noRedup` props but have duplicated mentions.');
         this.closeDropDown();
         this.props.callbacks.setEditorState(
@@ -210,8 +211,7 @@ export default class Suggestions extends React.Component {
     });
   }
   renderReady = () => {
-    const focusItem = ReactDOM.findDOMNode(this.refs.focusItem);
-    const container = this.refs.dropdownContainer;
+    const container = this.dropdownContainer;
     if (!container) {
       return;
     }
@@ -226,10 +226,10 @@ export default class Suggestions extends React.Component {
       });
     }
 
-    if (!focusItem) {
+    if (!this.focusItem) {
       return;
     }
-    scrollIntoView(focusItem, container, {
+    scrollIntoView(this.focusItem, container, {
       onlyScrollIfNeeded: true,
     });
   }
@@ -238,29 +238,36 @@ export default class Suggestions extends React.Component {
     const { focusedIndex } = this.state;
     return suggestions.length ? React.Children.map(suggestions, (element, index) => {
       const focusItem = index === focusedIndex;
-      const ref = focusItem ? 'focusItem' : null;
+      const ref = focusItem ? (node) => {
+        this.focusItem = node;
+      } : null;
       const mentionClass = cx(`${prefixCls}-dropdown-item`, {
         focus: focusItem,
       });
       if (React.isValidElement(element)) {
         return React.cloneElement(element, {
           className: mentionClass,
-          onMouseDown: this.onMentionSelect.bind(this, element.props.value, element.props.data),
+          onMouseDown: () => this.onMentionSelect(element.props.value, element.props.data),
           ref,
         });
       }
-      return (<Nav ref={ref}
-        className={mentionClass}
-        onMouseDown={this.onMentionSelect.bind(this, element)}
-      >{element}</Nav>);
+      return (
+        <Nav
+          ref={ref}
+          className={mentionClass}
+          onMouseDown={() => this.onMentionSelect(element)}
+        >
+          {element}
+        </Nav>
+      );
     }, this) :
     <div className={`${prefixCls}-dropdown-notfound ${prefixCls}-dropdown-item`}>
       {this.props.notFoundContent}
     </div>;
   }
   render() {
-    const { prefixCls, suggestions, className } = this.props;
-    const { container } = this.state;
+    const { prefixCls, className } = this.props;
+    const { container, active } = this.state;
     const cls = cx({
       [`${prefixCls}-dropdown`]: true,
       ...className,
@@ -268,17 +275,17 @@ export default class Suggestions extends React.Component {
 
     const navigations = this.getNavigations();
 
-    return container ? (<SuggetionWrapper renderReady={this.renderReady} container={container}>
-      <Animate
-        transitionName="slide-up"
-      >
-        { this.state.active ?
-          <div className={cls} ref="dropdownContainer">
-            {navigations}
-          </div>
-          : null }
-      </Animate>
-    </SuggetionWrapper>) : null;
+    return container ? (
+      <SuggetionWrapper renderReady={this.renderReady} container={container}>
+        <Animate transitionName="slide-up">
+          {active ? (
+            <div className={cls} ref={(node) => { this.dropdownContainer = node; }}>
+              {navigations}
+            </div>
+          ) : null }
+        </Animate>
+      </SuggetionWrapper>
+    ) : null;
   }
 }
 
@@ -287,9 +294,6 @@ Suggestions.propTypes = {
   suggestions: PropTypes.array,
   store: PropTypes.object,
   onSearchChange: PropTypes.func,
-  prefix: PropTypes.oneOfType(
-    [PropTypes.string, PropTypes.arrayOf(PropTypes.string)]
-  ),
   prefixCls: PropTypes.string,
   mode: PropTypes.string,
   style: PropTypes.object,

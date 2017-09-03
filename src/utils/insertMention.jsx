@@ -1,5 +1,6 @@
 import { Modifier, EditorState } from 'draft-js';
 import getSearchWord from './getSearchWord';
+
 export default function insertMention(editorState, mention, data, mode) {
   const entityMode = mode === 'immutable' ? 'IMMUTABLE' : 'MUTABLE';
   const selection = editorState.getSelection();

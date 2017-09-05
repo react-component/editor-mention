@@ -1,15 +1,15 @@
 webpackJsonp([11],{
 
 /***/ 0:
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(493);
+	module.exports = __webpack_require__(599);
 
 
-/***/ },
+/***/ }),
 
-/***/ 493:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 599:
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -19,11 +19,11 @@ webpackJsonp([11],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(34);
+	var _reactDom = __webpack_require__(39);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcEditorMention = __webpack_require__(180);
+	var _rcEditorMention = __webpack_require__(186);
 	
 	var _rcEditorMention2 = _interopRequireDefault(_rcEditorMention);
 	
@@ -103,7 +103,7 @@ webpackJsonp([11],{
 	  _react2.default.createElement(MentionEditor, null)
 	), document.getElementById('__react-content'));
 
-/***/ }
+/***/ })
 
 });
 //# sourceMappingURL=simple.js.map

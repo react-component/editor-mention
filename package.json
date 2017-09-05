@@ -54,8 +54,9 @@
     "pre-commit": "1.x",
     "rc-form": "^1.3.0",
     "rc-tools": "5.x",
-    "react": "^15.0.0",
-    "react-dom": "^15.0.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-test-renderer": "^15.6.1",
     "typescript-babel-jest": "^0.1.5"
   },
   "pre-commit": [

@@ -11,8 +11,6 @@ React Mention Component
 [![node version][node-image]][node-url]
 [![npm download][download-image]][download-url]
 
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/rc-editor-mention.svg)](https://saucelabs.com/u/rc-editor-mention)
-
 [npm-image]: http://img.shields.io/npm/v/rc-editor-mention.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/rc-editor-mention
 [travis-image]: https://img.shields.io/travis/react-component/editor-mention.svg?style=flat-square

@@ -92,6 +92,12 @@ React.render(<Mention />, container);
           <td></td>
           <td>additional css class of root dom node</td>
         </tr>
+        <tr>
+          <td>placement</td>
+          <td>String</td>
+          <td>"bottom"</td>
+          <td>suggestion placement, available values: "top", "bottom"</td>
+        </tr>
     </tbody>
 </table>
 

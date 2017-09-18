@@ -46,6 +46,7 @@ class MentionEditor extends React.Component {
           value={editorState}
           onChange={this.onChange}
           suggestions={suggestions} prefix="@"
+          // placement="top"
         />
       </div>
     );

@@ -34,20 +34,19 @@ class MentionEditor extends React.Component {
       editorState,
     });
   }
-  reset = () => {
-    this.setState({
-      editorState: this.state.defaultValue,
-    });
-  }
   render() {
     const { suggestions, editorState } = this.state;
     return (
       <div>
         <p> you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai</p>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />  
         <p>
           <button onClick={this.togglePlacement.bind(this)}>Toggle placement</button>
         </p>
-        <button onClick={this.reset}> reset </button>
         <Mention
           style={{ width: 300, height: 200 }}
           ref="mention"

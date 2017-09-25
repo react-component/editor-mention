@@ -29931,7 +29931,7 @@ var Suggestions = function (_React$Component) {
         // Check if the above space is crowded
         var isTopCrowded = parseFloat(dropDownStyle.top) - window.scrollY - container.offsetHeight < 0;
         // Check if the under space is crowded
-        var isBottomCrowded = parseFloat(dropDownStyle.top) + container.offsetHeight - (window.innerHeight || document.documentElement.clientHeight) > 0;
+        var isBottomCrowded = (window.innerHeight || document.documentElement.clientHeight) - (parseFloat(dropDownStyle.top) - window.scrollY) - container.offsetHeight < 0;
 
         if (placement === 'top' && !isTopCrowded) {
           // The above space isn't crowded

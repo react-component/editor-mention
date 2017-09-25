@@ -123,7 +123,7 @@ export default class Suggestions extends React.Component {
     }
     this.props.callbacks.setEditorState(
       insertMention(editorState, `${trigger}${mention}`, data, this.props.mode)
-    , true);
+      , true);
     this.closeDropDown();
   }
   onUpArrow = (ev) => {
@@ -219,8 +219,26 @@ export default class Suggestions extends React.Component {
     const { activeOffsetKey } = this;
     const offset = this.props.store.getOffset();
     const dropDownPosition = offset.get(activeOffsetKey);
+
     if (active && dropDownPosition) {
+      const placement = this.props.placement;
       const dropDownStyle = this.getPositionStyle(true, dropDownPosition.position());
+
+      // Check if the above space is crowded
+      const isTopCrowded = parseFloat(dropDownStyle.top) - window.scrollY - container.offsetHeight < 0;
+      // Check if the under space is crowded
+      const isBottomCrowded = (parseFloat(dropDownStyle.top) + container.offsetHeight) - (window.innerHeight || document.documentElement.clientHeight) > 0;
+
+      if (placement === 'top' && !isTopCrowded) {
+        // The above space isn't crowded
+        dropDownStyle.top = `${parseFloat(dropDownStyle.top) - container.offsetHeight || 0}px`;
+      }
+
+      if (placement === 'bottom' && isBottomCrowded && !isTopCrowded) {
+        // The above space isn't crowded and the under space is crowded.
+        dropDownStyle.top = `${parseFloat(dropDownStyle.top) - container.offsetHeight || 0}px`;
+      }
+
       Object.keys(dropDownStyle).forEach((key) => {
         container.style[key] = dropDownStyle[key];
       });
@@ -282,7 +300,7 @@ export default class Suggestions extends React.Component {
             <div className={cls} ref={(node) => { this.dropdownContainer = node; }}>
               {navigations}
             </div>
-          ) : null }
+          ) : null}
         </Animate>
       </SuggetionWrapper>
     ) : null;
@@ -303,4 +321,5 @@ Suggestions.propTypes = {
   getSuggestionStyle: PropTypes.func,
   className: PropTypes.string,
   noRedup: PropTypes.bool,
+  placement: PropTypes.string,
 };

@@ -33,6 +33,7 @@ class Mention extends React.Component {
     getSuggestionContainer: PropTypes.func,
     noRedup: PropTypes.bool,
     mentionStyle: PropTypes.object,
+    placement: PropTypes.string,
   }
 
   constructor(props) {
@@ -123,7 +124,7 @@ class Mention extends React.Component {
     const {
       prefixCls, style, tag, multiLines,
       suggestionStyle, placeholder, defaultValue, className, notFoundContent,
-      getSuggestionContainer, readOnly, disabled,
+      getSuggestionContainer, readOnly, disabled, placement,
     } = this.props;
     const { suggestions } = this.state;
     const { Suggestions } = this;
@@ -158,6 +159,7 @@ class Mention extends React.Component {
           prefix={this.getPrefix()}
           prefixCls={prefixCls}
           style={suggestionStyle}
+          placement={placement}
           notFoundContent={notFoundContent}
           suggestions={suggestions}
           getSuggestionContainer={getSuggestionContainer ?
@@ -183,6 +185,7 @@ Mention.defaultProps = {
   suggestionStyle: {},
   notFoundContent: '无法找到',
   position: 'absolute',
+  placement: 'bottom', // top, bottom
   mentionStyle: {},
 };
 

@@ -30086,16 +30086,19 @@ var Suggestions = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _extends2,
+          _this2 = this;
 
       var _props2 = this.props,
           prefixCls = _props2.prefixCls,
-          className = _props2.className;
+          className = _props2.className,
+          placement = _props2.placement;
       var _state = this.state,
           container = _state.container,
           active = _state.active;
 
-      var cls = (0, _classnames2['default'])((0, _extends4['default'])((0, _defineProperty3['default'])({}, prefixCls + '-dropdown', true), className));
+      var cls = (0, _classnames2['default'])((0, _extends4['default'])((_extends2 = {}, (0, _defineProperty3['default'])(_extends2, prefixCls + '-dropdown', true), (0, _defineProperty3['default'])(_extends2, prefixCls + '-dropdown-placement-' + placement, true), _extends2), className));
+      var transitionName = placement === 'top' ? 'slide-down' : 'slide-up';
 
       var navigations = this.getNavigations();
 
@@ -30104,7 +30107,7 @@ var Suggestions = function (_React$Component) {
         { renderReady: this.renderReady, container: container },
         _react2['default'].createElement(
           _rcAnimate2['default'],
-          { transitionName: 'slide-up' },
+          { transitionName: transitionName },
           active ? _react2['default'].createElement(
             'div',
             { className: cls, ref: function ref(node) {

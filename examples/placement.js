@@ -77,10 +77,6 @@ var MentionEditor = function (_React$Component) {
       _this.setState({
         editorState: editorState
       });
-    }, _this.reset = function () {
-      _this.setState({
-        editorState: _this.state.defaultValue
-      });
     }, _temp), (0, _possibleConstructorReturn3['default'])(_this, _ret);
   }
 
@@ -99,6 +95,11 @@ var MentionEditor = function (_React$Component) {
           null,
           ' you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai'
         ),
+        _react2['default'].createElement('br', null),
+        _react2['default'].createElement('br', null),
+        _react2['default'].createElement('br', null),
+        _react2['default'].createElement('br', null),
+        _react2['default'].createElement('br', null),
         _react2['default'].createElement(
           'p',
           null,
@@ -107,11 +108,6 @@ var MentionEditor = function (_React$Component) {
             { onClick: this.togglePlacement.bind(this) },
             'Toggle placement'
           )
-        ),
-        _react2['default'].createElement(
-          'button',
-          { onClick: this.reset },
-          ' reset '
         ),
         _react2['default'].createElement(_rcEditorMention2['default'], {
           style: { width: 300, height: 200 },

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>getSuggestionContainer.js - example - rc-editor-mention@1.0.0</title>
+  <title>placement.js - example - rc-editor-mention@1.0.0</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -274,14 +274,23 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-mention/assets/index.css'</span>;
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> Mention, { toString, getMentions } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-mention'</span>;
+<span class="hljs-keyword">import</span> Mention, { toEditorState } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-mention'</span>;
+<span class="hljs-keyword">import</span> { EditorState } <span class="hljs-keyword">from</span> <span class="hljs-string">'draft-js'</span>;
 
 <span class="hljs-keyword">const</span> originSuggestions = [<span class="hljs-string">'afc163'</span>, <span class="hljs-string">'benjycui'</span>, <span class="hljs-string">'yiminghe'</span>, <span class="hljs-string">'jljsj33'</span>, <span class="hljs-string">'dqaria'</span>, <span class="hljs-string">'RaoHai'</span>];
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MentionEditor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
   state = {
+    placement: <span class="hljs-string">'bottom'</span>,
     suggestions: originSuggestions,
+    defaultValue: <span class="hljs-literal">null</span>,
+    editorState: toEditorState(<span class="hljs-string">''</span>),
   };
+  togglePlacement = () =&gt; {
+    <span class="hljs-keyword">this</span>.setState({
+      placement: <span class="hljs-keyword">this</span>.state.placement == <span class="hljs-string">'bottom'</span> ? <span class="hljs-string">'top'</span> : <span class="hljs-string">'bottom'</span>,
+    });
+  }
   onSearchChange = (value) =&gt; {
     <span class="hljs-keyword">const</span> searchValue = value.toLowerCase();
     <span class="hljs-keyword">const</span> filtered = originSuggestions.filter(suggestion =&gt;
@@ -291,29 +300,34 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
       suggestions: filtered,
     });
   }
-  onSelect = (value, suggestion) =&gt; {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; onSelect'</span>, value, suggestion);
-  }
   onChange = (editorState) =&gt; {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; mentionChange'</span>,
-      toString(editorState, { encode: <span class="hljs-literal">true</span> }),
-      getMentions(editorState)
-    );
+    <span class="hljs-keyword">this</span>.setState({
+      editorState,
+    });
   }
-  getSuggestionContainer = () =&gt; {
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.refs.wrapper;
+  reset = () =&gt; {
+    <span class="hljs-keyword">this</span>.setState({
+      editorState: <span class="hljs-keyword">this</span>.state.defaultValue,
+    });
   }
   render() {
-    <span class="hljs-keyword">const</span> { suggestions } = <span class="hljs-keyword">this</span>.state;
+    <span class="hljs-keyword">const</span> { suggestions, editorState } = <span class="hljs-keyword">this</span>.state;
     <span class="hljs-keyword">return</span> (
-      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">ref</span>=<span class="hljs-value">"wrapper"</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">position:</span> '<span class="hljs-attribute">relative</span>' }}&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">Mention</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">width:</span> <span class="hljs-attribute">300</span> }}
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span> you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.togglePlacement.bind(this)}</span>&gt;</span>Toggle placement<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.reset}</span>&gt;</span> reset <span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">Mention</span>
+          <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">width:</span> <span class="hljs-attribute">300</span>, <span class="hljs-attribute">height:</span> <span class="hljs-attribute">200</span> }}
+          <span class="hljs-attribute">ref</span>=<span class="hljs-value">"mention"</span>
           <span class="hljs-attribute">onSearchChange</span>=<span class="hljs-value">{this.onSearchChange}</span>
+          <span class="hljs-attribute">defaultValue</span>=<span class="hljs-value">{this.state.defaultValue}</span>
+          <span class="hljs-attribute">value</span>=<span class="hljs-value">{editorState}</span>
           <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.onChange}</span>
-          <span class="hljs-attribute">placeholder</span>=<span class="hljs-value">" @ 某人 "</span>
-          <span class="hljs-attribute">getSuggestionContainer</span>=<span class="hljs-value">{this.getSuggestionContainer}</span>
           <span class="hljs-attribute">suggestions</span>=<span class="hljs-value">{suggestions}</span> <span class="hljs-attribute">prefix</span>=<span class="hljs-value">"@"</span>
-          <span class="hljs-attribute">onSelect</span>=<span class="hljs-value">{this.onSelect}</span>
+          <span class="hljs-attribute">placement</span>=<span class="hljs-value">{this.state.placement}</span>
         /&gt;</span>
       <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
     )</span>;
@@ -321,7 +335,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 }
 
 ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span> you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+
   <span class="hljs-tag">&lt;<span class="hljs-title">MentionEditor</span> /&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>, document.getElementById('__react-content'));
 </span></code></pre></div>
@@ -334,7 +348,7 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-t
   </a>
   <script>FastClick.attach(document.body);</script>
   <script src="../common.js?nowrap"></script>
-  <script src="getSuggestionContainer.js?nowrap"></script>
+  <script src="placement.js?nowrap"></script>
 </body>
 
 </html>

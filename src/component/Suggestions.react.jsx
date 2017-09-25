@@ -284,18 +284,20 @@ export default class Suggestions extends React.Component {
     </div>;
   }
   render() {
-    const { prefixCls, className } = this.props;
+    const { prefixCls, className, placement } = this.props;
     const { container, active } = this.state;
     const cls = cx({
       [`${prefixCls}-dropdown`]: true,
+      [`${prefixCls}-dropdown-placement-${placement}`]: true,
       ...className,
     });
+    const transitionName = placement === 'top' ? 'slide-down' : 'slide-up';
 
     const navigations = this.getNavigations();
 
     return container ? (
       <SuggetionWrapper renderReady={this.renderReady} container={container}>
-        <Animate transitionName="slide-up">
+        <Animate transitionName={transitionName}>
           {active ? (
             <div className={cls} ref={(node) => { this.dropdownContainer = node; }}>
               {navigations}

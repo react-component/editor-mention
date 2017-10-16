@@ -1,6 +1,6 @@
 webpackJsonp([11],{
 
-/***/ 242:
+/***/ 243:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -142,13 +142,13 @@ _reactDom2['default'].render(_react2['default'].createElement(
 
 /***/ }),
 
-/***/ 601:
+/***/ 602:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(242);
+module.exports = __webpack_require__(243);
 
 
 /***/ })
 
-},[601]);
+},[602]);
 //# sourceMappingURL=customizeSuggesion.js.map

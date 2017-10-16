@@ -1,6 +1,6 @@
 webpackJsonp([2],{
 
-/***/ 252:
+/***/ 253:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -133,13 +133,13 @@ _reactDom2['default'].render(_react2['default'].createElement(
 
 /***/ }),
 
-/***/ 611:
+/***/ 612:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(252);
+module.exports = __webpack_require__(253);
 
 
 /***/ })
 
-},[611]);
+},[612]);
 //# sourceMappingURL=placement.js.map

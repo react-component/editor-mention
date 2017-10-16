@@ -41,9 +41,11 @@ export default class Suggestions extends React.Component {
   onEditorStateChange = (editorState) => {
     const offset = this.props.store.getOffset();
     if (offset.size === 0) {
+      this.closeDropDown();
       return editorState;
     }
     const selection = editorState.getSelection();
+
     // 修复: 焦点移出再移入时, dropdown 会闪动一下
     // 原因: https://github.com/facebook/draft-js/blob/67c5e69499e3b0c149ce83b004872afdf4180463/src/component/handlers/edit/editOnFocus.js#L33
     // 此处强制 update 了一下,因此 onEditorStateChange 会 call 两次
@@ -90,7 +92,6 @@ export default class Suggestions extends React.Component {
       this.closeDropDown();
       return editorState;
     }
-
     const searchValue = word.substring(trigger.length, word.length);
     if (this.lastSearchValue !== searchValue || this.lastTrigger !== trigger) {
       this.lastSearchValue = searchValue;
@@ -98,7 +99,11 @@ export default class Suggestions extends React.Component {
       this.props.onSearchChange(searchValue, trigger);
     }
     if (!this.state.active) {
-      this.openDropDown();
+      // 特例处理 https://github.com/ant-design/ant-design/issues/7838
+      // 暂时没有更优雅的方法
+      if (!trigger || word.indexOf(trigger) !== -1) {
+        this.openDropDown();
+      }
     }
     return editorState;
   }
@@ -227,7 +232,7 @@ export default class Suggestions extends React.Component {
       // Check if the above space is crowded
       const isTopCrowded = parseFloat(dropDownStyle.top) - window.scrollY - container.offsetHeight < 0;
       // Check if the under space is crowded
-      const isBottomCrowded = (window.innerHeight || document.documentElement.clientHeight) - (parseFloat(dropDownStyle.top) - window.scrollY) - container.offsetHeight < 0;      
+      const isBottomCrowded = (window.innerHeight || document.documentElement.clientHeight) - (parseFloat(dropDownStyle.top) - window.scrollY) - container.offsetHeight < 0;
 
       if (placement === 'top' && !isTopCrowded) {
         // The above space isn't crowded

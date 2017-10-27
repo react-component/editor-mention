@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const Nav = props => <div {...props} />;
+class Nav extends Component {
+    render() {
+        const { handleRef, ...props } = this.props;
+        return <div {...props} ref={handleRef} />
+    }
+}
 
 export default Nav;

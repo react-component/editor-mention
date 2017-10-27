@@ -271,12 +271,12 @@ export default class Suggestions extends React.Component {
         return React.cloneElement(element, {
           className: mentionClass,
           onMouseDown: () => this.onMentionSelect(element.props.value, element.props.data),
-          ref,
+          handleRef: ref,
         });
       }
       return (
         <Nav
-          ref={ref}
+          handleRef={ref}
           className={mentionClass}
           onMouseDown={() => this.onMentionSelect(element)}
         >
@@ -284,9 +284,9 @@ export default class Suggestions extends React.Component {
         </Nav>
       );
     }, this) :
-    <div className={`${prefixCls}-dropdown-notfound ${prefixCls}-dropdown-item`}>
-      {this.props.notFoundContent}
-    </div>;
+      <div className={`${prefixCls}-dropdown-notfound ${prefixCls}-dropdown-item`}>
+        {this.props.notFoundContent}
+      </div>;
   }
   render() {
     const { prefixCls, className, placement } = this.props;

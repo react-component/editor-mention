@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Nav extends Component {
+class Nav extends React.Component {
     render() {
         const { handleRef, ...props } = this.props;
         return <div {...props} ref={handleRef} />

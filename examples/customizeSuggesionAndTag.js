@@ -20,19 +20,19 @@ Tag.propTypes = {
   children: PropTypes.any,
 };
 
-const MentionEditor = React.createClass({
-  getInitialState() {
-    return {
-      contributors: [],
-      suggestions: [],
-    };
-  },
+class MentionEditor extends React.Component {
+  state =  {
+    contributors: [],
+    suggestions: [],
+  };
+
   componentDidMount() {
     fetch('./contributors.json')
       .then(resp => resp.json())
       .then(contributors => this.setState({ contributors }));
-  },
-  onSearchChange(value) {
+  }
+
+  onSearchChange = (value) => {
     const searchValue = value.toLowerCase();
     const filtered = this.state.contributors.filter(contributor =>
       contributor.login.toLowerCase().indexOf(searchValue) !== -1
@@ -46,7 +46,8 @@ const MentionEditor = React.createClass({
     this.setState({
       suggestions,
     });
-  },
+  }
+
   render() {
     const { suggestions } = this.state;
     return (<div>
@@ -59,7 +60,7 @@ const MentionEditor = React.createClass({
       />
     </div>);
   },
-});
+}
 
 ReactDOM.render(<div>
   <p> you can mention one of ant-design <a href="https://github.com/ant-design/ant-design/graphs/contributors" target="blank">contributors</a></p>

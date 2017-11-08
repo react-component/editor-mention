@@ -59,7 +59,7 @@ class MentionEditor extends React.Component {
         tag={Tag}
       />
     </div>);
-  },
+  }
 }
 
 ReactDOM.render(<div>

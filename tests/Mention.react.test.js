@@ -6,6 +6,8 @@ import Mention from '../src/component/Mention.react';
 
 enzyme.configure({ adapter: new Adapter() });
 
+jest.mock('../src/component/SuggestionWrapper.react.jsx');
+
 describe('Mention.react', () => {
   describe('Basic rendering', () => {
     it('render correctly', () => {
@@ -16,24 +18,23 @@ describe('Mention.react', () => {
       expect(block.find('.test-wrapper')).not.toBe(null);
     });
 
-    // 由于这个 issue，暂时无法完成这个测试。。 wtf... https://github.com/airbnb/enzyme/issues/1150
-    // it('Basic suggestion', () => {
-    //   jest.useFakeTimers();
-    //   const handleSearch = jest.fn();
-    //   const block = mount(
-    //     <Mention
-    //       suggestions={['afc163', 'raohai']}
-    //       onSearchChange={handleSearch}
-    //     />
-    //   );
-    //   block.find('DraftEditorContents').simulate('focus');
+    it('Basic suggestion', () => {
+      jest.useFakeTimers();
+      const handleSearch = jest.fn();
+      const block = mount(
+        <Mention
+          suggestions={['afc163', 'raohai']}
+          onSearchChange={handleSearch}
+        />
+      );
+      block.find('DraftEditorContents').simulate('focus');
 
-    //   const event = new Event('textInput', { data: '@a', target: { value: '@a' } });
+      const event = new Event('textInput', { data: '@a', target: { value: '@a' } });
 
-    //   const ed = block.find('.public-DraftEditor-content');
-    //   ed.simulate('beforeInput', { data: '@a' });
-    //   jest.runAllTimers();
-    //   expect(handleSearch).toBeCalledWith('a', '@');
-    // });
+      const ed = block.find('.public-DraftEditor-content');
+      ed.simulate('beforeInput', { data: '@a' });
+      jest.runAllTimers();
+      expect(handleSearch).toBeCalledWith('a', '@');
+    });
   });
 });

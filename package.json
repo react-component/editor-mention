@@ -77,7 +77,9 @@
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
-    "setupFiles": [ "./tests/shim.js" ],
+    "setupFiles": [
+      "./tests/shim.js"
+    ],
     "transform": {
       "\\.jsx?$": "./node_modules/rc-tools/scripts/jestPreprocessor.js"
     }

@@ -24,3 +24,5 @@ build
 lib
 es
 coverage
+yarn.lock
+package-json.lock

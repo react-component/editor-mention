@@ -27,9 +27,10 @@ class MentionEditor extends React.Component {
   onSelect = (value, suggestion) => {
     console.log('>> onSelect', value, suggestion);
   }
-  onChange = (editorState) => {
-    const mentions = getMentions(editorState);
-    console.log('>> editorOnChange', mentions);
+  onChange = (contentState) => {
+    console.log('>> editorOnChange', contentState);
+    const mentions = getMentions(contentState);
+
     this.setState({
       mentions,
     });

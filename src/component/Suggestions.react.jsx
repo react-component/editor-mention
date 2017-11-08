@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { decode } from 'draft-js/lib/DraftOffsetKey';
 import Animate from 'rc-animate';
@@ -115,7 +116,7 @@ export default class Suggestions extends React.Component {
       onSelect(mention, data || mention);
     }
     if (this.props.noRedup) {
-      const mentions = getMentions(editorState, trigger);
+      const mentions = getMentions(editorState.getCurrentContent(), trigger);
       if (mentions.indexOf(`${trigger}${mention}`) !== -1) {
         // eslint-disable-next-line
         console.warn('you have specified `noRedup` props but have duplicated mentions.');
@@ -252,9 +253,12 @@ export default class Suggestions extends React.Component {
     if (!this.focusItem) {
       return;
     }
-    scrollIntoView(this.focusItem, container, {
-      onlyScrollIfNeeded: true,
-    });
+    scrollIntoView(
+      ReactDOM.findDOMNode(this.focusItem),
+      container, {
+        onlyScrollIfNeeded: true,
+      }
+    );
   }
   getNavigations = () => {
     const { prefixCls, suggestions } = this.props;

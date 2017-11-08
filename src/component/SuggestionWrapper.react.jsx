@@ -1,26 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
+import { createPortal, unstable_renderSubtreeIntoContainer } from 'react-dom';
+
+const IS_REACT_16 = !!createPortal;
 
 export default class SuggestionWrapper extends React.Component {
   componentDidMount() {
-    this.renderComponent();
+    this.renderOrReady();
   }
+
   componentDidUpdate() {
-    this.renderComponent();
+    this.renderOrReady();
   }
+
+  renderOrReady() {
+    if (IS_REACT_16) {
+      this.props.renderReady();
+    } else {
+      this.renderComponent();
+    }
+  }
+
   renderComponent() {
-    const instance = this.props.children;
-    const ready = this.props.renderReady;
-    ReactDOM.unstable_renderSubtreeIntoContainer(this,
-      instance, this.props.container,
+    const { children, container, renderReady } = this.props;
+    unstable_renderSubtreeIntoContainer(
+      this,
+      children,
+      container,
       function callback() {
-        if (ready) {
-          ready.call(this);
+        if (renderReady) {
+          renderReady.call(this);
         }
-      });
+    });
   }
+
   render() {
+    if (IS_REACT_16) {
+      const { children, container } = this.props;
+      return createPortal(children, container);
+    }
     return null;
   }
 }

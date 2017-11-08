@@ -1,6 +1,12 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import ReactDOM from 'react-dom';
+import enzyme, { mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import Mention from '../src/component/Mention.react';
+
+enzyme.configure({ adapter: new Adapter() });
+
+jest.mock('../src/component/SuggestionWrapper.react.jsx');
 
 describe('Mention.react', () => {
   describe('Basic rendering', () => {
@@ -21,9 +27,12 @@ describe('Mention.react', () => {
           onSearchChange={handleSearch}
         />
       );
+      block.find('DraftEditorContents').simulate('focus');
 
-      block.find('DraftEditor').node.focus();
-      block.find('.public-DraftEditor-content').simulate('beforeInput', { data: '@a' });
+      const event = new Event('textInput', { data: '@a', target: { value: '@a' } });
+
+      const ed = block.find('.public-DraftEditor-content');
+      ed.simulate('beforeInput', { data: '@a' });
       jest.runAllTimers();
       expect(handleSearch).toBeCalledWith('a', '@');
     });

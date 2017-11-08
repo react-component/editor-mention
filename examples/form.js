@@ -8,13 +8,13 @@ import Mention, { toString, getMentions, toEditorState } from 'rc-editor-mention
 
 const originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
 
-const MentionEditor = createForm()(React.createClass({
-  getInitialState() {
-    return {
-      suggestions: originSuggestions,
-    };
-  },
-  onSearchChange(value) {
+
+class MentionEditor extends React.Component {
+  state = {
+    suggestions: originSuggestions,
+  };
+
+  onSearchChange = (value) => {
     const searchValue = value.toLowerCase();
     const filtered = originSuggestions.filter(suggestion =>
       suggestion.toLowerCase().indexOf(searchValue) !== -1
@@ -23,10 +23,11 @@ const MentionEditor = createForm()(React.createClass({
     this.setState({
       suggestions: filtered,
     });
-  },
-  onSelect(value, suggestion) {
+  }
+
+  onSelect = (value, suggestion) => {
     console.log('>> onSelect', value, suggestion);
-  },
+  }
 
   render() {
     const { suggestions } = this.state;
@@ -42,8 +43,10 @@ const MentionEditor = createForm()(React.createClass({
             prefix="@"
             onSelect={this.onSelect}
         />)}</div>
-  },
-}));
+  }
+}
+
+MentionEditor = createForm()(MentionEditor);
 
 ReactDOM.render(<div>
   <p> you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai</p>

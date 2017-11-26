@@ -56,7 +56,7 @@ npm start
 http://localhost:8001/examples/
 
 
-online example: http://react-component.github.io/mention/
+online example: http://react-component.github.io/editor-mention/
 
 
 ## Feature

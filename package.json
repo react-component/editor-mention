@@ -49,7 +49,7 @@
     "mock-raf": "^1.0.0",
     "pre-commit": "1.x",
     "rc-form": "1.x",
-    "rc-tools": "6.x",
+    "rc-tools": "7.x",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-test-renderer": "16.0.0"
@@ -64,7 +64,7 @@
     "draft-js": "~0.10.0",
     "prop-types": "^15.5.8",
     "rc-animate": "^2.3.0",
-    "rc-editor-core": "~0.7.7"
+    "rc-editor-core": "~0.8.1"
   },
   "peerDependencies": {
     "immutable": "~3.7.4"

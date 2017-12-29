@@ -1,123 +1,12 @@
-webpackJsonp([0],[
+webpackJsonp([11],[
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(1);
+	module.exports = __webpack_require__(527);
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _classCallCheck2 = __webpack_require__(2);
-	
-	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-	
-	var _possibleConstructorReturn2 = __webpack_require__(3);
-	
-	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-	
-	var _inherits2 = __webpack_require__(71);
-	
-	var _inherits3 = _interopRequireDefault(_inherits2);
-	
-	__webpack_require__(79);
-	
-	var _react = __webpack_require__(80);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactDom = __webpack_require__(116);
-	
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-	
-	var _rcEditorMention = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"rc-editor-mention\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-	
-	var _rcEditorMention2 = _interopRequireDefault(_rcEditorMention);
-	
-	var _draftJs = __webpack_require__(263);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai']; // use jsx to render html, do not modify simple.html
-	
-	var MentionEditor = function (_React$Component) {
-	  (0, _inherits3.default)(MentionEditor, _React$Component);
-	
-	  function MentionEditor() {
-	    var _temp, _this, _ret;
-	
-	    (0, _classCallCheck3.default)(this, MentionEditor);
-	
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-	
-	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, _React$Component.call.apply(_React$Component, [this].concat(args))), _this), _this.state = {
-	      suggestions: originSuggestions,
-	      defaultValue: null,
-	      editorState: (0, _rcEditorMention.toEditorState)('')
-	    }, _this.onSearchChange = function (value) {
-	      var searchValue = value.toLowerCase();
-	      var filtered = originSuggestions.filter(function (suggestion) {
-	        return suggestion.toLowerCase().indexOf(searchValue) !== -1;
-	      });
-	      _this.setState({
-	        suggestions: filtered
-	      });
-	    }, _this.onChange = function (editorState) {
-	      _this.setState({
-	        editorState: editorState
-	      });
-	    }, _this.reset = function () {
-	      _this.setState({
-	        editorState: _this.state.defaultValue
-	      });
-	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
-	  }
-	
-	  MentionEditor.prototype.render = function render() {
-	    var _state = this.state,
-	        suggestions = _state.suggestions,
-	        editorState = _state.editorState;
-	
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      _react2.default.createElement(
-	        'button',
-	        { onClick: this.reset },
-	        ' reset '
-	      ),
-	      _react2.default.createElement(_rcEditorMention2.default, {
-	        style: { width: 300, height: 200 },
-	        ref: 'mention',
-	        onSearchChange: this.onSearchChange,
-	        defaultValue: this.state.defaultValue,
-	        value: editorState,
-	        onChange: this.onChange,
-	        suggestions: suggestions, prefix: '@'
-	      })
-	    );
-	  };
-	
-	  return MentionEditor;
-	}(_react2.default.Component);
-	
-	_reactDom2.default.render(_react2.default.createElement(
-	  'div',
-	  null,
-	  _react2.default.createElement(
-	    'p',
-	    null,
-	    ' you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai'
-	  ),
-	  _react2.default.createElement(MentionEditor, null)
-	), document.getElementById('__react-content'));
-
-/***/ }),
+/* 1 */,
 /* 2 */,
 /* 3 */,
 /* 4 */,
@@ -18883,6 +18772,259 @@ webpackJsonp([0],[
 	
 	module.exports = getRangeBoundingClientRect;
 
+/***/ }),
+/* 397 */,
+/* 398 */,
+/* 399 */,
+/* 400 */,
+/* 401 */,
+/* 402 */,
+/* 403 */,
+/* 404 */,
+/* 405 */,
+/* 406 */,
+/* 407 */,
+/* 408 */,
+/* 409 */,
+/* 410 */,
+/* 411 */,
+/* 412 */,
+/* 413 */,
+/* 414 */,
+/* 415 */,
+/* 416 */,
+/* 417 */,
+/* 418 */,
+/* 419 */,
+/* 420 */,
+/* 421 */,
+/* 422 */,
+/* 423 */,
+/* 424 */,
+/* 425 */,
+/* 426 */,
+/* 427 */,
+/* 428 */,
+/* 429 */,
+/* 430 */,
+/* 431 */,
+/* 432 */,
+/* 433 */,
+/* 434 */,
+/* 435 */,
+/* 436 */,
+/* 437 */,
+/* 438 */,
+/* 439 */,
+/* 440 */,
+/* 441 */,
+/* 442 */,
+/* 443 */,
+/* 444 */,
+/* 445 */,
+/* 446 */,
+/* 447 */,
+/* 448 */,
+/* 449 */,
+/* 450 */,
+/* 451 */,
+/* 452 */,
+/* 453 */,
+/* 454 */,
+/* 455 */,
+/* 456 */,
+/* 457 */,
+/* 458 */,
+/* 459 */,
+/* 460 */,
+/* 461 */,
+/* 462 */,
+/* 463 */,
+/* 464 */,
+/* 465 */,
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */,
+/* 478 */,
+/* 479 */,
+/* 480 */,
+/* 481 */,
+/* 482 */,
+/* 483 */,
+/* 484 */,
+/* 485 */,
+/* 486 */,
+/* 487 */,
+/* 488 */,
+/* 489 */,
+/* 490 */,
+/* 491 */,
+/* 492 */,
+/* 493 */,
+/* 494 */,
+/* 495 */,
+/* 496 */,
+/* 497 */,
+/* 498 */,
+/* 499 */,
+/* 500 */,
+/* 501 */,
+/* 502 */,
+/* 503 */,
+/* 504 */,
+/* 505 */,
+/* 506 */,
+/* 507 */,
+/* 508 */,
+/* 509 */,
+/* 510 */,
+/* 511 */,
+/* 512 */,
+/* 513 */,
+/* 514 */,
+/* 515 */,
+/* 516 */,
+/* 517 */,
+/* 518 */,
+/* 519 */,
+/* 520 */,
+/* 521 */,
+/* 522 */,
+/* 523 */,
+/* 524 */,
+/* 525 */,
+/* 526 */,
+/* 527 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _classCallCheck2 = __webpack_require__(2);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _possibleConstructorReturn2 = __webpack_require__(3);
+	
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+	
+	var _inherits2 = __webpack_require__(71);
+	
+	var _inherits3 = _interopRequireDefault(_inherits2);
+	
+	__webpack_require__(79);
+	
+	var _react = __webpack_require__(80);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(116);
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
+	var _rcEditorMention = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"rc-editor-mention\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _rcEditorMention2 = _interopRequireDefault(_rcEditorMention);
+	
+	var _draftJs = __webpack_require__(263);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai']; // use jsx to render html, do not modify simple.html
+	
+	var MentionEditor = function (_React$Component) {
+	  (0, _inherits3.default)(MentionEditor, _React$Component);
+	
+	  function MentionEditor() {
+	    var _temp, _this, _ret;
+	
+	    (0, _classCallCheck3.default)(this, MentionEditor);
+	
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+	
+	    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, _React$Component.call.apply(_React$Component, [this].concat(args))), _this), _this.state = {
+	      placement: 'bottom',
+	      suggestions: originSuggestions,
+	      defaultValue: null,
+	      editorState: (0, _rcEditorMention.toEditorState)('')
+	    }, _this.togglePlacement = function () {
+	      _this.setState({
+	        placement: _this.state.placement == 'bottom' ? 'top' : 'bottom'
+	      });
+	    }, _this.onSearchChange = function (value) {
+	      var searchValue = value.toLowerCase();
+	      var filtered = originSuggestions.filter(function (suggestion) {
+	        return suggestion.toLowerCase().indexOf(searchValue) !== -1;
+	      });
+	      _this.setState({
+	        suggestions: filtered
+	      });
+	    }, _this.onChange = function (editorState) {
+	      _this.setState({
+	        editorState: editorState
+	      });
+	    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+	  }
+	
+	  MentionEditor.prototype.render = function render() {
+	    var _state = this.state,
+	        suggestions = _state.suggestions,
+	        editorState = _state.editorState;
+	
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        ' you can @ one of afc163, benjycui, yiminghe, jljsj33, simaQ, YuhangGe, dqaria, RaoHai'
+	      ),
+	      _react2.default.createElement('br', null),
+	      _react2.default.createElement('br', null),
+	      _react2.default.createElement('br', null),
+	      _react2.default.createElement('br', null),
+	      _react2.default.createElement('br', null),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.togglePlacement.bind(this) },
+	          'Toggle placement'
+	        )
+	      ),
+	      _react2.default.createElement(_rcEditorMention2.default, {
+	        style: { width: 300, height: 200 },
+	        ref: 'mention',
+	        onSearchChange: this.onSearchChange,
+	        defaultValue: this.state.defaultValue,
+	        value: editorState,
+	        onChange: this.onChange,
+	        suggestions: suggestions, prefix: '@',
+	        placement: this.state.placement
+	      })
+	    );
+	  };
+	
+	  return MentionEditor;
+	}(_react2.default.Component);
+	
+	_reactDom2.default.render(_react2.default.createElement(
+	  'div',
+	  null,
+	  _react2.default.createElement(MentionEditor, null)
+	), document.getElementById('__react-content'));
+
 /***/ })
 ]);
-//# sourceMappingURL=controlled.js.map
+//# sourceMappingURL=placement.js.map

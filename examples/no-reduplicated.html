@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>no-reduplicated.js - example - rc-editor-mention@0.6.14</title>
+  <title>no-reduplicated.js - example - rc-editor-mention@1.1.3</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-mention@0.6.14</h1>
+      <h1>rc-editor-mention@1.1.3</h1>
 
       <p>mention ui component for react</p>
     </div>
@@ -298,9 +298,10 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   onSelect = (value, suggestion) =&gt; {
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; onSelect'</span>, value, suggestion);
   }
-  onChange = (editorState) =&gt; {
-    <span class="hljs-keyword">const</span> mentions = getMentions(editorState);
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; editorOnChange'</span>, mentions);
+  onChange = (contentState) =&gt; {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; editorOnChange'</span>, contentState);
+    <span class="hljs-keyword">const</span> mentions = getMentions(contentState);
+
     <span class="hljs-keyword">this</span>.setState({
       mentions,
     });

@@ -6,15 +6,17 @@ import ReactDOM from 'react-dom';
 import Mention, { toString, getMentions } from 'rc-editor-mention';
 
 const originSuggestions = ['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai'];
+const tagSuggestions = ['1.0', '2.0'];
 
 class MentionEditor extends React.Component {
   state = {
     suggestions: originSuggestions,
   };
   onSearchChange = (value, type) => {
-    console.log('>> onSearchChange', value, type);
     const searchValue = value.toLowerCase();
-    const filtered = originSuggestions.filter(suggestion =>
+    console.log('>> onSearchChange', searchValue, type);
+    const list = type === '@' ? originSuggestions : tagSuggestions;
+    const filtered = list.filter(suggestion =>
       suggestion.toLowerCase().indexOf(searchValue) !== -1
     );
     this.setState({

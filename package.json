@@ -64,11 +64,7 @@
     "draft-js": "~0.10.0",
     "prop-types": "^15.5.8",
     "rc-animate": "^2.3.0",
-<<<<<<< HEAD
-    "rc-editor-core": "~0.8.3-beta1"
-=======
     "rc-editor-core": "~0.8.3"
->>>>>>> dfe896ee6b0ce435e0d5a1315b506fccda8c411e
   },
   "peerDependencies": {
     "immutable": "~3.7.4"

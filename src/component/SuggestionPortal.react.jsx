@@ -12,15 +12,23 @@ export default class SuggestionPortal extends React.Component {
     suggestionRegex: PropTypes.any,
   }
   componentWillMount() {
-    const { callbacks, suggestionRegex, decoratedText } = this.props;
+    this.matchDecorates(this.props);
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.decoratedText !== this.props.decoratedText) {
+      this.matchDecorates(nextProps);
+    }
+    this.updatePortalPosition(nextProps);
+  }
+
+  matchDecorates = (props) => {
+    const { callbacks, suggestionRegex, decoratedText } = props;
     const matches = suggestionRegex.exec(decoratedText);
     this.trigger = matches[2];
     this.updatePortalPosition(this.props);
     callbacks.setEditorState(callbacks.getEditorState());
   }
-  componentWillReceiveProps(nextProps) {
-    this.updatePortalPosition(nextProps);
-  }
+
   componentWillUnmount() {
     const { offsetKey, mentionStore } = this.props;
     mentionStore.inActiveSuggestion({ offsetKey });

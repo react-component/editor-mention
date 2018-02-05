@@ -67,7 +67,7 @@
     "rc-editor-core": "~0.8.3"
   },
   "peerDependencies": {
-    "immutable": "~3.7.4"
+    "immutable": "^3.7.4"
   },
   "jest": {
     "verbose": true,

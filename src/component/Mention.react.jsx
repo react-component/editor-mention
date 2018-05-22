@@ -34,6 +34,7 @@ class Mention extends React.Component {
     noRedup: PropTypes.bool,
     mentionStyle: PropTypes.object,
     placement: PropTypes.string,
+    editorKey?: PropTypes.string,
   }
 
   constructor(props) {
@@ -122,7 +123,7 @@ class Mention extends React.Component {
   }
   render() {
     const {
-      prefixCls, style, tag, multiLines,
+      prefixCls, style, tag, multiLines, editorKey,
       suggestionStyle, placeholder, defaultValue, className, notFoundContent,
       getSuggestionContainer, readOnly, disabled, placement,
     } = this.props;
@@ -145,6 +146,7 @@ class Mention extends React.Component {
         prefixCls={prefixCls}
         style={style}
         multiLines={multiLines}
+        editorKey={editorKey}
         plugins={this.plugins}
         defaultValue={defaultValueState}
         placeholder={placeholder}

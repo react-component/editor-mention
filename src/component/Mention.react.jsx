@@ -34,7 +34,7 @@ class Mention extends React.Component {
     noRedup: PropTypes.bool,
     mentionStyle: PropTypes.object,
     placement: PropTypes.string,
-    editorKey?: PropTypes.string,
+    editorKey: PropTypes.string,
   }
 
   constructor(props) {

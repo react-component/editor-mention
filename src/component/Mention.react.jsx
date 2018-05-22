@@ -140,40 +140,42 @@ class Mention extends React.Component {
       EditorState.createWithContent(
         typeof defaultValue === 'string' ? ContentState.createFromText(defaultValue) : defaultValue
         , this._decorator);
-    return (<div className={editorClass} style={style} ref={wrapper => this._wrapper = wrapper}>
-      <EditorCore
-        ref={editor => this._editor = editor}
-        prefixCls={prefixCls}
-        style={style}
-        multiLines={multiLines}
-        editorKey={editorKey}
-        plugins={this.plugins}
-        defaultValue={defaultValueState}
-        placeholder={placeholder}
-        onFocus={this.onFocus}
-        onBlur={this.onBlur}
-        onChange={this.onEditorChange}
-        {...editorProps}
-        readOnly={readOnly || disabled}
-      >
-        <Suggestions
-          mode={tag ? 'immutable' : 'mutable'}
-          prefix={this.getPrefix()}
+    return (
+      <div className={editorClass} style={style} ref={wrapper => this._wrapper = wrapper}>
+        <EditorCore
+          ref={editor => this._editor = editor}
           prefixCls={prefixCls}
-          style={suggestionStyle}
-          placement={placement}
-          notFoundContent={notFoundContent}
-          suggestions={suggestions}
-          getSuggestionContainer={getSuggestionContainer ?
-            () => getSuggestionContainer(this._wrapper) :
-            null
-          }
-          onSearchChange={this.props.onSearchChange}
-          onSelect={this.props.onSelect}
-          noRedup={this.props.noRedup}
-        />
-      </EditorCore>
-    </div>);
+          style={style}
+          multiLines={multiLines}
+          editorKey={editorKey}
+          plugins={this.plugins}
+          defaultValue={defaultValueState}
+          placeholder={placeholder}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          onChange={this.onEditorChange}
+          {...editorProps}
+          readOnly={readOnly || disabled}
+        >
+          <Suggestions
+            mode={tag ? 'immutable' : 'mutable'}
+            prefix={this.getPrefix()}
+            prefixCls={prefixCls}
+            style={suggestionStyle}
+            placement={placement}
+            notFoundContent={notFoundContent}
+            suggestions={suggestions}
+            getSuggestionContainer={getSuggestionContainer ?
+              () => getSuggestionContainer(this._wrapper) :
+              null
+            }
+            onSearchChange={this.props.onSearchChange}
+            onSelect={this.props.onSelect}
+            noRedup={this.props.noRedup}
+          />
+        </EditorCore>
+      </div>
+    );
   }
 }
 

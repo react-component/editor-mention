@@ -126,6 +126,7 @@ class Mention extends React.Component {
       prefixCls, style, tag, multiLines, editorKey,
       suggestionStyle, placeholder, defaultValue, className, notFoundContent,
       getSuggestionContainer, readOnly, disabled, placement,
+      mode,
     } = this.props;
     const { suggestions } = this.state;
     const { Suggestions } = this;
@@ -158,7 +159,7 @@ class Mention extends React.Component {
           readOnly={readOnly || disabled}
         >
           <Suggestions
-            mode={tag ? 'immutable' : 'mutable'}
+            mode={tag ? 'immutable' : mode}
             prefix={this.getPrefix()}
             prefixCls={prefixCls}
             style={suggestionStyle}
@@ -182,7 +183,7 @@ class Mention extends React.Component {
 Mention.defaultProps = {
   prefixCls: 'rc-editor-mention',
   prefix: '@',
-  mode: 'immutable',
+  mode: 'mutable',
   suggestions: [],
   multiLines: false,
   className: '',

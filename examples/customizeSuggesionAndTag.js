@@ -10,7 +10,7 @@ const Nav = Mention.Nav;
 
 const Tag = (props) => {
   const { data } = props;
-  return (<span contentEditable={false}>
+  return (<span style={{color: 'red'}}>
       <img src={data.avatar_url} className="tag-avatar"/>{props.children}
     </span>);
 };
@@ -54,7 +54,7 @@ class MentionEditor extends React.Component {
       <Mention style={{ width: 300 }}
         onSearchChange={this.onSearchChange}
         notFoundContent=""
-        mode="mutable"
+        mode="immutable"
         suggestions={suggestions}
         tag={Tag}
       />

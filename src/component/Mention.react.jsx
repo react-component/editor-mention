@@ -30,6 +30,7 @@ class Mention extends React.Component {
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
     onSelect: PropTypes.func,
+    onKeyDown: PropTypes.func,
     getSuggestionContainer: PropTypes.func,
     noRedup: PropTypes.bool,
     mentionStyle: PropTypes.object,
@@ -110,6 +111,11 @@ class Mention extends React.Component {
       this.props.onBlur(e);
     }
   }
+  onKeyDown = (e) => {
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(e);
+    }
+  }
   getPrefix(props = this.props) {
     return Array.isArray(props.prefix) ? props.prefix : [props.prefix];
   }
@@ -153,6 +159,7 @@ class Mention extends React.Component {
           placeholder={placeholder}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
+          onKeyDown={this.onKeyDown}
           onChange={this.onEditorChange}
           {...editorProps}
           readOnly={readOnly || disabled}

@@ -62,7 +62,7 @@ export default function createMention(config = {}) {
       suggestionRegex={getRegExp(config.prefix)}
     />),
   }];
-  if (config.mode !== 'immutable') {
+  if (config.mode === 'immutable') {
     decorators.unshift({
       strategy: mentionContentStrategy,
       component: props => <MentionContentComponent tag={tag} {...props} callbacks={callbacks} />,

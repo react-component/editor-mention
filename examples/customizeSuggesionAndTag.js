@@ -1,14 +1,14 @@
 webpackJsonp([10],{
 
-/***/ 370:
+/***/ 375:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(371);
+module.exports = __webpack_require__(376);
 
 
 /***/ }),
 
-/***/ 371:
+/***/ 376:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21,11 +21,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rc_editor_mention_assets_index_less__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rc_editor_mention_assets_index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rc_editor_mention_assets_index_less__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react_dom__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rc_editor_mention__ = __webpack_require__(14);
 
@@ -46,7 +46,7 @@ var Tag = function Tag(props) {
 
   return __WEBPACK_IMPORTED_MODULE_4_react___default.a.createElement(
     'span',
-    { contentEditable: false },
+    { style: { color: 'red' } },
     __WEBPACK_IMPORTED_MODULE_4_react___default.a.createElement('img', { src: data.avatar_url, className: 'tag-avatar' }),
     props.children
   );
@@ -119,7 +119,7 @@ var MentionEditor = function (_React$Component) {
       __WEBPACK_IMPORTED_MODULE_4_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_rc_editor_mention__["a" /* default */], { style: { width: 300 },
         onSearchChange: this.onSearchChange,
         notFoundContent: '',
-        mode: 'mutable',
+        mode: 'immutable',
         suggestions: suggestions,
         tag: Tag
       })
@@ -147,5 +147,5 @@ __WEBPACK_IMPORTED_MODULE_5_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 
 /***/ })
 
-},[370]);
+},[375]);
 //# sourceMappingURL=customizeSuggesionAndTag.js.map

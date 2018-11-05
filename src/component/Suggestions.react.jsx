@@ -274,7 +274,7 @@ export default class Suggestions extends React.Component {
       if (React.isValidElement(element)) {
         return React.cloneElement(element, {
           className: mentionClass,
-          onMouseDown: () => this.onMentionSelect(element.props.value, element.props.data),
+          onMouseUp: () => this.onMentionSelect(element.props.value, element.props.data),
           ref,
         });
       }
@@ -282,7 +282,7 @@ export default class Suggestions extends React.Component {
         <Nav
           ref={ref}
           className={mentionClass}
-          onMouseDown={() => this.onMentionSelect(element)}
+          onMouseUp={() => this.onMentionSelect(element)}
         >
           {element}
         </Nav>

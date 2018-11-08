@@ -68,8 +68,8 @@
     "rc-editor-core": "~0.8.3"
   },
   "peerDependencies": {
-    "react": "*",
-    "react-dom": "*"
+    "react": ">=15.x",
+    "react-dom": ">=15.x"
   },
   "jest": {
     "verbose": true,

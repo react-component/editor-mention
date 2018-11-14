@@ -108,6 +108,11 @@ export default class Suggestions extends React.Component {
     }
     return editorState;
   }
+  onDropdownMentionSelect(mention, data) {
+    setTimeout(() => {
+      this.onMentionSelect(mention, data);
+    }, 100);
+  }
   onMentionSelect(mention, data) {
     const editorState = this.props.callbacks.getEditorState();
     const { store, onSelect } = this.props;
@@ -274,7 +279,7 @@ export default class Suggestions extends React.Component {
       if (React.isValidElement(element)) {
         return React.cloneElement(element, {
           className: mentionClass,
-          onMouseUp: () => this.onMentionSelect(element.props.value, element.props.data),
+          onMouseDown: () => this.onDropdownMentionSelect(element.props.value, element.props.data),
           ref,
         });
       }
@@ -282,7 +287,7 @@ export default class Suggestions extends React.Component {
         <Nav
           ref={ref}
           className={mentionClass}
-          onMouseUp={() => this.onMentionSelect(element)}
+          onMouseDown={() => this.onDropdownMentionSelect(element)}
         >
           {element}
         </Nav>

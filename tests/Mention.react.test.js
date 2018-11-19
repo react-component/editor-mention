@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import Mention from '../src/component/Mention.react';
+import Mention, { toEditorState } from '../src/';
 
 enzyme.configure({ adapter: new Adapter() });
 
@@ -36,5 +36,12 @@ describe('Mention.react', () => {
       jest.runAllTimers();
       expect(handleSearch).toBeCalledWith('a', '@');
     });
+  });
+
+  it('no dead loop', () => {
+    const value = toEditorState('');
+    const block = mount(
+      <Mention value={value} prefix="" />
+    );
   });
 });

@@ -55141,11 +55141,14 @@ function findWithRegex(regex, contentBlock, callback) {
   var text = contentBlock.getText();
   var matchArr = void 0;
   var start = void 0; // eslint-disable-line
+  var end = void 0;
   // Go through all matches in the text and return the indizes to the callback
   while ((matchArr = regex.exec(text)) !== null) {
     // eslint-disable-line
     start = matchArr.index;
-    callback(start, start + matchArr[0].length);
+    end = start + matchArr[0].length;
+    callback(start, end);
+    if (start === end) break;
   }
 }
 

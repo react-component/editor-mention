@@ -86,7 +86,7 @@ export default class Suggestions extends React.Component {
     });
 
     const selectionInText = selectionInsideMention.some(isNotFalse);
-    this.activeOffsetKey = selectionInsideMention.find(isNotFalse);
+    this.activeOffsetKey = selectionInsideMention.find(isNotFalse) || this.activeOffsetKey;
     const trigger = this.props.store.getTrigger(this.activeOffsetKey);
 
     if (!selectionInText || !selection.getHasFocus()) {

@@ -52,7 +52,7 @@
     "rc-tools": "7.x",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-test-renderer": "16.0.0"
+    "react-test-renderer": "16.8.6"
   },
   "pre-commit": [
     "lint"

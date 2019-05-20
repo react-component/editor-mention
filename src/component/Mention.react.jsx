@@ -15,7 +15,9 @@ class Mention extends React.Component {
       [PropTypes.string, PropTypes.arrayOf(PropTypes.string)]
     ),
     prefixCls: PropTypes.string,
-    tag: PropTypes.element,
+    tag: PropTypes.oneOfType(
+      [PropTypes.element, PropTypes.func]
+    ),
     style: PropTypes.object,
     className: PropTypes.string,
     onSearchChange: PropTypes.func,

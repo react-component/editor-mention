@@ -48,7 +48,7 @@
     "jest": "^19.0.2",
     "mock-raf": "^1.0.0",
     "pre-commit": "1.x",
-    "rc-form": "1.x",
+    "rc-form": "2.x",
     "rc-tools": "7.x",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",

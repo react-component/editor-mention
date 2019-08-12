@@ -60,7 +60,7 @@
   "dependencies": {
     "babel-runtime": "^6.23.0",
     "classnames": "^2.2.5",
-    "dom-scroll-into-view": "^1.2.0",
+    "dom-scroll-into-view": "^2.0.1",
     "draft-js": "~0.10.0",
     "immutable": "~3.7.4",
     "prop-types": "^15.5.8",

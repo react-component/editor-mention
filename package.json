@@ -50,7 +50,7 @@
     "pre-commit": "1.x",
     "rc-form": "2.x",
     "rc-tools": "7.x",
-    "react": "^16.0.0",
+    "react": "^17.0.1",
     "react-dom": "^16.0.0",
     "react-test-renderer": "16.8.6"
   },
